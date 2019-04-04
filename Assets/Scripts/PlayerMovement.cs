@@ -129,6 +129,7 @@ public class PlayerMovement : MonoBehaviour
         }
         this.velocity += this.Gravity * Time.fixedDeltaTime;
         Vector2 nextPosition = this.velocity * Time.fixedDeltaTime;
+        
         //update player position
         TryMove(nextPosition);
     }
@@ -143,14 +144,21 @@ public class PlayerMovement : MonoBehaviour
             for(int i = 0; i < hitCount; i++){
                 if(Vector2.Dot(collisionCheck[i].normal, this.Gravity) < minGroundDirection){
                     groundDist = collisionCheck[i].distance;
-                    findGround = true;
-                    this.velocity.y = 0;
-                    normal = collisionCheck[i].normal;
-                    if(movement.y < 0) movement.y = -groundDist;
+                    if(Vector2.Dot(movement, this.Gravity) > 0){
+                        findGround = true;
+                        this.velocity.y = 0;
+                        normal = collisionCheck[i].normal;
+                        movement.y = -groundDist;
+                    }
+                }
+                else{
+                    if(Vector2.Dot(movement, collisionCheck[i].normal) <= 0){
+                        this.velocity.x = 0;
+                        movement.x = -collisionCheck[i].distance;
+                    }
                 }
             }
             Vector2 finalPosition = movement;
-            Debug.Log(movement);
             if(isGrounded) finalPosition = movement - Vector2.Dot(movement, normal) * normal;
             finalPosition += playerBody.position;
             this.isGrounded = findGround;
