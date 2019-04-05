@@ -62,7 +62,9 @@ public class PlayerMovement : MonoBehaviour
     private RaycastHit2D[] collisionCheck = new RaycastHit2D[8];
     private ContactFilter2D contactLayer;
     private float minDistanceCheck = 0.01f;
-    private float minGroundDirection = -0.4f;
+    private float minGroundDirection = -0.8f;
+    private float slopeNoGravityAngle = 40f;
+    private float slopeIsWallAngle = 70f;
 
     // Start is called before the first frame update
     void Start()
@@ -88,15 +90,19 @@ public class PlayerMovement : MonoBehaviour
             }
             else{
                 if(playerIn != 0)
-                    nextVelocity.x += playerIn * GroundAcceleration * Time.deltaTime;
+                    nextVelocity += playerIn * GroundAcceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
                 else{
-                    if(nextVelocity.x < groundDecceleration)
-                        nextVelocity.x = 0;
+                    if((Vector2.Dot(nextVelocity, new Vector2(normal.y, -normal.x)) * new Vector2(normal.y, -normal.x)).magnitude < groundDecceleration){
+                        if(Vector2.Angle(normal, Vector2.up) < slopeNoGravityAngle)
+                            nextVelocity = Vector2.zero;
+                        else
+                            nextVelocity.x = 0f;
+                    }
                     else{
                         if(nextVelocity.x > 0)
-                            nextVelocity.x -= GroundDecceleration * Time.deltaTime;
+                            nextVelocity -= GroundDecceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
                         if(nextVelocity.x < 0)
-                            nextVelocity.x += GroundDecceleration * Time.deltaTime;
+                            nextVelocity += GroundDecceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
                     }
                 }
             }
@@ -139,28 +145,22 @@ public class PlayerMovement : MonoBehaviour
         if(movement.magnitude > minDistanceCheck){
             
             int hitCount = playerBody.Cast(movement, contactLayer, collisionCheck, movement.magnitude);
-            float groundDist = 0f;
+            float collisionDist = 0f;
             bool findGround = false;
             for(int i = 0; i < hitCount; i++){
-                if(Vector2.Dot(collisionCheck[i].normal, this.Gravity) < minGroundDirection){
-                    groundDist = collisionCheck[i].distance;
-                    if(Vector2.Dot(movement, this.Gravity) > 0){
+                Vector2 currentNormal = collisionCheck[i].normal;
+                collisionDist = collisionCheck[i].distance;
+                if(Vector2.Dot(movement, currentNormal) < 0){
+                    if(Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle){
                         findGround = true;
-                        this.velocity.y = 0;
-                        normal = collisionCheck[i].normal;
-                        movement.y = -groundDist;
+                        normal = currentNormal;
                     }
-                }
-                else{
-                    if(Vector2.Dot(movement, collisionCheck[i].normal) <= 0){
-                        this.velocity.x = 0;
-                        movement.x = -collisionCheck[i].distance;
-                    }
+                    this.velocity -= Vector2.Dot(velocity, currentNormal) * currentNormal;
+                    Vector2 moveInWall = Vector2.Dot(movement, currentNormal) * currentNormal;
+                    movement -= moveInWall - collisionDist * moveInWall.normalized;
                 }
             }
-            Vector2 finalPosition = movement;
-            if(isGrounded) finalPosition = movement - Vector2.Dot(movement, normal) * normal;
-            finalPosition += playerBody.position;
+            Vector2 finalPosition = movement + playerBody.position;
             this.isGrounded = findGround;
             playerBody.MovePosition(finalPosition);
         }
