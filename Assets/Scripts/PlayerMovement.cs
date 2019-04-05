@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float airAcceleration;
     [SerializeField] private Vector2 gravity;
     [SerializeField] private float jumpVelocity;
+    [SerializeField] private float fallMultiplier;
 
     //Properties for movement fields
     public float GroundAcceleration {
@@ -42,13 +43,23 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public Vector2 Gravity {
-        get => this.gravity;
+        get{
+            if(velocity.y < 0)
+                return this.gravity * fallMultiplier;
+            else
+                return this.gravity;
+        }
         set => this.gravity = value;
     }
 
     public float JumpVelocity {
         get => this.jumpVelocity;
         set => this.jumpVelocity = value;
+    }
+
+    public float FallMultiplier{
+        get => this.fallMultiplier;
+        set => this.fallMultiplier = value;
     }
 
     //Private movementData
@@ -115,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Detect for Jump input
-        if(Input.GetButton("Jump") && isGrounded){
+        if((Input.GetButton("Jump")) && isGrounded){
             nextVelocity.y = JumpVelocity;
             this.isGrounded = false;
         }
@@ -133,8 +144,13 @@ public class PlayerMovement : MonoBehaviour
             if(targetVelocity.x < 0)
                 this.velocity = new Vector2(-MaxSpeed, targetVelocity.y);
         }
-        this.velocity += this.Gravity * Time.fixedDeltaTime;
-        Vector2 nextPosition = this.velocity * Time.fixedDeltaTime;
+        Vector2 nextPosition;
+        if(isGrounded)
+            nextPosition = this.velocity * Time.fixedDeltaTime;
+        else
+            nextPosition = this.velocity * Time.fixedDeltaTime + 0.5f * this.Gravity * Time.fixedDeltaTime * Time.fixedDeltaTime;
+        Vector2 oldGravity = Gravity;
+        this.velocity += 0.5f * (Gravity + oldGravity) * Time.fixedDeltaTime;
         
         //update player position
         TryMove(nextPosition);
