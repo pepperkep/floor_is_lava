@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 Gravity {
         get{
             if(velocity.y <= 0)
-                return this.gravity * fallMultiplier;
+                return this.gravity * FallMultiplier;
             else
                 return this.gravity;
         }
@@ -82,6 +82,11 @@ public class PlayerMovement : MonoBehaviour
     private float minGroundDirection = -0.8f;
     private float slopeNoGravityAngle = 40f;
     private float slopeIsWallAngle = 70f;
+    private float distanceToGround = 0;
+    private float groundBufferDistance = 0.4f;
+    private bool bufferedJump = false;
+    private float groundTimer = 0f;
+    private float leavePlatformJumpTolerance = 0.1f;
 
     // Start is called before the first frame update
     void Start()
@@ -132,9 +137,16 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Detect for Jump input
-        if((Input.GetButton("Jump")) && isGrounded){
-            nextVelocity.y = JumpVelocity;
-            this.isGrounded = false;
+        if((Input.GetButton("Jump") || bufferedJump)){
+            if(isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0)){
+                nextVelocity.y = JumpVelocity;
+                this.isGrounded = false;
+                bufferedJump = false;
+            }
+            else{
+                if(distanceToGround < groundBufferDistance && velocity.y < 0)
+                    bufferedJump = true;
+            }
         }
 
         if(Input.GetButtonUp("Jump") && nextVelocity.y > cutJumpSpeed)
@@ -144,6 +156,18 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void FixedUpdate(){
+
+        groundTimer += Time.fixedDeltaTime;
+
+        //Determine distance to ground
+        int hitCount = playerBody.Cast(Gravity, contactLayer, collisionCheck, Gravity.magnitude);
+        float currentDistance = 0;
+        for(int i = 0; i < hitCount; i++){
+            if(collisionCheck[i].distance > currentDistance)
+                currentDistance = collisionCheck[i].distance;
+        }
+        distanceToGround = currentDistance;
+
         //Detect if player is grounded
         if(Math.Abs(targetVelocity.x) < MaxSpeed)
             this.velocity = this.targetVelocity;
@@ -179,6 +203,7 @@ public class PlayerMovement : MonoBehaviour
                     if(Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle){
                         findGround = true;
                         normal = currentNormal;
+                        groundTimer = 0f;
                     }
                     this.velocity -= Vector2.Dot(velocity, currentNormal) * currentNormal;
                     Vector2 moveInWall = Vector2.Dot(movement, currentNormal) * currentNormal;
