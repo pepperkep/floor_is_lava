@@ -658,6 +658,7 @@ MonoBehaviour:
   maxSpeed: 3.6
   turnAroundMultiplier: 0.6
   airAcceleration: 10
-  gravity: {x: 0, y: -16}
-  jumpVelocity: 7
+  gravity: {x: 0, y: -24}
+  jumpVelocity: 9
   fallMultiplier: 1.8
+  cutJumpSpeed: 2.4

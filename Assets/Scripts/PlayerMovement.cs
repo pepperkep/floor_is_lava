@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector2 gravity;
     [SerializeField] private float jumpVelocity;
     [SerializeField] private float fallMultiplier;
+    [SerializeField] private float cutJumpSpeed;
 
     //Properties for movement fields
     public float GroundAcceleration {
@@ -42,9 +43,14 @@ public class PlayerMovement : MonoBehaviour
         set => this.airAcceleration = value;
     }
 
+    public float CutJumpSpeed{
+        get => this.cutJumpSpeed;
+        set => this.cutJumpSpeed = value;
+    }
+
     public Vector2 Gravity {
         get{
-            if(velocity.y < 0)
+            if(velocity.y <= 0)
                 return this.gravity * fallMultiplier;
             else
                 return this.gravity;
@@ -130,6 +136,9 @@ public class PlayerMovement : MonoBehaviour
             nextVelocity.y = JumpVelocity;
             this.isGrounded = false;
         }
+
+        if(Input.GetButtonUp("Jump") && nextVelocity.y > cutJumpSpeed)
+            nextVelocity.y = cutJumpSpeed;
 
         targetVelocity = nextVelocity;
     }
