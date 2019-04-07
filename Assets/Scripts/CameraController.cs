@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown("c"))
         {
             if (dragMode)
             {
