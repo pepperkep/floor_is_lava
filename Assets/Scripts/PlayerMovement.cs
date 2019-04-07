@@ -17,6 +17,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float fallMultiplier;
     [SerializeField] private float cutJumpSpeed;
 
+    //Field for scene control
+    bool canMove;
+
     //Properties for movement fields
     public float GroundAcceleration {
         get => this.groundAcceleration;
@@ -97,62 +100,77 @@ public class PlayerMovement : MonoBehaviour
         contactLayer.useTriggers = false;
         contactLayer.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactLayer.useLayerMask = true;
+
+        SetPlayMode();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Get player input
-        int playerIn = (int)Input.GetAxisRaw("Horizontal");
-        Vector2 nextVelocity = this.velocity;
-        if(isGrounded){
-            if((playerIn < 0 && nextVelocity.x > 0) || (playerIn > 0 && nextVelocity.x < 0)) {
-                faceRight = !faceRight;
-                nextVelocity.x = playerIn * GroundAcceleration * turnAroundMultiplier;
-            }
-            else{
-                if(playerIn != 0)
-                    nextVelocity += playerIn * GroundAcceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
-                else{
-                    if((Vector2.Dot(nextVelocity, new Vector2(normal.y, -normal.x)) * new Vector2(normal.y, -normal.x)).magnitude < groundDecceleration){
-                        if(Vector2.Angle(normal, Vector2.up) < slopeNoGravityAngle)
-                            nextVelocity = Vector2.zero;
+        if (canMove)
+        {
+            //Get player input
+            int playerIn = (int)Input.GetAxisRaw("Horizontal");
+            Vector2 nextVelocity = this.velocity;
+            if (isGrounded)
+            {
+                if ((playerIn < 0 && nextVelocity.x > 0) || (playerIn > 0 && nextVelocity.x < 0))
+                {
+                    faceRight = !faceRight;
+                    nextVelocity.x = playerIn * GroundAcceleration * turnAroundMultiplier;
+                }
+                else
+                {
+                    if (playerIn != 0)
+                        nextVelocity += playerIn * GroundAcceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
+                    else
+                    {
+                        if ((Vector2.Dot(nextVelocity, new Vector2(normal.y, -normal.x)) * new Vector2(normal.y, -normal.x)).magnitude < groundDecceleration)
+                        {
+                            if (Vector2.Angle(normal, Vector2.up) < slopeNoGravityAngle)
+                                nextVelocity = Vector2.zero;
+                            else
+                                nextVelocity.x = 0f;
+                        }
                         else
-                            nextVelocity.x = 0f;
-                    }
-                    else{
-                        if(nextVelocity.x > 0)
-                            nextVelocity -= GroundDecceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
-                        if(nextVelocity.x < 0)
-                            nextVelocity += GroundDecceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
+                        {
+                            if (nextVelocity.x > 0)
+                                nextVelocity -= GroundDecceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
+                            if (nextVelocity.x < 0)
+                                nextVelocity += GroundDecceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
+                        }
                     }
                 }
             }
-        }
-        else{
-            if(playerIn < 0)
-                nextVelocity.x -= AirAcceleration * Time.deltaTime;
-            if(playerIn > 0)
-                nextVelocity.x += AirAcceleration * Time.deltaTime;
-        }
-
-        //Detect for Jump input
-        if((Input.GetButton("Jump") || bufferedJump)){
-            if(isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0)){
-                nextVelocity.y = JumpVelocity;
-                this.isGrounded = false;
-                bufferedJump = false;
+            else
+            {
+                if (playerIn < 0)
+                    nextVelocity.x -= AirAcceleration * Time.deltaTime;
+                if (playerIn > 0)
+                    nextVelocity.x += AirAcceleration * Time.deltaTime;
             }
-            else{
-                if(distanceToGround < groundBufferDistance && velocity.y < 0)
-                    bufferedJump = true;
+
+            //Detect for Jump input
+            if ((Input.GetButton("Jump") || bufferedJump))
+            {
+                if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0))
+                {
+                    nextVelocity.y = JumpVelocity;
+                    this.isGrounded = false;
+                    bufferedJump = false;
+                }
+                else
+                {
+                    if (distanceToGround < groundBufferDistance && velocity.y < 0)
+                        bufferedJump = true;
+                }
             }
+
+            if (Input.GetButtonUp("Jump") && nextVelocity.y > cutJumpSpeed)
+                nextVelocity.y = cutJumpSpeed;
+
+            targetVelocity = nextVelocity;
         }
-
-        if(Input.GetButtonUp("Jump") && nextVelocity.y > cutJumpSpeed)
-            nextVelocity.y = cutJumpSpeed;
-
-        targetVelocity = nextVelocity;
     }
 
     void FixedUpdate(){
@@ -220,5 +238,15 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump(){
   
+    }
+
+    public void SetDragMode()
+    {
+        canMove = false;
+    }
+
+    public void SetPlayMode()
+    {
+        canMove = true;
     }
 }

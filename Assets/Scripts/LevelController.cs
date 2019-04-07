@@ -9,12 +9,11 @@ public class LevelController : MonoBehaviour
     private int currentObjective = 0;
 
     public void BeginLevel(){
-        Debug.Log("Level has begun!");
+        //Debug.Log("Level has begun!");
     }
 
     public void EndLevel(){
-        Debug.Log("Level has ended!");
-
+       // Debug.Log("Level has ended!");
     }
 
     // Start is called before the first frame update
@@ -28,12 +27,15 @@ public class LevelController : MonoBehaviour
     void Update()
     {
         if(!objectiveList[currentObjective].IsActive){
-            if(currentObjective < objectiveList.Length - 1){
+            if (currentObjective < objectiveList.Length - 1)
+            {
                 currentObjective++;
                 objectiveList[currentObjective].IsActive = true;
             }
             else
+            {
                 EndLevel();
+            }
         }
     }
 }
