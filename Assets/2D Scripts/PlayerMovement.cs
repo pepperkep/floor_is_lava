@@ -88,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
     private bool bufferedJump = false;
     private float groundTimer = 0f;
     private float leavePlatformJumpTolerance = 0.1f;
+    private bool blockFromBelow = false;
 
     // Start is called before the first frame update
     void Start()
@@ -185,6 +186,9 @@ public class PlayerMovement : MonoBehaviour
             nextPosition = this.velocity * Time.fixedDeltaTime + 0.5f * this.Gravity * Time.fixedDeltaTime * Time.fixedDeltaTime;
         Vector2 oldGravity = Gravity;
         this.velocity += 0.5f * (Gravity + oldGravity) * Time.fixedDeltaTime;
+
+        if(velocity.y < Gravity.y / 10 || velocity.y > 0)
+            blockFromBelow = false;
         
         //update player position
         TryMove(nextPosition);
@@ -200,7 +204,9 @@ public class PlayerMovement : MonoBehaviour
             for(int i = 0; i < hitCount; i++){
                 Vector2 currentNormal = collisionCheck[i].normal;
                 collisionDist = collisionCheck[i].distance;
-                if(Vector2.Dot(movement, currentNormal) < 0.1 && (collisionCheck[i].transform.tag != "OneWay" || (Vector2.Dot(currentNormal, this.Gravity) < 0 && (isGrounded || collisionDist != 0)))){
+                if(Vector2.Dot(currentNormal, this.Gravity) < 0 && (isGrounded || collisionDist != 0))
+                    blockFromBelow = true;
+                if(Vector2.Dot(movement, currentNormal) < 0 && (collisionCheck[i].transform.tag != "OneWay" || blockFromBelow)){
                     if(Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle){
                         findGround = true;
                         normal = currentNormal;

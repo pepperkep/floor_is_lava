@@ -20,11 +20,15 @@ public class ObjectivePoint : MonoBehaviour
     
     private ParticleSystem activeParticles;
 
+    void Awake(){
+        activeParticles = GetComponent<ParticleSystem>();  
+        activeParticles.Stop();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        activeParticles = GetComponent<ParticleSystem>();  
-        activeParticles.Stop();
+
     }
 
     // Update is called once per frame
