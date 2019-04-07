@@ -88,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
     private float groundTimer = 0f;
     private float leavePlatformJumpTolerance = 0.1f;
     private bool blockFromBelow = false;
+    private GameObject standingPlat;
 
     // Start is called before the first frame update
     void Start()
@@ -98,6 +99,7 @@ public class PlayerMovement : MonoBehaviour
         contactLayer.useTriggers = false;
         contactLayer.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactLayer.useLayerMask = true;
+        standingPlat = this.gameObject;
     }
 
     // Update is called once per frame
@@ -195,32 +197,35 @@ public class PlayerMovement : MonoBehaviour
 
     void TryMove(Vector2 movement){
         
-        if(movement.magnitude > minDistanceCheck){
-            
-            int hitCount = playerBody.Cast(movement, contactLayer, collisionCheck, movement.magnitude);
-            float collisionDist = 0f;
-            bool findGround = false;
-            for(int i = 0; i < hitCount; i++){
-                Vector2 currentNormal = collisionCheck[i].normal;
-                collisionDist = collisionCheck[i].distance;
-                if(Vector2.Dot(currentNormal, this.Gravity) < 0 && (isGrounded || collisionDist != 0))
-                    blockFromBelow = true;
-                if(Vector2.Dot(movement, currentNormal) < 0 && (collisionCheck[i].transform.tag != "OneWay" || blockFromBelow)){
-                    if(Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle){
-                        findGround = true;
-                        normal = currentNormal;
-                        groundTimer = 0f;
-                    }
-                    this.velocity -= Vector2.Dot(velocity, currentNormal) * currentNormal;
-                    Vector2 moveInWall = Vector2.Dot(movement, currentNormal) * currentNormal;
-                    movement -= moveInWall - collisionDist * moveInWall.normalized;
-                }
-            }
-            Vector2 finalPosition = movement + playerBody.position;
-            this.isGrounded = findGround;
-            playerBody.MovePosition(finalPosition);
-        }
 
+        int hitCount = playerBody.Cast(movement, contactLayer, collisionCheck, movement.magnitude);
+        float collisionDist = 0f;
+        bool findGround = false;
+        GameObject newPlat = standingPlat;
+        for(int i = 0; i < hitCount; i++){
+            Vector2 currentNormal = collisionCheck[i].normal;
+            collisionDist = collisionCheck[i].distance;
+            if(Vector2.Dot(currentNormal, this.Gravity) < 0 && (isGrounded || collisionDist != 0))
+                blockFromBelow = true;
+            if(Vector2.Dot(movement, currentNormal) < 0 && (collisionCheck[i].transform.tag != "OneWay" || blockFromBelow)){
+                if(Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle){
+                    findGround = true;
+                    normal = currentNormal;
+                    groundTimer = 0f;
+                    newPlat = collisionCheck[i].transform.gameObject;
+                }
+                this.velocity -= Vector2.Dot(velocity, currentNormal) * currentNormal;
+                Vector2 moveInWall = Vector2.Dot(movement, currentNormal) * currentNormal;
+                movement -= moveInWall - collisionDist * moveInWall.normalized;
+            }
+        }
+        if(standingPlat != newPlat){
+            standingPlat = newPlat;
+            transform.parent = standingPlat.transform;
+        }
+        Vector2 finalPosition = movement + playerBody.position;
+        this.isGrounded = findGround;
+        playerBody.MovePosition(finalPosition);
         
     }
 

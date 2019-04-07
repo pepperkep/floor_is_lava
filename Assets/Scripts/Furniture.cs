@@ -18,7 +18,7 @@ public class Furniture : MonoBehaviour
     private float risingHeight;
     private float heightBalloonMultiplier = 0.8f;
     private float risingVelocity = 4f;
-    private float loweringVelocity = 15f;
+    private float loweringVelocity = 10f;
 
     void Awake(){
         originalHeight = transform.position.y;

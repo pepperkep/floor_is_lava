@@ -583,7 +583,7 @@ GameObject:
   - component: {fileID: 1313864171}
   m_Layer: 0
   m_Name: "Sample Plat\x13"
-  m_TagString: OneWay
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -688,6 +688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866db9db0c551f15dbc94f82c728f9c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  numberBalloons: 0
 --- !u!1001 &1153890315029403667
 PrefabInstance:
   m_ObjectHideFlags: 0
