@@ -89,6 +89,7 @@ public class PlayerMovement : MonoBehaviour
     private float leavePlatformJumpTolerance = 0.1f;
     private bool blockFromBelow = false;
     private GameObject standingPlat;
+    private Vector3 oldPlatPlace;
 
     // Start is called before the first frame update
     void Start()
@@ -188,15 +189,21 @@ public class PlayerMovement : MonoBehaviour
         Vector2 oldGravity = Gravity;
         this.velocity += 0.5f * (Gravity + oldGravity) * Time.fixedDeltaTime;
 
-        if(velocity.y < Gravity.y / 10 || velocity.y > 0)
+        if(velocity.y < Gravity.y / 10 || velocity.y > 0){
             blockFromBelow = false;
+            transform.parent = null;
+        }
         
         //update player position
         TryMove(nextPosition);
     }
 
     void TryMove(Vector2 movement){
-        
+
+        if(standingPlat != null){
+            playerBody.position += new Vector2(standingPlat.transform.position.x - oldPlatPlace.x, standingPlat.transform.position.y - oldPlatPlace.y);
+            oldPlatPlace = standingPlat.transform.position;
+        }
 
         int hitCount = playerBody.Cast(movement, contactLayer, collisionCheck, movement.magnitude);
         float collisionDist = 0f;
@@ -219,9 +226,10 @@ public class PlayerMovement : MonoBehaviour
                 movement -= moveInWall - collisionDist * moveInWall.normalized;
             }
         }
-        if(standingPlat != newPlat){
+        Debug.Log(standingPlat);
+        if(standingPlat != newPlat || isGrounded){
             standingPlat = newPlat;
-            transform.parent = standingPlat.transform;
+            oldPlatPlace = standingPlat.transform.position;
         }
         Vector2 finalPosition = movement + playerBody.position;
         this.isGrounded = findGround;
