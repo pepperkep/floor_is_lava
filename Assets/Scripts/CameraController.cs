@@ -7,6 +7,10 @@ public class CameraController : MonoBehaviour
     public Camera DragCamera;
     public GameObject targetObject1;
     public GameObject targetObject2;
+    public GameObject targetObject3;
+    public GameObject targetObject4;
+    public GameObject targetObject5;
+    //public GameObject targetObject6;
     bool dragMode;
 
     public void SetDragMode()
@@ -37,12 +41,20 @@ public class CameraController : MonoBehaviour
                 SetPlayMode();
                 targetObject1.SendMessage("SetPlayMode");
                 targetObject2.SendMessage("SetPlayMode");
+                targetObject3.SendMessage("SetPlayMode");
+                targetObject4.SendMessage("SetPlayMode");
+                targetObject5.SendMessage("SetPlayMode");
+               // targetObject6.SendMessage("SetPlayMode");
             }
             else
             {
                 SetDragMode();
                 targetObject1.SendMessage("SetDragMode");
                 targetObject2.SendMessage("SetDragMode");
+                targetObject3.SendMessage("SetDragMode");
+                targetObject4.SendMessage("SetDragMode");
+                targetObject5.SendMessage("SetDragMode");
+               // targetObject6.SendMessage("SetDragMode");
             }
                 
         }
