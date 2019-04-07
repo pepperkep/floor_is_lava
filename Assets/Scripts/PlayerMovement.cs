@@ -199,7 +199,7 @@ public class PlayerMovement : MonoBehaviour
             for(int i = 0; i < hitCount; i++){
                 Vector2 currentNormal = collisionCheck[i].normal;
                 collisionDist = collisionCheck[i].distance;
-                if(Vector2.Dot(movement, currentNormal) < 0 && (collisionCheck[i].transform.tag != "OneWay" || Vector2.Dot(currentNormal, this.Gravity) < 0)){
+                if(Vector2.Dot(movement, currentNormal) < 0.1 && (collisionCheck[i].transform.tag != "OneWay" || (Vector2.Dot(currentNormal, this.Gravity) < 0 && (isGrounded || collisionDist != 0)))){
                     if(Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle){
                         findGround = true;
                         normal = currentNormal;
