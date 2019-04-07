@@ -1,3 +1,4 @@
+
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,47 +19,39 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float cutJumpSpeed;
 
     //Properties for movement fields
-    public float GroundAcceleration
-    {
+    public float GroundAcceleration {
         get => this.groundAcceleration;
         set => this.groundAcceleration = value;
     }
 
-    public float GroundDecceleration
-    {
+    public float GroundDecceleration {
         get => this.groundDecceleration;
         set => this.groundDecceleration = value;
     }
 
-    public float MaxSpeed
-    {
+    public float MaxSpeed{
         get => this.maxSpeed;
         set => this.maxSpeed = value;
     }
 
-    public float TurnAroundMultiplier
-    {
+    public float TurnAroundMultiplier{
         get => this.turnAroundMultiplier;
         set => this.turnAroundMultiplier = value;
     }
 
-    public float AirAcceleration
-    {
+    public float AirAcceleration {
         get => this.airAcceleration;
         set => this.airAcceleration = value;
     }
 
-    public float CutJumpSpeed
-    {
+    public float CutJumpSpeed{
         get => this.cutJumpSpeed;
         set => this.cutJumpSpeed = value;
     }
 
-    public Vector2 Gravity
-    {
-        get
-        {
-            if (velocity.y <= 0)
+    public Vector2 Gravity {
+        get{
+            if(velocity.y <= 0)
                 return this.gravity * FallMultiplier;
             else
                 return this.gravity;
@@ -66,14 +59,12 @@ public class PlayerMovement : MonoBehaviour
         set => this.gravity = value;
     }
 
-    public float JumpVelocity
-    {
+    public float JumpVelocity {
         get => this.jumpVelocity;
         set => this.jumpVelocity = value;
     }
 
-    public float FallMultiplier
-    {
+    public float FallMultiplier{
         get => this.fallMultiplier;
         set => this.fallMultiplier = value;
     }
@@ -98,7 +89,6 @@ public class PlayerMovement : MonoBehaviour
     private float groundTimer = 0f;
     private float leavePlatformJumpTolerance = 0.1f;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -116,121 +106,102 @@ public class PlayerMovement : MonoBehaviour
         //Get player input
         int playerIn = (int)Input.GetAxisRaw("Horizontal");
         Vector2 nextVelocity = this.velocity;
-        if (isGrounded)
-        {
-            if ((playerIn < 0 && nextVelocity.x > 0) || (playerIn > 0 && nextVelocity.x < 0))
-            {
+        if(isGrounded){
+            if((playerIn < 0 && nextVelocity.x > 0) || (playerIn > 0 && nextVelocity.x < 0)) {
                 faceRight = !faceRight;
                 nextVelocity.x = playerIn * GroundAcceleration * turnAroundMultiplier;
             }
-            else
-            {
-                if (playerIn != 0)
+            else{
+                if(playerIn != 0)
                     nextVelocity += playerIn * GroundAcceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
-                else
-                {
-                    if ((Vector2.Dot(nextVelocity, new Vector2(normal.y, -normal.x)) * new Vector2(normal.y, -normal.x)).magnitude < groundDecceleration)
-                    {
-                        if (Vector2.Angle(normal, Vector2.up) < slopeNoGravityAngle)
+                else{
+                    if((Vector2.Dot(nextVelocity, new Vector2(normal.y, -normal.x)) * new Vector2(normal.y, -normal.x)).magnitude < groundDecceleration){
+                        if(Vector2.Angle(normal, Vector2.up) < slopeNoGravityAngle)
                             nextVelocity = Vector2.zero;
                         else
                             nextVelocity.x = 0f;
                     }
-                    else
-                    {
-                        if (nextVelocity.x > 0)
+                    else{
+                        if(nextVelocity.x > 0)
                             nextVelocity -= GroundDecceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
-                        if (nextVelocity.x < 0)
+                        if(nextVelocity.x < 0)
                             nextVelocity += GroundDecceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
                     }
                 }
             }
         }
-        else
-        {
-            if (playerIn < 0)
+        else{
+            if(playerIn < 0)
                 nextVelocity.x -= AirAcceleration * Time.deltaTime;
-            if (playerIn > 0)
+            if(playerIn > 0)
                 nextVelocity.x += AirAcceleration * Time.deltaTime;
         }
 
         //Detect for Jump input
-        if ((Input.GetButton("Jump") || bufferedJump))
-        {
-            if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0))
-            {
+        if((Input.GetButton("Jump") || bufferedJump)){
+            if(isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0)){
                 nextVelocity.y = JumpVelocity;
                 this.isGrounded = false;
                 bufferedJump = false;
             }
-            else
-            {
-                if (distanceToGround < groundBufferDistance && velocity.y < 0)
+            else{
+                if(distanceToGround < groundBufferDistance && velocity.y < 0)
                     bufferedJump = true;
             }
         }
 
-        if (Input.GetButtonUp("Jump") && nextVelocity.y > cutJumpSpeed)
+        if(Input.GetButtonUp("Jump") && nextVelocity.y > cutJumpSpeed)
             nextVelocity.y = cutJumpSpeed;
 
         targetVelocity = nextVelocity;
-       
     }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate(){
 
         groundTimer += Time.fixedDeltaTime;
 
         //Determine distance to ground
         int hitCount = playerBody.Cast(Gravity, contactLayer, collisionCheck, Gravity.magnitude);
         float currentDistance = 0;
-        for (int i = 0; i < hitCount; i++)
-        {
-            if (collisionCheck[i].distance > currentDistance)
+        for(int i = 0; i < hitCount; i++){
+            if(collisionCheck[i].distance > currentDistance)
                 currentDistance = collisionCheck[i].distance;
         }
         distanceToGround = currentDistance;
 
         //Detect if player is grounded
-        if (Math.Abs(targetVelocity.x) < MaxSpeed)
+        if(Math.Abs(targetVelocity.x) < MaxSpeed)
             this.velocity = this.targetVelocity;
-        else
-        {
-            if (targetVelocity.x > 0)
+        else{
+            if(targetVelocity.x > 0)
                 this.velocity = new Vector2(MaxSpeed, targetVelocity.y);
-            if (targetVelocity.x < 0)
+            if(targetVelocity.x < 0)
                 this.velocity = new Vector2(-MaxSpeed, targetVelocity.y);
         }
         Vector2 nextPosition;
-        if (isGrounded)
+        if(isGrounded)
             nextPosition = this.velocity * Time.fixedDeltaTime;
         else
             nextPosition = this.velocity * Time.fixedDeltaTime + 0.5f * this.Gravity * Time.fixedDeltaTime * Time.fixedDeltaTime;
         Vector2 oldGravity = Gravity;
         this.velocity += 0.5f * (Gravity + oldGravity) * Time.fixedDeltaTime;
-
+        
         //update player position
         TryMove(nextPosition);
     }
 
-    void TryMove(Vector2 movement)
-    {
-
-        if (movement.magnitude > minDistanceCheck)
-        {
-
+    void TryMove(Vector2 movement){
+        
+        if(movement.magnitude > minDistanceCheck){
+            
             int hitCount = playerBody.Cast(movement, contactLayer, collisionCheck, movement.magnitude);
             float collisionDist = 0f;
             bool findGround = false;
-            for (int i = 0; i < hitCount; i++)
-            {
+            for(int i = 0; i < hitCount; i++){
                 Vector2 currentNormal = collisionCheck[i].normal;
                 collisionDist = collisionCheck[i].distance;
-                if (Vector2.Dot(movement, currentNormal) < 0)
-                {
-                    if (Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle)
-                    {
+                if(Vector2.Dot(movement, currentNormal) < 0.1 && (collisionCheck[i].transform.tag != "OneWay" || (Vector2.Dot(currentNormal, this.Gravity) < 0 && (isGrounded || collisionDist != 0)))){
+                    if(Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle){
                         findGround = true;
                         normal = currentNormal;
                         groundTimer = 0f;
@@ -245,12 +216,11 @@ public class PlayerMovement : MonoBehaviour
             playerBody.MovePosition(finalPosition);
         }
 
-
+        
     }
 
-
-    void Jump()
-    {
-
+    void Jump(){
+  
     }
 }
+
