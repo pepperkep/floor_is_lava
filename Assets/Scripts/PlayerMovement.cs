@@ -78,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 normal;
     private Rigidbody2D playerBody;
     private SpriteRenderer playerSprite;
-    private bool isGrounded = true;
+    private bool isGrounded = false;
     private bool faceRight = true;
     private RaycastHit2D[] collisionCheck = new RaycastHit2D[8];
     private ContactFilter2D contactLayer;

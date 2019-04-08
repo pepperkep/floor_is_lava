@@ -1939,7 +1939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberBalloons: 0
---- !u!43 &2003453872
+--- !u!43 &1630424368
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2119,7 +2119,7 @@ PrefabInstance:
     - target: {fileID: 1153890314090708666, guid: 0a51635276c4d0a269d905039fb8ca50,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.1
+      value: 2.2
       objectReference: {fileID: 0}
     - target: {fileID: 1153890314090708666, guid: 0a51635276c4d0a269d905039fb8ca50,
         type: 3}
