@@ -31,6 +31,7 @@ public class LevelController : MonoBehaviour
     }
 
     void Awake(){
+        floor.SetActive(true);
         lava.SetActive(false);  
     }
 
@@ -59,8 +60,11 @@ public class LevelController : MonoBehaviour
     void Update()
     {
         if(modeSwitch.dragMode == false){
-            floorSprite.sprite = lavaSprite;
             lava.SetActive(true);
+            lava.transform.position = floor.transform.position;
+            WaterArea lavaArea = lava.GetComponent<WaterArea>();
+            lavaArea.size = new Vector2(floor.transform.localScale.x, floor.transform.localScale.y);
+            floor.SetActive(false);
         }
         if(!objectiveList[currentObjective].IsActive){
             if (currentObjective < objectiveList.Length - 1)

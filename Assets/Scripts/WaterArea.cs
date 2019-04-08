@@ -7,8 +7,7 @@ using UnityEngine.Profiling;
 using UnityEditor;
 #endif
 
-namespace FloorIsLava
-{
+
     [ExecuteInEditMode]
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(MeshFilter))]
@@ -450,4 +449,3 @@ namespace FloorIsLava
         }
     }
 #endif
-}

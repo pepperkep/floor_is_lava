@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace FloorIsLava
-{
     [RequireComponent(typeof(AudioSource))]
     public class RandomAudioPlayer : MonoBehaviour
     {
@@ -60,4 +58,3 @@ namespace FloorIsLava
             m_Source.Stop();
         }
     }
-}
