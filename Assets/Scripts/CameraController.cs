@@ -10,6 +10,8 @@ public class CameraController : MonoBehaviour
     public GameObject targetObject3;
     public GameObject targetObject4;
     public GameObject targetObject5;
+    public GameObject player;
+    public Rigidbody2D playerBody;
     //public GameObject targetObject6;
     bool dragMode;
 
@@ -30,6 +32,9 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         SetPlayMode();
+        player = GameObject.Find("Player");
+        playerBody = player.GetComponent<Rigidbody2D>();
+
     }
 
     void Update()
@@ -39,6 +44,7 @@ public class CameraController : MonoBehaviour
             if (dragMode)
             {
                 SetPlayMode();
+              //  playerBody.WakeUp();
                 targetObject1.SendMessage("SetPlayMode");
                 targetObject2.SendMessage("SetPlayMode");
                 targetObject3.SendMessage("SetPlayMode");
@@ -49,6 +55,8 @@ public class CameraController : MonoBehaviour
             else
             {
                 SetDragMode();
+               // playerBody.Sleep();
+               // playerBody.isKinematic = true;
                 targetObject1.SendMessage("SetDragMode");
                 targetObject2.SendMessage("SetDragMode");
                 targetObject3.SendMessage("SetDragMode");

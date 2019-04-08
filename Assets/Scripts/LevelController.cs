@@ -36,7 +36,7 @@ public class LevelController : MonoBehaviour
         BeginLevel();
         floor = GameObject.Find("Floor");
         player = GameObject.Find("Player");
-        player.transform.position = new Vector2(8.5f, 3f);
+        player.transform.position = new Vector2(2.5f, 11f);
         floorSprite =floor.GetComponent<SpriteRenderer>();
         floorSprite.enabled = false;
         floor.GetComponent<SpriteRenderer>().sprite = lavaSprite;
