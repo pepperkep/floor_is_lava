@@ -953,6 +953,7 @@ MonoBehaviour:
   player: {fileID: 0}
   floorSprite: {fileID: 0}
   lavaSprite: {fileID: 21300000, guid: 573993004eca04b85a5bb0dcad8afa85, type: 3}
+  lavaSizeMultiplier: 3
 --- !u!114 &515756307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1493,8 +1494,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 836163397}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.243, y: -1, z: 0.009765625}
-  m_LocalScale: {x: 10.487, y: 1, z: 1}
+  m_LocalPosition: {x: 1.243, y: -2, z: 0.009765625}
+  m_LocalScale: {x: 10.487, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -1872,6 +1873,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_MaskAlphaCutoff
       value: 0.175
+      objectReference: {fileID: 0}
+    - target: {fileID: 331503210433366934, guid: 79d233d8de37f42588cb0563a23e9e1b,
+        type: 3}
+      propertyPath: m_IsCustomRangeActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 61481372263437464, guid: 79d233d8de37f42588cb0563a23e9e1b,
         type: 3}
