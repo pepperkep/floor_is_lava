@@ -800,6 +800,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectiveList:
   - {fileID: 711342065}
+  FlowingLavaPrefab: {fileID: 0}
+  Floor: {fileID: 0}
+  lava: {fileID: 0}
+  floor: {fileID: 0}
+  floorSprite: {fileID: 0}
+  lavaSprite: {fileID: 0}
 --- !u!114 &515756307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1585,7 +1591,7 @@ GameObject:
   - component: {fileID: 1313864171}
   m_Layer: 0
   m_Name: "Sample Plat\x13"
-  m_TagString: Untagged
+  m_TagString: OneWay
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
