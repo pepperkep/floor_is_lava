@@ -105,8 +105,7 @@ public class PlayerMovement : MonoBehaviour
         contactLayer.useTriggers = false;
         contactLayer.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactLayer.useLayerMask = true;
-        standingPlat = this.gameObject;
-
+        standingPlat = null;
     }
 
     // Update is called once per frame
