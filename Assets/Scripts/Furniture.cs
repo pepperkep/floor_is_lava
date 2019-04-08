@@ -9,20 +9,19 @@ public class Furniture : MonoBehaviour
     public int NumberBallons{
         get => numberBalloons;
         set{
-            risingHeight = originalHeight + value * heightBalloonMultiplier;
+            risingHeight = value * heightBalloonMultiplier;
             numberBalloons = value;
         }
     }
 
-    private float originalHeight;
+    private float heightChange = 0f;
     private float risingHeight;
     private float heightBalloonMultiplier = 0.8f;
     private float risingVelocity = 4f;
     private float loweringVelocity = 10f;
 
     void Awake(){
-        originalHeight = transform.position.y;
-        risingHeight = originalHeight + numberBalloons * heightBalloonMultiplier;
+        risingHeight = numberBalloons * heightBalloonMultiplier;
     }
 
     // Start is called before the first frame update
@@ -38,21 +37,30 @@ public class Furniture : MonoBehaviour
     }
 
     void FixedUpdate(){
-        risingHeight = originalHeight + numberBalloons * heightBalloonMultiplier;
-        if(transform.position.y < risingHeight){
-            float newHeight = transform.position.y + risingVelocity * Time.fixedDeltaTime;
-            if(newHeight > risingHeight)
-                transform.position = new Vector2(transform.position.x, risingHeight);
-            else
-                transform.position = new Vector2(transform.position.x, newHeight);
+        risingHeight = numberBalloons * heightBalloonMultiplier;
+        if(heightChange < risingHeight){
+            float newHeight = risingVelocity * Time.fixedDeltaTime;
+            float checkValue = heightChange + newHeight;
+            if(checkValue > risingHeight){
+                transform.position += new Vector3(0, risingHeight - heightChange, 0);
+                heightChange = risingHeight;
+            }
+            else{
+                transform.position += new Vector3(0, newHeight, 0);
+                heightChange += newHeight;
+            }
         }
-        if(transform.position.y > risingHeight){
-            float newHeight = transform.position.y - loweringVelocity * Time.fixedDeltaTime;
-            if(newHeight < risingHeight)
-                transform.position = new Vector2(transform.position.x, risingHeight);
-            else
-                transform.position = new Vector2(transform.position.x, newHeight);
+        if(heightChange > risingHeight){
+            float newHeight = loweringVelocity * Time.fixedDeltaTime;
+            float checkValue = heightChange - newHeight;
+            if(checkValue < risingHeight){
+                transform.position -= new Vector3(0, heightChange - risingHeight, 0);
+                heightChange = risingHeight;
+            }
+            else{
+                transform.position -= new Vector3(0, newHeight, 0);
+                heightChange -= newHeight;
+            }
         }
-        
     }
 }

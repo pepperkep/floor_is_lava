@@ -60,8 +60,6 @@ public class LevelController : MonoBehaviour
             {
                 currentObjective++;
                 objectiveList[currentObjective].IsActive = true;
-
-
             }
             else
             {

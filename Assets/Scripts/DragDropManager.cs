@@ -6,7 +6,7 @@ public class DragDropManager : MonoBehaviour
 {
     private Vector3 screenPoint;
     private Vector3 offset;
-    bool canDrag;
+    public bool canDrag;
 
     void OnMouseDrag()
     {
@@ -29,14 +29,12 @@ public class DragDropManager : MonoBehaviour
 
     public void SetDragMode()
     {
-        Debug.Log("SetDragMode");
         canDrag = true;
     }
 
     public void SetPlayMode()
     {
         canDrag = false;
-        Debug.Log("SetPlayMode");
     }
 
 }

@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float cutJumpSpeed;
 
     //Field for scene control
-    bool canMove;
+    bool canMove = false;
 
     //Properties for movement fields
     public float GroundAcceleration {
@@ -193,94 +193,93 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-            void FixedUpdate() {
+    void FixedUpdate() {
 
-                groundTimer += Time.fixedDeltaTime;
+        groundTimer += Time.fixedDeltaTime;
 
-                //Determine distance to ground
-                int hitCount = playerBody.Cast(Gravity, contactLayer, collisionCheck, Gravity.magnitude);
-                float currentDistance = 0;
-                for (int i = 0; i < hitCount; i++) {
-                    if (collisionCheck[i].distance > currentDistance)
-                        currentDistance = collisionCheck[i].distance;
-                }
-                distanceToGround = currentDistance;
+        //Determine distance to ground
+        int hitCount = playerBody.Cast(Gravity, contactLayer, collisionCheck, Gravity.magnitude);
+        float currentDistance = 0;
+        for (int i = 0; i < hitCount; i++) {
+            if (collisionCheck[i].distance > currentDistance)
+                currentDistance = collisionCheck[i].distance;
+        }
+        distanceToGround = currentDistance;
 
-                //Detect if player is grounded
-                if (Math.Abs(targetVelocity.x) < MaxSpeed)
-                    this.velocity = this.targetVelocity;
-                else {
-                    if (targetVelocity.x > 0)
-                        this.velocity = new Vector2(MaxSpeed, targetVelocity.y);
-                    if (targetVelocity.x < 0)
-                        this.velocity = new Vector2(-MaxSpeed, targetVelocity.y);
-                }
-                Vector2 nextPosition;
-                if (isGrounded)
-                    nextPosition = this.velocity * Time.fixedDeltaTime;
-                else
-                    nextPosition = this.velocity * Time.fixedDeltaTime + 0.5f * this.Gravity * Time.fixedDeltaTime * Time.fixedDeltaTime;
-                Vector2 oldGravity = Gravity;
-                this.velocity += 0.5f * (Gravity + oldGravity) * Time.fixedDeltaTime;
+        //Detect if player is grounded
+        if (Math.Abs(targetVelocity.x) < MaxSpeed)
+            this.velocity = this.targetVelocity;
+        else {
+            if (targetVelocity.x > 0)
+                this.velocity = new Vector2(MaxSpeed, targetVelocity.y);
+            if (targetVelocity.x < 0)
+                this.velocity = new Vector2(-MaxSpeed, targetVelocity.y);
+        }
+        Vector2 nextPosition;
+        if (isGrounded)
+            nextPosition = this.velocity * Time.fixedDeltaTime;
+        else
+            nextPosition = this.velocity * Time.fixedDeltaTime + 0.5f * this.Gravity * Time.fixedDeltaTime * Time.fixedDeltaTime;
+        Vector2 oldGravity = Gravity;
+        this.velocity += 0.5f * (Gravity + oldGravity) * Time.fixedDeltaTime;
 
-                if (velocity.y < Gravity.y / 10 || velocity.y > 0) {
-                    blockFromBelow = false;
-                    transform.parent = null;
-                }
+        if (velocity.y < Gravity.y / 10 || velocity.y > 0) {
+            blockFromBelow = false;
+            transform.parent = null;
+        }
 
 
-                //update player position
-                TryMove(nextPosition);
+        //update player position
+        TryMove(nextPosition);
+    }
+
+    void TryMove(Vector2 movement) {
+        if (standingPlat != null) {
+            playerBody.position += new Vector2(standingPlat.transform.position.x - oldPlatPlace.x, standingPlat.transform.position.y - oldPlatPlace.y);
+            oldPlatPlace = standingPlat.transform.position;
+        }
+
+        int hitCount = playerBody.Cast(new Vector2(movement.x, movement.y), contactLayer, collisionCheck, movement.magnitude);
+        float collisionDist = 0f;
+        bool findGround = false;
+        GameObject newPlat = standingPlat;
+        for (int i = 0; i < hitCount; i++) {
+            Vector2 currentNormal = collisionCheck[i].normal;
+            collisionDist = collisionCheck[i].distance;
+            if (Vector2.Dot(currentNormal, this.Gravity) < 0 && (collisionCheck[i].transform.gameObject == standingPlat && standingPlat.transform.tag == "OneWay"))
+                blockFromBelow = true;
+            if (Vector2.Dot(movement, currentNormal) < 0 && (collisionCheck[i].transform.tag != "OneWay" || blockFromBelow)) {
+                this.velocity -= Vector2.Dot(velocity, currentNormal) * currentNormal;
+                Vector2 moveInWall = Vector2.Dot(movement, currentNormal) * currentNormal;
+                movement -= moveInWall - collisionDist * moveInWall.normalized;
             }
-
-            void TryMove(Vector2 movement) {
-                if (standingPlat != null) {
-                    playerBody.position += new Vector2(standingPlat.transform.position.x - oldPlatPlace.x, standingPlat.transform.position.y - oldPlatPlace.y);
-                    oldPlatPlace = standingPlat.transform.position;
-                }
-
-                int hitCount = playerBody.Cast(new Vector2(movement.x, movement.y), contactLayer, collisionCheck, movement.magnitude);
-                float collisionDist = 0f;
-                bool findGround = false;
-                GameObject newPlat = standingPlat;
-                for (int i = 0; i < hitCount; i++) {
-                    Vector2 currentNormal = collisionCheck[i].normal;
-                    collisionDist = collisionCheck[i].distance;
-                    if (Vector2.Dot(currentNormal, this.Gravity) < 0 && (isGrounded || collisionDist != 0))
-                        blockFromBelow = true;
-                    if (Vector2.Dot(movement, currentNormal) < 0 && (collisionCheck[i].transform.tag != "OneWay" || blockFromBelow)) {
-                        this.velocity -= Vector2.Dot(velocity, currentNormal) * currentNormal;
-                        Vector2 moveInWall = Vector2.Dot(movement, currentNormal) * currentNormal;
-                        movement -= moveInWall - collisionDist * moveInWall.normalized;
-                    }
-                    if (Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle && (isGrounded || collisionDist != 0)) {
-                        findGround = true;
-                        normal = currentNormal;
-                        groundTimer = 0f;
-                        newPlat = collisionCheck[i].transform.gameObject;
-                    }
-                }
-
-                if (standingPlat != newPlat || isGrounded) {
-                    standingPlat = newPlat;
-                    Debug.Log(standingPlat);
-                    oldPlatPlace = standingPlat.transform.position;
-                }
-                Vector2 finalPosition = movement + playerBody.position;
-                this.isGrounded = findGround;
-                playerBody.MovePosition(finalPosition);
-
+            if (Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle && (isGrounded || collisionDist != 0)) {
+                findGround = true;
+                normal = currentNormal;
+                groundTimer = 0f;
+                newPlat = collisionCheck[i].transform.gameObject;
             }
+        }
 
-            public void SetDragMode()
-            {
-                canMove = false;
-            }
+        if (standingPlat != newPlat || isGrounded) {
+            standingPlat = newPlat;
+            oldPlatPlace = standingPlat.transform.position;
+        }
+        Vector2 finalPosition = movement + playerBody.position;
+        this.isGrounded = findGround;
+        playerBody.MovePosition(finalPosition);
 
-            public void SetPlayMode()
-            {
-                canMove = true;
-            }
+    }
+
+    public void SetDragMode()
+    {
+        canMove = false;
+    }
+
+    public void SetPlayMode()
+    {
+        canMove = true;
+    }
         
 
 }
