@@ -1,3 +1,4 @@
+
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -87,9 +88,12 @@ public class PlayerMovement : MonoBehaviour
     private bool bufferedJump = false;
     private float groundTimer = 0f;
     private float leavePlatformJumpTolerance = 0.1f;
+<<<<<<< HEAD
     private bool blockFromBelow = false;
     private GameObject standingPlat;
     private Vector3 oldPlatPlace;
+=======
+>>>>>>> e13d2550124633a9f5db1f893afbaa1de40a03a6
 
     // Start is called before the first frame update
     void Start()
@@ -188,17 +192,21 @@ public class PlayerMovement : MonoBehaviour
             nextPosition = this.velocity * Time.fixedDeltaTime + 0.5f * this.Gravity * Time.fixedDeltaTime * Time.fixedDeltaTime;
         Vector2 oldGravity = Gravity;
         this.velocity += 0.5f * (Gravity + oldGravity) * Time.fixedDeltaTime;
+<<<<<<< HEAD
 
         if(velocity.y < Gravity.y / 10 || velocity.y > 0){
             blockFromBelow = false;
             transform.parent = null;
         }
+=======
+>>>>>>> e13d2550124633a9f5db1f893afbaa1de40a03a6
         
         //update player position
         TryMove(nextPosition);
     }
 
     void TryMove(Vector2 movement){
+<<<<<<< HEAD
 
         if(standingPlat != null){
             playerBody.position += new Vector2(standingPlat.transform.position.x - oldPlatPlace.x, standingPlat.transform.position.y - oldPlatPlace.y);
@@ -220,6 +228,26 @@ public class PlayerMovement : MonoBehaviour
                     normal = currentNormal;
                     groundTimer = 0f;
                     newPlat = collisionCheck[i].transform.gameObject;
+=======
+        
+        if(movement.magnitude > minDistanceCheck){
+            
+            int hitCount = playerBody.Cast(movement, contactLayer, collisionCheck, movement.magnitude);
+            float collisionDist = 0f;
+            bool findGround = false;
+            for(int i = 0; i < hitCount; i++){
+                Vector2 currentNormal = collisionCheck[i].normal;
+                collisionDist = collisionCheck[i].distance;
+                if(Vector2.Dot(movement, currentNormal) < 0.1 && (collisionCheck[i].transform.tag != "OneWay" || (Vector2.Dot(currentNormal, this.Gravity) < 0 && (isGrounded || collisionDist != 0)))){
+                    if(Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle){
+                        findGround = true;
+                        normal = currentNormal;
+                        groundTimer = 0f;
+                    }
+                    this.velocity -= Vector2.Dot(velocity, currentNormal) * currentNormal;
+                    Vector2 moveInWall = Vector2.Dot(movement, currentNormal) * currentNormal;
+                    movement -= moveInWall - collisionDist * moveInWall.normalized;
+>>>>>>> e13d2550124633a9f5db1f893afbaa1de40a03a6
                 }
                 this.velocity -= Vector2.Dot(velocity, currentNormal) * currentNormal;
                 Vector2 moveInWall = Vector2.Dot(movement, currentNormal) * currentNormal;
@@ -241,3 +269,4 @@ public class PlayerMovement : MonoBehaviour
   
     }
 }
+
