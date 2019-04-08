@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour
     public Rigidbody2D playerBody;
     public PlayerMovement playerScript;
   
-    private bool dragMode;
+    public bool dragMode;
 
     public void SetDragMode()
     {

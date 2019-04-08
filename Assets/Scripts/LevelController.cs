@@ -10,6 +10,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private GameObject Floor;
 
     private int currentObjective = 0;
+    private CameraController modeSwitch;
     public  GameObject lava;
     public  GameObject floor;
     public GameObject player;
@@ -29,17 +30,19 @@ public class LevelController : MonoBehaviour
 
     }
 
+    void Awake(){
+        lava.SetActive(false);  
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        modeSwitch = GetComponent<CameraController>();
         objectiveList[currentObjective].IsActive = true;
         BeginLevel();
         floor = GameObject.Find("Floor");
         player = GameObject.Find("Player");
         floorSprite =floor.GetComponent<SpriteRenderer>();
-        floorSprite.enabled = false;
-        floor.GetComponent<SpriteRenderer>().sprite = lavaSprite;
-        floorSprite.enabled = true;
 
         Vector2 size = floor.GetComponent<BoxCollider2D>().bounds.size;
         floorPosition = floor.transform.position;
@@ -55,6 +58,10 @@ public class LevelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(modeSwitch.dragMode == false){
+            floorSprite.sprite = lavaSprite;
+            lava.SetActive(true);
+        }
         if(!objectiveList[currentObjective].IsActive){
             if (currentObjective < objectiveList.Length - 1)
             {

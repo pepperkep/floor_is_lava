@@ -82,7 +82,6 @@ public class PlayerMovement : MonoBehaviour
     private bool faceRight = true;
     private RaycastHit2D[] collisionCheck = new RaycastHit2D[8];
     private ContactFilter2D contactLayer;
-    private float minDistanceCheck = 0.01f;
     private float minGroundDirection = -0.8f;
     private float slopeNoGravityAngle = 40f;
     private float slopeIsWallAngle = 70f;
