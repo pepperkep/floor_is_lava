@@ -263,6 +263,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (standingPlat != newPlat || isGrounded) {
                     standingPlat = newPlat;
+                    Debug.Log(standingPlat);
                     oldPlatPlace = standingPlat.transform.position;
                 }
                 Vector2 finalPosition = movement + playerBody.position;
