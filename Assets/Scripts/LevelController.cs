@@ -24,10 +24,6 @@ public class LevelController : MonoBehaviour
     }
 
     public void EndLevel(){
-<<<<<<< HEAD
-=======
-        Debug.Log("Level has ended!");
->>>>>>> e13d2550124633a9f5db1f893afbaa1de40a03a6
 
     }
 
