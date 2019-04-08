@@ -12,6 +12,7 @@ public class LevelController : MonoBehaviour
     private int currentObjective = 0;
     public  GameObject lava;
     public  GameObject floor;
+    public GameObject player;
     public static float floorWidth;
     public static float floorHeight;
     public static Vector2 floorPosition;
@@ -34,7 +35,9 @@ public class LevelController : MonoBehaviour
         objectiveList[currentObjective].IsActive = true;
         BeginLevel();
         floor = GameObject.Find("Floor");
-        floorSprite=floor.GetComponent<SpriteRenderer>();
+        player = GameObject.Find("Player");
+        player.transform.position = new Vector2(8.5f, 3f);
+        floorSprite =floor.GetComponent<SpriteRenderer>();
         floorSprite.enabled = false;
         floor.GetComponent<SpriteRenderer>().sprite = lavaSprite;
         floorSprite.enabled = true;
