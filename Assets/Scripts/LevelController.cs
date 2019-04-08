@@ -9,7 +9,6 @@ public class LevelController : MonoBehaviour
     [SerializeField] private GameObject FlowingLavaPrefab;
     [SerializeField] private GameObject Floor;
 
-<<<<<<< HEAD
     private int currentObjective = 0;
     public  GameObject lava;
     public  GameObject floor;
@@ -26,14 +25,7 @@ public class LevelController : MonoBehaviour
 
     public void EndLevel(){
 
-=======
-    public void BeginLevel(){
-        //Debug.Log("Level has begun!");
-    }
 
-    public void EndLevel(){
-       // Debug.Log("Level has ended!");
->>>>>>> 4318e7a9cfe460b18bebef2e82a24b898370725f
     }
 
     // Start is called before the first frame update
