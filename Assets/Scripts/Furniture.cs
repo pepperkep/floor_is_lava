@@ -6,7 +6,7 @@ public class Furniture : MonoBehaviour
 {
     [SerializeField] private int numberBalloons;
 
-    public int NumberBallons{
+    public int NumberBalloons{
         get => numberBalloons;
         set{
             risingHeight = value * heightBalloonMultiplier;
@@ -33,14 +33,14 @@ public class Furniture : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        NumberBalloons = this.transform.childCount;
     }
     void OnCollisionEnter2D(Collision2D myCol)
     {
         if (myCol.gameObject.name == "Balloon")
         {
 
-            this.NumberBallons+=1;
+            this.NumberBalloons+=1;
 
         }
     }

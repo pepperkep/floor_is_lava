@@ -52,9 +52,6 @@ public class LevelController : MonoBehaviour
     {
 
         Debug.Log("Level has begun!");
-
-
-
     }
 
 
@@ -130,13 +127,13 @@ public class LevelController : MonoBehaviour
             lava.SetActive(true);
 
             lava.transform.position = floor.transform.position;
-
+            WaterArea lavaArea = lava.GetComponent<WaterArea>();
             lavaArea.size = new Vector2(floor.transform.localScale.x, floor.transform.localScale.y);
 
             lavaArea.AdjustComponentSizes();
 
-            lavaArea.RecomputeMesh();
 
+            lavaArea.RecomputeMesh();
             floor.SetActive(false);
 
             lavaSwitch = true;
@@ -147,15 +144,13 @@ public class LevelController : MonoBehaviour
         {
 
             if (currentObjective < objectiveList.Length - 1)
-
             {
-
                 lavaArea.size = new Vector2(lavaArea.size.x, lavaArea.size.y * lavaSizeMultiplier);
 
                 lavaArea.AdjustComponentSizes();
 
-                lavaArea.RecomputeMesh();
 
+                lavaArea.RecomputeMesh();
                 currentObjective++;
 
                 objectiveList[currentObjective].IsActive = true;
