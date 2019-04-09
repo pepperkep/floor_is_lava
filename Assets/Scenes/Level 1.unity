@@ -387,7 +387,7 @@ GameObject:
   - component: {fileID: 376172730}
   - component: {fileID: 376172733}
   m_Layer: 0
-  m_Name: Wall (3)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -651,7 +651,7 @@ GameObject:
   - component: {fileID: 461736962}
   - component: {fileID: 461736963}
   m_Layer: 0
-  m_Name: Wall (2)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1268,7 +1268,7 @@ GameObject:
   - component: {fileID: 689960097}
   - component: {fileID: 689960101}
   m_Layer: 0
-  m_Name: Wall (1)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1544,7 +1544,7 @@ GameObject:
   - component: {fileID: 856111515}
   - component: {fileID: 856111518}
   m_Layer: 0
-  m_Name: Wall (4)
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
