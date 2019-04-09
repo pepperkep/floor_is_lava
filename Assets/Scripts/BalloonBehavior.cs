@@ -20,12 +20,14 @@ public class BalloonBehavior : MonoBehaviour
     public static float floorWidth;
     public static float floorHeight;
     public static Vector2 floorPosition;
+    bool isSocketed;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
+        isSocketed = false;
         originalPosition = transform.position;
         balloonCollider = GetComponent<BoxCollider2D>();
         platformBody = GetComponent<Rigidbody2D>();
@@ -37,7 +39,7 @@ public class BalloonBehavior : MonoBehaviour
     }
     void OnMouseDrag()
     {
-        if (canDrag)
+        if (canDrag && !isSocketed)
         {
             Vector3 cursorScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
             Vector3 cursorPosition = Camera.main.ScreenToWorldPoint(cursorScreenPoint) + offset;
@@ -47,7 +49,7 @@ public class BalloonBehavior : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (canDrag)
+        if (canDrag && !isSocketed)
         {
             moveBalloon = false;
             screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
@@ -57,7 +59,7 @@ public class BalloonBehavior : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (canDrag)
+        if (canDrag & !isSocketed)
         {
             if (this.transform.position.y > floorHeight-.2)
             {
@@ -97,10 +99,10 @@ public class BalloonBehavior : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D myCol)
     {
-        if (myCol.gameObject.name == "Wall")
+        if (myCol.gameObject.name == "Socket")
         {
-
             myCol.gameObject.transform.position = this.transform.position;
+            isSocketed = true;
 
         }
     }
