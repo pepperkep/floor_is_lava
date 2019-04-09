@@ -8,6 +8,7 @@ public class DragDropManager : MonoBehaviour
     private Vector3 offset;
     public bool canDrag;
     public bool isGrounded = false;
+    public bool hitBalloon = false;
     private Vector3 originalPosition;
     private Rigidbody2D platformBody;
     private RaycastHit2D[] collisionCheck = new RaycastHit2D[8];
@@ -50,21 +51,32 @@ public class DragDropManager : MonoBehaviour
             obj = "Floor";
         else
             obj = "Floor1";
-        int hitNum = platformBody.Cast(Vector2.down, collisionCheck, floorCheckDistance);
-        bool foundFloor = false;
-        for (int i = 0; i < hitNum; i++)
+        if (canDrag)
         {
-            if (collisionCheck[i].transform.name == obj && collisionCheck[i].distance != 0)
+            int hitNum = platformBody.Cast(Vector2.down, collisionCheck, floorCheckDistance);
+            bool foundFloor = false;
+            for (int i = 0; i < hitNum; i++)
+            {
+                if ((collisionCheck[i].transform.name == obj || collisionCheck[i].transform.name == "Balloon") && collisionCheck[i].distance != 0)
                 {
                     transform.position = new Vector3(transform.position.x, transform.position.y - collisionCheck[i].distance, transform.position.z);
                     foundFloor = true;
                 }
             }
-        if (!foundFloor)
-        transform.position = originalPosition;
-        isGrounded = foundFloor;
+            if (!foundFloor && !hitBalloon)
+                transform.position = originalPosition;
+            isGrounded = foundFloor;
+        }
     }
+    
+    void OnCollisionEnter2D(Collision2D myCol)
+    {
+        if (myCol.gameObject.name == "Balloon")
+        {
 
+            hitBalloon=true;
+        }
+    }
 
     public void SetDragMode()
     {
