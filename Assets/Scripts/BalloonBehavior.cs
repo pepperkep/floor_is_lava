@@ -20,6 +20,7 @@ public class BalloonBehavior : MonoBehaviour
     public static float floorWidth;
     public static float floorHeight;
     public static Vector2 floorPosition;
+    private bool setPosition = false;
 
 
 
@@ -37,7 +38,7 @@ public class BalloonBehavior : MonoBehaviour
     }
     void OnMouseDrag()
     {
-        if (canDrag)
+        if (canDrag && !setPosition)
         {
             Vector3 cursorScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
             Vector3 cursorPosition = Camera.main.ScreenToWorldPoint(cursorScreenPoint) + offset;
@@ -50,6 +51,8 @@ public class BalloonBehavior : MonoBehaviour
         if (canDrag)
         {
             moveBalloon = false;
+            setPosition = false;
+            this.transform.parent = null;
             screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
             offset = (gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z)));
         }
@@ -57,7 +60,7 @@ public class BalloonBehavior : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (canDrag)
+        if (canDrag && !setPosition)
         {
             if (this.transform.position.y > floorHeight-.2)
             {
@@ -99,9 +102,9 @@ public class BalloonBehavior : MonoBehaviour
     {
         if (myCol.gameObject.name == "Wall")
         {
-
-            myCol.gameObject.transform.position = this.transform.position;
-
+            this.transform.parent = myCol.transform;
+            this.transform.position = new Vector3(myCol.transform.position.x, myCol.transform.position.y + myCol.collider.bounds.size.y / 2, 0);    
+            setPosition = true;
         }
     }
 }
