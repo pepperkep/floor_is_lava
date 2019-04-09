@@ -7,6 +7,7 @@ public class DragDropManager : MonoBehaviour
     private Vector3 screenPoint;
     private Vector3 offset;
     public bool canDrag;
+    public bool isGrounded = false;
     private Vector3 originalPosition;
     private Rigidbody2D platformBody;
     private RaycastHit2D[] collisionCheck = new RaycastHit2D[8];
@@ -48,6 +49,7 @@ public class DragDropManager : MonoBehaviour
             }
             if(!foundFloor)
                 transform.position = originalPosition;
+            isGrounded = foundFloor;
         }
     }
 

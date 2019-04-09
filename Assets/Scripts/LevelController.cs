@@ -11,6 +11,7 @@ public class LevelController : MonoBehaviour
 
     private int currentObjective = 0; //Survive
     private CameraController modeSwitch;
+    private bool lavaSwitch = false;
     public  GameObject lava;
     public  GameObject floor;
     public GameObject player;
@@ -18,19 +19,10 @@ public class LevelController : MonoBehaviour
     public static float floorHeight;
     public static Vector2 floorPosition;
     public SpriteRenderer floorSprite;
-     public Sprite lavaSprite;
-
-    public Camera PlayCamera;
-    public Camera DragCamera;
-    public GameObject[] targetObjects;
-    public Rigidbody2D playerBody;
-    public PlayerMovement playerScript;
-
-    public bool dragMode;
-
-
-
-    public void BeginLevel(){
+    public Sprite lavaSprite;
+    public float lavaSizeMultiplier;
+   
+   public void BeginLevel(){
         Debug.Log("Level has begun!");
 
     }
@@ -41,6 +33,7 @@ public class LevelController : MonoBehaviour
     }
 
     void Awake(){
+        floor.SetActive(true);
         lava.SetActive(false);  
     }
 
@@ -72,13 +65,21 @@ public class LevelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(modeSwitch.dragMode == false){
-            floorSprite.sprite = lavaSprite;
+        if(!modeSwitch.dragMode && !lavaSwitch){
             lava.SetActive(true);
+            lava.transform.position = floor.transform.position;
+            WaterArea lavaArea = lava.GetComponent<WaterArea>();
+            lavaArea.size = new Vector2(floor.transform.localScale.x, floor.transform.localScale.y);
+            lavaArea.AdjustComponentSizes();
+            floor.SetActive(false);
+            lavaSwitch = true;  
         }
         if(!objectiveList[currentObjective].IsActive){
             if (currentObjective < objectiveList.Length - 1)
             {
+                WaterArea lavaArea = lava.GetComponent<WaterArea>();
+                lavaArea.size = new Vector2(lavaArea.size.x, lavaArea.size.y * lavaSizeMultiplier);
+                lavaArea.AdjustComponentSizes();
                 currentObjective++;
                 objectiveList[currentObjective].IsActive = true;
             }
