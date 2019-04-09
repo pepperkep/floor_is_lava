@@ -6,6 +6,7 @@ public class LavaDeath : MonoBehaviour
 {
     BoxCollider2D m_ObjectCollider;
     Collision myCol;
+    public Camera camera;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +26,7 @@ public class LavaDeath : MonoBehaviour
     {
         if (myCol.gameObject.name == "Player")
         {
+            camera.transform.parent = null;
             Destroy(myCol.gameObject);
         }
     }
