@@ -35,7 +35,15 @@ public class Furniture : MonoBehaviour
     {
         
     }
+    void OnCollisionEnter2D(Collision2D myCol)
+    {
+        if (myCol.gameObject.name == "Balloon")
+        {
 
+            this.NumberBallons+=1;
+
+        }
+    }
     void FixedUpdate(){
         risingHeight = numberBalloons * heightBalloonMultiplier;
         if(heightChange < risingHeight){

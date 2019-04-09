@@ -10,10 +10,12 @@ public class ObjectivePoint : MonoBehaviour
     public bool IsActive{
         get => isActive;
         set{
-            if(value)
+            if (value)
                 activeParticles.Play();
             else
+            {
                 activeParticles.Stop();
+            }
             isActive = value;
         }
     }
