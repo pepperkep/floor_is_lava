@@ -20,14 +20,13 @@ public class BalloonBehavior : MonoBehaviour
     public static float floorWidth;
     public static float floorHeight;
     public static Vector2 floorPosition;
-    bool isSocketed;
+    private bool setPosition = false;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        isSocketed = false;
         originalPosition = transform.position;
         balloonCollider = GetComponent<BoxCollider2D>();
         platformBody = GetComponent<Rigidbody2D>();
@@ -39,7 +38,7 @@ public class BalloonBehavior : MonoBehaviour
     }
     void OnMouseDrag()
     {
-        if (canDrag && !isSocketed)
+        if (canDrag && !setPosition)
         {
             Vector3 cursorScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
             Vector3 cursorPosition = Camera.main.ScreenToWorldPoint(cursorScreenPoint) + offset;
@@ -49,9 +48,11 @@ public class BalloonBehavior : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (canDrag && !isSocketed)
+        if (canDrag)
         {
             moveBalloon = false;
+            setPosition = false;
+            this.transform.parent = null;
             screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
             offset = (gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z)));
         }
@@ -59,7 +60,7 @@ public class BalloonBehavior : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (canDrag & !isSocketed)
+        if (canDrag && !setPosition)
         {
             if (this.transform.position.y > floorHeight-.2)
             {
@@ -98,12 +99,11 @@ public class BalloonBehavior : MonoBehaviour
 
     }
     void OnCollisionEnter2D(Collision2D myCol)
-    {
-        if (myCol.gameObject.name == "Socket")
+        if (myCol.gameObject.name == "Wall")
         {
-            myCol.gameObject.transform.position = this.transform.position;
-            isSocketed = true;
-
+            this.transform.parent = myCol.transform;
+            this.transform.position = new Vector3(myCol.transform.position.x, myCol.transform.position.y + myCol.collider.bounds.size.y / 2, 0);    
+            setPosition = true;
         }
     }
 }
