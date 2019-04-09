@@ -21,7 +21,6 @@ public class LevelController : MonoBehaviour
     public SpriteRenderer floorSprite;
     public Sprite lavaSprite;
     public float lavaSizeMultiplier;
-    private WaterArea lavaArea;
    
    public void BeginLevel(){
         Debug.Log("Level has begun!");
@@ -33,12 +32,15 @@ public class LevelController : MonoBehaviour
 
     }
 
+    void Awake(){
+        floor.SetActive(true);
+        lava.SetActive(true);
+        lava.SetActive(false);  
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        lavaArea = lava.GetComponent<WaterArea>();
-        floor.SetActive(true);
-        lava.SetActive(false); 
         modeSwitch = GetComponent<CameraController>();
         objectiveList[currentObjective].IsActive = true;
         BeginLevel();
@@ -63,18 +65,18 @@ public class LevelController : MonoBehaviour
         if(!modeSwitch.dragMode && !lavaSwitch){
             lava.SetActive(true);
             lava.transform.position = floor.transform.position;
+            WaterArea lavaArea = lava.GetComponent<WaterArea>();
             lavaArea.size = new Vector2(floor.transform.localScale.x, floor.transform.localScale.y);
             lavaArea.AdjustComponentSizes();
-            lavaArea.RecomputeMesh();
             floor.SetActive(false);
             lavaSwitch = true;  
         }
         if(!objectiveList[currentObjective].IsActive){
             if (currentObjective < objectiveList.Length - 1)
             {
+                WaterArea lavaArea = lava.GetComponent<WaterArea>();
                 lavaArea.size = new Vector2(lavaArea.size.x, lavaArea.size.y * lavaSizeMultiplier);
                 lavaArea.AdjustComponentSizes();
-                lavaArea.RecomputeMesh();
                 currentObjective++;
                 objectiveList[currentObjective].IsActive = true;
             }
