@@ -44,6 +44,8 @@ public class LevelController : MonoBehaviour
 
     public float lavaSizeMultiplier;
 
+    private WaterArea lavaArea;
+
 
 
     public void BeginLevel()
@@ -68,22 +70,17 @@ public class LevelController : MonoBehaviour
 
 
 
-    void Awake()
-    {
-
-        floor.SetActive(true);
-
-        lava.SetActive(false);
-
-    }
-
-
-
     // Start is called before the first frame update
 
     void Start()
 
     {
+
+        lavaArea = lava.GetComponent<WaterArea>();
+
+        floor.SetActive(true);
+
+        lava.SetActive(false);
 
         modeSwitch = GetComponent<CameraController>();
 
@@ -134,11 +131,11 @@ public class LevelController : MonoBehaviour
 
             lava.transform.position = floor.transform.position;
 
-            WaterArea lavaArea = lava.GetComponent<WaterArea>();
-
             lavaArea.size = new Vector2(floor.transform.localScale.x, floor.transform.localScale.y);
 
             lavaArea.AdjustComponentSizes();
+
+            lavaArea.RecomputeMesh();
 
             floor.SetActive(false);
 
@@ -153,11 +150,11 @@ public class LevelController : MonoBehaviour
 
             {
 
-                WaterArea lavaArea = lava.GetComponent<WaterArea>();
-
                 lavaArea.size = new Vector2(lavaArea.size.x, lavaArea.size.y * lavaSizeMultiplier);
 
                 lavaArea.AdjustComponentSizes();
+
+                lavaArea.RecomputeMesh();
 
                 currentObjective++;
 
