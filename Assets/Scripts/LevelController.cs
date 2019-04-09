@@ -34,6 +34,7 @@ public class LevelController : MonoBehaviour
 
     void Awake(){
         floor.SetActive(true);
+        lava.SetActive(true);
         lava.SetActive(false);  
     }
 
