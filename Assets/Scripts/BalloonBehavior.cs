@@ -15,7 +15,11 @@ public class BalloonBehavior : MonoBehaviour
     public bool moveBalloon = false;
     private Vector3 originalPosition;
     private RaycastHit2D[] collisionCheck = new RaycastHit2D[8];
-    //private Rigidbody2D platformBody;
+    private Rigidbody2D platformBody;
+    public GameObject floor;
+    public static float floorWidth;
+    public static float floorHeight;
+    public static Vector2 floorPosition;
 
 
 
@@ -24,7 +28,12 @@ public class BalloonBehavior : MonoBehaviour
     {
         originalPosition = transform.position;
         balloonCollider = GetComponent<BoxCollider2D>();
-       // platformBody = GetComponent<Rigidbody2D>();
+        platformBody = GetComponent<Rigidbody2D>();
+        floor = GameObject.Find("Floor");
+        Vector2 size = floor.GetComponent<BoxCollider2D>().bounds.size;
+        floorPosition = floor.transform.position;
+        floorWidth = size.x;
+        floorHeight = size.y;
     }
     void OnMouseDrag()
     {
@@ -48,12 +57,19 @@ public class BalloonBehavior : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (canDrag) { 
+        if (canDrag)
+        {
+            if (this.transform.position.y > floorHeight-.2)
+            {
 
+                moveBalloon = true;
+            }
+            else
+            {
+                transform.position = originalPosition;
+            }
 
-
-        moveBalloon = true;
-    }
+        }
   }
 
     public void SetDragMode()
@@ -68,7 +84,7 @@ public class BalloonBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (canDrag && moveBalloon && this.transform.position.y < 5)
+        if (canDrag && moveBalloon && platformBody.transform.position.y < 5)
         {
             for(int i = 0; i < 5; i++)
             {
