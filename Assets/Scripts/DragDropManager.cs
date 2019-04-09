@@ -38,20 +38,33 @@ public class DragDropManager : MonoBehaviour
     }
 
     void OnMouseUp(){
-        if(canDrag){
-            int hitNum = platformBody.Cast(Vector2.down, collisionCheck, floorCheckDistance);
-            bool foundFloor = false;
-            for(int i = 0; i < hitNum; i++){
-                if(collisionCheck[i].transform.name == "Floor" && collisionCheck[i].distance != 0){
+        if(canDrag)
+            SnapToGround();
+    }
+
+
+    public void SnapToGround()
+    {
+        string obj;
+        if (canDrag)
+            obj = "Floor";
+        else
+            obj = "Floor1";
+        int hitNum = platformBody.Cast(Vector2.down, collisionCheck, floorCheckDistance);
+        bool foundFloor = false;
+        for (int i = 0; i < hitNum; i++)
+        {
+            if (collisionCheck[i].transform.name == obj && collisionCheck[i].distance != 0)
+                {
                     transform.position = new Vector3(transform.position.x, transform.position.y - collisionCheck[i].distance, transform.position.z);
                     foundFloor = true;
                 }
             }
-            if(!foundFloor)
-                transform.position = originalPosition;
-            isGrounded = foundFloor;
-        }
+        if (!foundFloor)
+        transform.position = originalPosition;
+        isGrounded = foundFloor;
     }
+
 
     public void SetDragMode()
     {
