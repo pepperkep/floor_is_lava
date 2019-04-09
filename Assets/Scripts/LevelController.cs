@@ -72,7 +72,9 @@ public class LevelController : MonoBehaviour
     {
 
         floor.SetActive(true);
+
         lava.SetActive(false);
+
     }
 
 
