@@ -98,7 +98,7 @@ public class BalloonBehavior : MonoBehaviour
 
 
     }
-    void OnCollisionEnter2D(Collision2D myCol)
+    void OnCollisionEnter2D(Collision2D myCol) { 
         if (myCol.gameObject.name == "Wall")
         {
             this.transform.parent = myCol.transform;
