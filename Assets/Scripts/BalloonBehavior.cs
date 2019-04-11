@@ -102,7 +102,7 @@ public class BalloonBehavior : MonoBehaviour
         if (myCol.gameObject.name == "Wall")
         {
             this.transform.parent = myCol.transform;
-            this.transform.position = new Vector3(myCol.transform.position.x, myCol.transform.position.y + myCol.collider.bounds.size.y, 0);    
+            this.transform.position = new Vector3(myCol.transform.position.x, myCol.transform.position.y + myCol.collider.bounds.size.y / 1.2f, 0);    
             setPosition = true;
         }
     }

@@ -8,10 +8,9 @@ public class DragDropManager : MonoBehaviour
     private Vector3 offset;
     public bool canDrag;
     public bool isGrounded = false;
-    public bool hitBalloon = false;
     private Vector3 originalPosition;
     private Rigidbody2D platformBody;
-    private RaycastHit2D[] collisionCheck = new RaycastHit2D[8];
+    private RaycastHit2D[] collisionCheck = new RaycastHit2D[1];
     private float floorCheckDistance = 15f;
 
     void Start(){
@@ -35,6 +34,7 @@ public class DragDropManager : MonoBehaviour
         {
             screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
             offset = (gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z)));
+            transform.DetachChildren();
         }
     }
 
@@ -55,25 +55,15 @@ public class DragDropManager : MonoBehaviour
         {
             int hitNum = platformBody.Cast(Vector2.down, collisionCheck, floorCheckDistance);
             bool foundFloor = false;
-            for (int i = 0; i < hitNum; i++)
+            if (collisionCheck[0].transform.name == obj && collisionCheck[0].distance != 0)
             {
-                if ((collisionCheck[i].transform.name == obj || collisionCheck[i].transform.name == "Balloon") && collisionCheck[i].distance != 0)
-                {
-                    transform.position = new Vector3(transform.position.x, transform.position.y - collisionCheck[i].distance, transform.position.z);
-                    foundFloor = true;
-                }
+                transform.position = new Vector3(transform.position.x, transform.position.y - collisionCheck[0].distance, transform.position.z);
+                foundFloor = true; 
             }
-            if (!foundFloor && !hitBalloon)
+            if (!foundFloor){
                 transform.position = originalPosition;
+            }
             isGrounded = foundFloor;
-        }
-    }
-    
-    void OnCollisionEnter2D(Collision2D myCol)
-    {
-        if (myCol.gameObject.name == "Balloon")
-        {
-            hitBalloon=true;
         }
     }
 
