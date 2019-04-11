@@ -13,6 +13,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private ObjectivePoint[] objectiveList;
     [SerializeField] private GameObject FlowingLavaPrefab;
     [SerializeField] private GameObject Floor;
+    [SerializeField] private GameObject lavaLevel;
 
     private int currentObjective = 0;
     private CameraController modeSwitch;
@@ -41,7 +42,7 @@ public class LevelController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lavaArea = lava.GetComponent<WaterArea>();
+        this.lavaArea = lava.GetComponent<WaterArea>();
         floor.SetActive(true);
         lava.SetActive(false);
         modeSwitch = GetComponent<CameraController>();
@@ -50,14 +51,15 @@ public class LevelController : MonoBehaviour
         floor = GameObject.Find("Floor");
         player = GameObject.Find("Player");
         floorSprite = floor.GetComponent<SpriteRenderer>();
+        lava.transform.position = floor.transform.position;
+        WaterArea lavaArea = lava.GetComponent<WaterArea>();
+        lavaArea.size = new Vector2(floor.transform.localScale.x, floor.transform.localScale.y);
+        lavaLevel.transform.position = new Vector3(lava.transform.position.x - lavaArea.size.x / 2, lava.transform.position.y + lavaArea.size.y * lavaSizeMultiplier / 2, lava.transform.position.z);
 
         Vector2 size = floor.GetComponent<BoxCollider2D>().bounds.size;
         floorPosition = floor.transform.position;
-        Debug.Log("position is" + floorPosition);
         floorWidth = size.x;
         floorHeight = size.y;
-        Debug.Log("width is" + floorWidth);
-        Debug.Log("height is" + floorHeight);
     }
 
     // Update is called once per frame
@@ -66,10 +68,7 @@ public class LevelController : MonoBehaviour
         if (!modeSwitch.dragMode && !lavaSwitch)
         {
             lava.SetActive(true);
-            lava.transform.position = floor.transform.position;
-            WaterArea lavaArea = lava.GetComponent<WaterArea>();
-            lavaArea.size = new Vector2(floor.transform.localScale.x, floor.transform.localScale.y);
-
+            lavaLevel.SetActive(false);
             lavaArea.AdjustComponentSizes();
             lavaArea.RecomputeMesh();
             floor.SetActive(false);
