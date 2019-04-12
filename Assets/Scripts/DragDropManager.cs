@@ -51,7 +51,7 @@ public class DragDropManager : MonoBehaviour
             obj = "Floor";
         else
             obj = "Floor1";
-        if (canDrag)
+        if (canDrag && collisionCheck[0] != null)
         {
             int hitNum = platformBody.Cast(Vector2.down, collisionCheck, floorCheckDistance);
             bool foundFloor = false;
