@@ -26,5 +26,13 @@ public class CameraFollow : MonoBehaviour
             if((targetPosition.x > transform. position.x && velocityCheck.Velocity.x >= 0) || (targetPosition.x < transform. position.x && velocityCheck.Velocity.x <= 0))
                 transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         }
+        if(followTarget == null){
+            GameObject player = GameObject.Find("Player");
+            if(player != null){
+                followTarget = player.transform;
+                velocityCheck = player.GetComponent<PlayerMovement>();
+                transform.position = new Vector3(followTarget.position.x, followTarget.position.y, transform.position.z);
+            }
+        }
     }
 }

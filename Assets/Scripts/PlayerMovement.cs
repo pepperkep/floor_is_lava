@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 velocity = Vector2.zero;
 
     //Field for scene control
-    bool canMove = false;
+    public bool canMove = false;
 
     //Properties for movement fields
     public float GroundAcceleration {
