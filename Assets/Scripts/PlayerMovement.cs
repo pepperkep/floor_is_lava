@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpVelocity;
     [SerializeField] private float fallMultiplier;
     [SerializeField] private float cutJumpSpeed;
+    private Vector2 velocity = Vector2.zero;
 
     //Field for scene control
     bool canMove = false;
@@ -72,8 +73,12 @@ public class PlayerMovement : MonoBehaviour
         set => this.fallMultiplier = value;
     }
 
+    public Vector2 Velocity{
+        get => this.velocity;
+        set => this.velocity = value;
+    }
+
     //Private movementData
-    private Vector2 velocity = Vector2.zero;
     private Vector2 targetVelocity = Vector2.zero;
     private Vector2 normal;
     private Rigidbody2D playerBody;

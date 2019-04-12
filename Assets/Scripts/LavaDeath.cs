@@ -26,7 +26,6 @@ public class LavaDeath : MonoBehaviour
     {
         if (myCol.gameObject.name == "Player")
         {
-            camera.transform.parent = null;
             Destroy(myCol.gameObject);
         }
     }
