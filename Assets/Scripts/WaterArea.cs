@@ -61,7 +61,7 @@ using UnityEditor;
         readonly int m_SplashPlayerPoolSize = 5;
         protected Vector3[] meshVertices;
 
-        private void Start()
+        private void OnEnable()
         {
             GetReferences();
 
