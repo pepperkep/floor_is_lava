@@ -19,6 +19,7 @@ public class Furniture : MonoBehaviour
     private float heightBalloonMultiplier = 0.8f;
     private float risingVelocity = 4f;
     private float loweringVelocity = 10f;
+    public bool doesFloat = false;
 
     void Awake(){
         risingHeight = numberBalloons * heightBalloonMultiplier;
@@ -40,7 +41,7 @@ public class Furniture : MonoBehaviour
         if (myCol.gameObject.name == "Balloon")
         {
 
-            this.NumberBalloons+=1;
+            this.NumberBalloons += 1;
 
         }
     }

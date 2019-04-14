@@ -6,20 +6,14 @@ public class BalloonBehavior : MonoBehaviour
 {
     BoxCollider2D balloonCollider;
     Collider2D liftFurniture;
-    private CameraController modeSwitch;
-    public GameObject furniture;
-    public Furniture furnitureScript;
     private Vector3 screenPoint;
     private Vector3 offset;
     public bool canDrag;
     public bool moveBalloon = false;
     private Vector3 originalPosition;
-    private RaycastHit2D[] collisionCheck = new RaycastHit2D[8];
     private Rigidbody2D platformBody;
     public GameObject floor;
-    public static float floorWidth;
     public static float floorHeight;
-    public static Vector2 floorPosition;
     private bool setPosition = false;
     private float spacingAmount = 6f;
 
@@ -33,8 +27,6 @@ public class BalloonBehavior : MonoBehaviour
         platformBody = GetComponent<Rigidbody2D>();
         floor = GameObject.Find("Floor");
         Vector2 size = floor.GetComponent<BoxCollider2D>().bounds.size;
-        floorPosition = floor.transform.position;
-        floorWidth = size.x;
         floorHeight = size.y;
     }
     void OnMouseDrag()
@@ -65,7 +57,6 @@ public class BalloonBehavior : MonoBehaviour
         {
             if (this.transform.position.y > floorHeight-.2)
             {
-
                 moveBalloon = true;
             }
             else

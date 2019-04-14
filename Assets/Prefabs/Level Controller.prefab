@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8392354394999334058}
   - component: {fileID: 8392354394999334057}
-  - component: {fileID: 8392354394999334056}
   m_Layer: 0
   m_Name: Level Controller
   m_TagString: Untagged
@@ -53,29 +52,10 @@ MonoBehaviour:
   lava: {fileID: 0}
   floor: {fileID: 0}
   player: {fileID: 0}
-  floorSprite: {fileID: 0}
-  lavaSprite: {fileID: 21300000, guid: 573993004eca04b85a5bb0dcad8afa85, type: 3}
   lavaSizeMultiplier: 3
   deathUI: {fileID: 0}
---- !u!114 &8392354394999334056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8392354394999334059}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f84edd88e0bf22a4685378605054e02a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   PlayCamera: {fileID: 0}
   DragCamera: {fileID: 0}
-  targetObjects:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  player: {fileID: 0}
+  targetObjects: []
   playerBody: {fileID: 0}
   playerScript: {fileID: 0}
-  dragMode: 0
