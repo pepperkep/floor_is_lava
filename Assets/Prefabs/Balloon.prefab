@@ -143,4 +143,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   furniture: {fileID: 0}
   furnitureScript: {fileID: 0}
-  canDrag: 0
+  canDrag: 1
+  moveBalloon: 0
+  floor: {fileID: 0}

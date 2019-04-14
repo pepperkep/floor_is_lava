@@ -21,6 +21,7 @@ public class BalloonBehavior : MonoBehaviour
     public static float floorHeight;
     public static Vector2 floorPosition;
     private bool setPosition = false;
+    private float spacingAmount = 6f;
 
 
 
@@ -98,11 +99,20 @@ public class BalloonBehavior : MonoBehaviour
 
 
     }
-    void OnCollisionEnter2D(Collision2D myCol) { 
-        if (myCol.gameObject.name == "Wall")
+    void OnCollisionEnter2D(Collision2D myCol) {
+        DragDropManager attachTo = myCol.gameObject.GetComponent<DragDropManager>(); 
+        if (attachTo != null && attachTo.isGrounded)
         {
             this.transform.parent = myCol.transform;
-            this.transform.position = new Vector3(myCol.transform.position.x, myCol.transform.position.y + myCol.collider.bounds.size.y / 1.2f, 0);    
+            int balloonNumber = myCol.transform.childCount;
+            if(balloonNumber == 0)
+                this.transform.position = new Vector3(myCol.transform.position.x, myCol.transform.position.y + myCol.collider.bounds.size.y / 1.2f, 0);
+            else{
+                if(balloonNumber % 2 == 0)
+                    this.transform.position = new Vector3(myCol.transform.position.x - myCol.collider.bounds.size.x * (balloonNumber / 2) / spacingAmount, myCol.transform.position.y + myCol.collider.bounds.size.y / 1.2f, 0);
+                else
+                    this.transform.position = new Vector3(myCol.transform.position.x + myCol.collider.bounds.size.x * (balloonNumber / 2) / spacingAmount, myCol.transform.position.y + myCol.collider.bounds.size.y / 1.2f, 0);
+            }    
             setPosition = true;
         }
     }
