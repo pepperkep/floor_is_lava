@@ -90,14 +90,7 @@ public class BalloonBehavior : MonoBehaviour
 
 
     }
-<<<<<<< HEAD
-    void OnCollisionEnter2D(Collision2D myCol)
-    {
-        if (myCol.gameObject.name == "Wall")
-        {
-            this.transform.parent = myCol.transform;
-            this.transform.position = new Vector3(myCol.transform.position.x, myCol.transform.position.y + myCol.collider.bounds.size.y / 2, 0);    
-=======
+
     void OnCollisionEnter2D(Collision2D myCol) {
         DragDropManager attachTo = myCol.gameObject.GetComponent<DragDropManager>(); 
         if (attachTo != null && attachTo.isGrounded)
@@ -112,7 +105,6 @@ public class BalloonBehavior : MonoBehaviour
                 else
                     this.transform.position = new Vector3(myCol.transform.position.x + myCol.collider.bounds.size.x * (balloonNumber / 2) / spacingAmount, myCol.transform.position.y + myCol.collider.bounds.size.y / 1.2f, 0);
             }    
->>>>>>> movement
             setPosition = true;
         }
     }
