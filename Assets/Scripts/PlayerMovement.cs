@@ -248,7 +248,7 @@ public class PlayerMovement : MonoBehaviour
         bool findGround = false;
         GameObject newPlat = standingPlat;
         for (int i = 0; i < hitCount; i++) {
-            if(collisionCheck[i].transform.name != "Balloon"){
+            if(collisionCheck[i].transform.gameObject.GetComponent<BalloonBehavior>() == null){
                 Vector2 currentNormal = collisionCheck[i].normal;
                 collisionDist = collisionCheck[i].distance;
                 if (Vector2.Dot(currentNormal, this.Gravity) < 0 && (collisionCheck[i].transform.gameObject == standingPlat && standingPlat.transform.tag == "OneWay"))
@@ -270,6 +270,7 @@ public class PlayerMovement : MonoBehaviour
         if (standingPlat != newPlat || isGrounded) {
             standingPlat = newPlat;
             oldPlatPlace = standingPlat.transform.position;
+            standingPlat.SendMessage("PlatformTrigger", null, SendMessageOptions.DontRequireReceiver);
         }
         Vector2 finalPosition = movement + playerBody.position;
         this.isGrounded = findGround;
