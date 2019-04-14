@@ -98,11 +98,12 @@ public class BalloonBehavior : MonoBehaviour
 
 
     }
-    void OnCollisionEnter2D(Collision2D myCol) { 
+    void OnCollisionEnter2D(Collision2D myCol)
+    {
         if (myCol.gameObject.name == "Wall")
         {
             this.transform.parent = myCol.transform;
-            this.transform.position = new Vector3(myCol.transform.position.x, myCol.transform.position.y + myCol.collider.bounds.size.y / 1.2f, 0);    
+            this.transform.position = new Vector3(myCol.transform.position.x, myCol.transform.position.y + myCol.collider.bounds.size.y / 2, 0);    
             setPosition = true;
         }
     }

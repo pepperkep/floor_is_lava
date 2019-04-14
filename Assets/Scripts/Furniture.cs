@@ -33,11 +33,7 @@ public class Furniture : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-<<<<<<< HEAD
 
-=======
-        NumberBalloons = this.transform.childCount;
->>>>>>> LevelDesign
     }
     void OnCollisionEnter2D(Collision2D myCol)
     {

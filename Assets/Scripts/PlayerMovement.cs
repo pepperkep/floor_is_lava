@@ -17,10 +17,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpVelocity;
     [SerializeField] private float fallMultiplier;
     [SerializeField] private float cutJumpSpeed;
-    private Vector2 velocity = Vector2.zero;
 
     //Field for scene control
-    public bool canMove = false;
+    bool canMove = false;
 
     //Properties for movement fields
     public float GroundAcceleration {
@@ -73,12 +72,8 @@ public class PlayerMovement : MonoBehaviour
         set => this.fallMultiplier = value;
     }
 
-    public Vector2 Velocity{
-        get => this.velocity;
-        set => this.velocity = value;
-    }
-
     //Private movementData
+    private Vector2 velocity = Vector2.zero;
     private Vector2 targetVelocity = Vector2.zero;
     private Vector2 normal;
     private Rigidbody2D playerBody;
@@ -248,22 +243,20 @@ public class PlayerMovement : MonoBehaviour
         bool findGround = false;
         GameObject newPlat = standingPlat;
         for (int i = 0; i < hitCount; i++) {
-            if(collisionCheck[i].transform.name != "Balloon"){
-                Vector2 currentNormal = collisionCheck[i].normal;
-                collisionDist = collisionCheck[i].distance;
-                if (Vector2.Dot(currentNormal, this.Gravity) < 0 && (collisionCheck[i].transform.gameObject == standingPlat && standingPlat.transform.tag == "OneWay"))
-                    blockFromBelow = true;
-                if (Vector2.Dot(movement, currentNormal) < 0 && (collisionCheck[i].transform.tag != "OneWay" || blockFromBelow)) {
-                    this.velocity -= Vector2.Dot(velocity, currentNormal) * currentNormal;
-                    Vector2 moveInWall = Vector2.Dot(movement, currentNormal) * currentNormal;
-                    movement -= moveInWall - collisionDist * moveInWall.normalized;
-                }
-                if (Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle && (isGrounded || collisionDist != 0)) {
-                    findGround = true;
-                    normal = currentNormal;
-                    groundTimer = 0f;
-                    newPlat = collisionCheck[i].transform.gameObject;
-                }
+            Vector2 currentNormal = collisionCheck[i].normal;
+            collisionDist = collisionCheck[i].distance;
+            if (Vector2.Dot(currentNormal, this.Gravity) < 0 && (collisionCheck[i].transform.gameObject == standingPlat && standingPlat.transform.tag == "OneWay"))
+                blockFromBelow = true;
+            if (Vector2.Dot(movement, currentNormal) < 0 && (collisionCheck[i].transform.tag != "OneWay" || blockFromBelow)) {
+                this.velocity -= Vector2.Dot(velocity, currentNormal) * currentNormal;
+                Vector2 moveInWall = Vector2.Dot(movement, currentNormal) * currentNormal;
+                movement -= moveInWall - collisionDist * moveInWall.normalized;
+            }
+            if (Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle && (isGrounded || collisionDist != 0)) {
+                findGround = true;
+                normal = currentNormal;
+                groundTimer = 0f;
+                newPlat = collisionCheck[i].transform.gameObject;
             }
         }
 
