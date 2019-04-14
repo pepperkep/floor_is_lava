@@ -6,21 +6,16 @@ public class BalloonBehavior : MonoBehaviour
 {
     BoxCollider2D balloonCollider;
     Collider2D liftFurniture;
-    private CameraController modeSwitch;
-    public GameObject furniture;
-    public Furniture furnitureScript;
     private Vector3 screenPoint;
     private Vector3 offset;
     public bool canDrag;
     public bool moveBalloon = false;
     private Vector3 originalPosition;
-    private RaycastHit2D[] collisionCheck = new RaycastHit2D[8];
     private Rigidbody2D platformBody;
     public GameObject floor;
-    public static float floorWidth;
     public static float floorHeight;
-    public static Vector2 floorPosition;
     private bool setPosition = false;
+    private float spacingAmount = 6f;
 
 
 
@@ -32,8 +27,6 @@ public class BalloonBehavior : MonoBehaviour
         platformBody = GetComponent<Rigidbody2D>();
         floor = GameObject.Find("Floor");
         Vector2 size = floor.GetComponent<BoxCollider2D>().bounds.size;
-        floorPosition = floor.transform.position;
-        floorWidth = size.x;
         floorHeight = size.y;
     }
     void OnMouseDrag()
@@ -64,7 +57,6 @@ public class BalloonBehavior : MonoBehaviour
         {
             if (this.transform.position.y > floorHeight-.2)
             {
-
                 moveBalloon = true;
             }
             else
@@ -98,12 +90,29 @@ public class BalloonBehavior : MonoBehaviour
 
 
     }
+<<<<<<< HEAD
     void OnCollisionEnter2D(Collision2D myCol)
     {
         if (myCol.gameObject.name == "Wall")
         {
             this.transform.parent = myCol.transform;
             this.transform.position = new Vector3(myCol.transform.position.x, myCol.transform.position.y + myCol.collider.bounds.size.y / 2, 0);    
+=======
+    void OnCollisionEnter2D(Collision2D myCol) {
+        DragDropManager attachTo = myCol.gameObject.GetComponent<DragDropManager>(); 
+        if (attachTo != null && attachTo.isGrounded)
+        {
+            this.transform.parent = myCol.transform;
+            int balloonNumber = myCol.transform.childCount;
+            if(balloonNumber == 0)
+                this.transform.position = new Vector3(myCol.transform.position.x, myCol.transform.position.y + myCol.collider.bounds.size.y / 1.2f, 0);
+            else{
+                if(balloonNumber % 2 == 0)
+                    this.transform.position = new Vector3(myCol.transform.position.x - myCol.collider.bounds.size.x * (balloonNumber / 2) / spacingAmount, myCol.transform.position.y + myCol.collider.bounds.size.y / 1.2f, 0);
+                else
+                    this.transform.position = new Vector3(myCol.transform.position.x + myCol.collider.bounds.size.x * (balloonNumber / 2) / spacingAmount, myCol.transform.position.y + myCol.collider.bounds.size.y / 1.2f, 0);
+            }    
+>>>>>>> movement
             setPosition = true;
         }
     }

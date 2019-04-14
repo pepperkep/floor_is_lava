@@ -7,7 +7,6 @@ using UnityEngine;
 
 
 public class LevelController : MonoBehaviour
-
 {
 
 
@@ -21,9 +20,6 @@ public class LevelController : MonoBehaviour
 
 
     private int currentObjective = 0;
-
-    private CameraController modeSwitch;
-
     private bool lavaSwitch = false;
 
     public GameObject lava;
@@ -31,24 +27,18 @@ public class LevelController : MonoBehaviour
     public GameObject floor;
 
     public GameObject player;
-
-    public static float floorWidth;
-
-    public static float floorHeight;
-
-    public static Vector2 floorPosition;
-
-    public SpriteRenderer floorSprite;
-
-    public Sprite lavaSprite;
-
     public float lavaSizeMultiplier;
 
     private WaterArea lavaArea;
 
+    public Camera PlayCamera;
+    public Camera DragCamera;
+    public GameObject[] targetObjects;
+    public Rigidbody2D playerBody;
+    public PlayerMovement playerScript;
+    private bool dragMode;
 
-
-    public void BeginLevel()
+    public void EndLevel()
     {
 
         Debug.Log("Level has begun!");
@@ -58,14 +48,27 @@ public class LevelController : MonoBehaviour
     }
 
 
+    public void BeginLevel(bool restart){
+        deathUI.SetActive(false);
 
-    public void EndLevel()
-    {
+        lava.transform.position = floor.transform.position;
+        this.lavaArea = lava.GetComponent<WaterArea>();
+        lavaArea.size = new Vector2(floor.transform.localScale.x, floor.transform.localScale.y);
+        lavaLevel.transform.position = new Vector3(lava.transform.position.x - lavaArea.size.x / 2, lava.transform.position.y + lavaArea.size.y * lavaSizeMultiplier / 2, lava.transform.position.z);
+        lava.SetActive(true);
+        lavaLevel.SetActive(false);
+        lavaArea.AdjustComponentSizes();
+        lavaArea.RecomputeMesh();
+        floor.SetActive(false);
 
+        for(int i = 0; i < targetObjects.Length; i++){
+            if(restart)
+                targetObjects[i].SendMessage("OnLavaReset", null, SendMessageOptions.DontRequireReceiver);
+        }
 
-
-
-
+        objectiveList[currentObjective].IsActive = false;
+        currentObjective = 0;
+        objectiveList[currentObjective].IsActive = true;
     }
 
 
@@ -81,39 +84,18 @@ public class LevelController : MonoBehaviour
         floor.SetActive(true);
 
         lava.SetActive(false);
-
-        modeSwitch = GetComponent<CameraController>();
-
-        objectiveList[currentObjective].IsActive = true;
-
-        BeginLevel();
-
         floor = GameObject.Find("Floor");
 
         player = GameObject.Find("Player");
-
-        floorSprite = floor.GetComponent<SpriteRenderer>();
-
-
+        
+        originalPlayerPosition = player.transform.position;
+        objectiveList[currentObjective].IsActive = true;
 
         Vector2 size = floor.GetComponent<BoxCollider2D>().bounds.size;
 
-        floorPosition = floor.transform.position;
-
-        Debug.Log("position is" + floorPosition);
-
-        floorWidth = size.x;
-
-        floorHeight = size.y;
-
-        Debug.Log("width is" + floorWidth);
-
-        Debug.Log("height is" + floorHeight);
-
-
-
-
-
+        playerBody = player.GetComponent<Rigidbody2D>();
+        playerScript = player.GetComponent<PlayerMovement>();
+        SetDragMode();
     }
 
 
@@ -124,20 +106,9 @@ public class LevelController : MonoBehaviour
 
     {
 
-        if (!modeSwitch.dragMode && !lavaSwitch)
+        if (!dragMode && !lavaSwitch)
         {
-
-            lava.SetActive(true);
-
-            lava.transform.position = floor.transform.position;
-
-            lavaArea.size = new Vector2(floor.transform.localScale.x, floor.transform.localScale.y);
-
-            lavaArea.AdjustComponentSizes();
-
-            lavaArea.RecomputeMesh();
-
-            floor.SetActive(false);
+            BeginLevel(false);
 
             lavaSwitch = true;
 
@@ -159,7 +130,9 @@ public class LevelController : MonoBehaviour
                 currentObjective++;
 
                 objectiveList[currentObjective].IsActive = true;
-
+                for(int i = 0; i < targetObjects.Length; i++){
+                    targetObjects[i].SendMessage("OnLavaRise", lava.transform.position.y + lavaArea.size.y / 2, SendMessageOptions.DontRequireReceiver);
+                }
             }
 
             else
@@ -169,7 +142,44 @@ public class LevelController : MonoBehaviour
                 EndLevel();
 
             }
+        }
+    }
 
+    public void RestartLevel(bool toDragMode){
+        if(toDragMode)
+            SceneManager.LoadScene("Level 1");
+        else{
+            player = (GameObject) Instantiate(playerPrefab);
+            player.transform.position = originalPlayerPosition;
+            player.name = "Player";
+            PlayerMovement playerProperties = player.GetComponent<PlayerMovement>();
+            playerProperties.canMove = true;
+            BeginLevel(true);
+        }
+    }
+
+    public void SetDragMode()
+    {
+        dragMode = true;
+        PlayCamera.enabled = false;
+        DragCamera.enabled = true;
+        playerScript.SetDragMode();
+        for (int i = 0; i < targetObjects.Length; i++)
+        {
+            targetObjects[i].SendMessage("SetDragMode");
+        }
+    }
+
+    public void SetPlayMode()
+
+    {
+        dragMode = false;
+        PlayCamera.enabled = true;
+        DragCamera.enabled = false;
+        playerScript.SetPlayMode();
+        for (int i = 0; i < targetObjects.Length; i++)
+        {
+            targetObjects[i].SendMessage("SetPlayMode");
         }
 
     }
