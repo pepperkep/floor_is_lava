@@ -32,7 +32,7 @@ public class LevelController : MonoBehaviour
 
     }
 
-    public void BeginLevel(){
+    public void BeginLevel(bool restart){
         deathUI.SetActive(false);
 
         lava.transform.position = floor.transform.position;
@@ -44,6 +44,11 @@ public class LevelController : MonoBehaviour
         lavaArea.AdjustComponentSizes();
         lavaArea.RecomputeMesh();
         floor.SetActive(false);
+
+        for(int i = 0; i < targetObjects.Length; i++){
+            if(restart)
+                targetObjects[i].SendMessage("OnLavaReset", null, SendMessageOptions.DontRequireReceiver);
+        }
 
         objectiveList[currentObjective].IsActive = false;
         currentObjective = 0;
@@ -74,7 +79,7 @@ public class LevelController : MonoBehaviour
     {
         if (!dragMode && !lavaSwitch)
         {
-            BeginLevel();
+            BeginLevel(false);
             lavaSwitch = true;
         }
 
@@ -87,6 +92,9 @@ public class LevelController : MonoBehaviour
                 lavaArea.RecomputeMesh();
                 currentObjective++;
                 objectiveList[currentObjective].IsActive = true;
+                for(int i = 0; i < targetObjects.Length; i++){
+                    targetObjects[i].SendMessage("OnLavaRise", lava.transform.position.y + lavaArea.size.y / 2, SendMessageOptions.DontRequireReceiver);
+                }
             }
 
             else
@@ -105,7 +113,7 @@ public class LevelController : MonoBehaviour
             player.name = "Player";
             PlayerMovement playerProperties = player.GetComponent<PlayerMovement>();
             playerProperties.canMove = true;
-            BeginLevel();
+            BeginLevel(true);
         }
     }
 
