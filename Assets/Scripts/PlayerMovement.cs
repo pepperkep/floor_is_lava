@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float cutJumpSpeed;
 
     //Field for scene control
-    bool canMove = false;
+    public bool canMove = false;
 
     //Properties for movement fields
     public float GroundAcceleration {
@@ -70,6 +70,11 @@ public class PlayerMovement : MonoBehaviour
     public float FallMultiplier {
         get => this.fallMultiplier;
         set => this.fallMultiplier = value;
+    }
+
+    public Vector3 Velocity {
+        get => this.velocity;
+        set => this.velocity = value;
     }
 
     //Private movementData

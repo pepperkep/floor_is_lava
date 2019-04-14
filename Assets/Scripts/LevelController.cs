@@ -1,8 +1,7 @@
 ﻿using System.Collections;
-
 using System.Collections.Generic;
-
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 
@@ -12,31 +11,27 @@ public class LevelController : MonoBehaviour
 
 
     [SerializeField] private ObjectivePoint[] objectiveList;
-
-    [SerializeField] private GameObject FlowingLavaPrefab;
-
+    [SerializeField] private GameObject lavaLevel;
     [SerializeField] private GameObject Floor;
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject deathUI;
 
 
 
     private int currentObjective = 0;
     private bool lavaSwitch = false;
-
     public GameObject lava;
-
     public GameObject floor;
-
     public GameObject player;
     public float lavaSizeMultiplier;
-
     private WaterArea lavaArea;
-
     public Camera PlayCamera;
     public Camera DragCamera;
     public GameObject[] targetObjects;
     public Rigidbody2D playerBody;
     public PlayerMovement playerScript;
     private bool dragMode;
+    private Vector3 originalPlayerPosition;
 
     public void EndLevel()
     {
@@ -105,30 +100,20 @@ public class LevelController : MonoBehaviour
     void Update()
 
     {
-
         if (!dragMode && !lavaSwitch)
         {
             BeginLevel(false);
-
             lavaSwitch = true;
-
         }
 
         if (!objectiveList[currentObjective].IsActive)
         {
-
             if (currentObjective < objectiveList.Length - 1)
-
             {
-
                 lavaArea.size = new Vector2(lavaArea.size.x, lavaArea.size.y * lavaSizeMultiplier);
-
                 lavaArea.AdjustComponentSizes();
-
                 lavaArea.RecomputeMesh();
-
                 currentObjective++;
-
                 objectiveList[currentObjective].IsActive = true;
                 for(int i = 0; i < targetObjects.Length; i++){
                     targetObjects[i].SendMessage("OnLavaRise", lava.transform.position.y + lavaArea.size.y / 2, SendMessageOptions.DontRequireReceiver);
@@ -136,11 +121,8 @@ public class LevelController : MonoBehaviour
             }
 
             else
-
             {
-
                 EndLevel();
-
             }
         }
     }
