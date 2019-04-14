@@ -35,10 +35,11 @@ public class Furniture : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+        void Update()
     {
-
+        NumberBalloons = this.transform.childCount;
     }
+    
     void OnCollisionEnter2D(Collision2D myCol)
     {
         if (myCol.gameObject.name == "Balloon")
