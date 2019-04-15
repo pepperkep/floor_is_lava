@@ -14,13 +14,17 @@ public class Furniture : MonoBehaviour
         }
     }
 
+    private float originalHeight;
     private float heightChange = 0f;
     private float risingHeight;
     private float heightBalloonMultiplier = 0.8f;
     private float risingVelocity = 4f;
     private float loweringVelocity = 10f;
+    public bool doesFloat = false;
+    private float riseRate = 0.08f;
 
     void Awake(){
+        
         risingHeight = numberBalloons * heightBalloonMultiplier;
     }
 
@@ -31,16 +35,17 @@ public class Furniture : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+        void Update()
     {
         NumberBalloons = this.transform.childCount;
     }
+    
     void OnCollisionEnter2D(Collision2D myCol)
     {
         if (myCol.gameObject.name == "Balloon")
         {
 
-            this.NumberBalloons+=1;
+            this.NumberBalloons += 1;
 
         }
     }
@@ -71,4 +76,22 @@ public class Furniture : MonoBehaviour
             }
         }
     }
+
+    public void OnLavaRise(float risePosition){
+        originalHeight = transform.position.y;
+        if(doesFloat)
+            StartCoroutine(NewLavaLevel(risePosition));
+    }
+
+    public void OnLavaReset(){
+        if(doesFloat)
+            transform.position = new Vector3(transform.position.x, originalHeight, transform.position.z);
+    }
+
+    private IEnumerator NewLavaLevel(float risePosition){
+        for(float f = transform.position.y; f < risePosition; f += riseRate){
+            transform.position = new Vector3(transform.position.x, f, transform.position.z);
+            yield return new WaitForSeconds(0.1f);
+        }
+    } 
 }
