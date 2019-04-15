@@ -108,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
         playerBody = GetComponent<Rigidbody2D>();
         playerSprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-
+        animator.SetBool("faceRight", true);
         contactLayer.useTriggers = false;
         contactLayer.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactLayer.useLayerMask = true;
@@ -118,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetBool("faceRight", true);
+
         if (canMove)
         {
             //Get player input
@@ -146,11 +146,18 @@ public class PlayerMovement : MonoBehaviour
                 if (playerIn == 0 && animator.GetBool("faceRight")) { 
                 animator.SetBool("walkRight", false);
             }
-                if (playerIn == 0 && !(animator.GetBool("faceRight")))
+                if (playerIn == 0 && (animator.GetBool("faceRight")==false))
                 {
                     animator.SetBool("walkLeft", false);
                 }
-               
+
+                if (playerIn == 0 && animator.GetBool("walkLeft"))
+                {
+                    animator.SetBool("walkLeft", false);
+                    animator.SetBool("faceRight", false);
+                    animator.SetBool("walkRight", false);
+                }
+
 
                 if ((playerIn < 0 && nextVelocity.x > 0) || (playerIn > 0 && nextVelocity.x < 0))
                 {
