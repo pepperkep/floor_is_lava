@@ -22,10 +22,13 @@ public class Furniture : MonoBehaviour
     private float loweringVelocity = 10f;
     public bool doesFloat = false;
     private float riseRate = 0.08f;
+    public bool destroyedOnLanding = false;
+    private float destroyTime = 1f;
+    private Rigidbody2D furnitureBody;
 
     void Awake(){
-        
         risingHeight = numberBalloons * heightBalloonMultiplier;
+        furnitureBody = GetComponent<Rigidbody2D>();
     }
 
     // Start is called before the first frame update
@@ -39,7 +42,6 @@ public class Furniture : MonoBehaviour
     {
         NumberBalloons = this.transform.childCount;
     }
-    
     void OnCollisionEnter2D(Collision2D myCol)
     {
         if (myCol.gameObject.name == "Balloon")
@@ -94,4 +96,23 @@ public class Furniture : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
     } 
+
+    public void PlatformTrigger(){
+        if(destroyedOnLanding)
+            StartCoroutine(DestroyFurniture());
+    }
+
+    private IEnumerator DestroyFurniture(){
+        float translateAmount = 0.01f;
+        int changeDirectionInterval = 5;
+        Vector2 oldPosition = furnitureBody.position;
+        for(int i = 0; i < destroyTime * 100; i++){
+            if(i % changeDirectionInterval == 0)
+                translateAmount = -translateAmount;
+            oldPosition = oldPosition + new Vector2(0, translateAmount);
+            furnitureBody.position = oldPosition;
+            yield return new WaitForSeconds(0.01f);
+        }
+        gameObject.SetActive(false);
+    }
 }

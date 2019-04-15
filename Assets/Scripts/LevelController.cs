@@ -59,6 +59,7 @@ public class LevelController : MonoBehaviour
         for(int i = 0; i < targetObjects.Length; i++){
             if(restart)
                 targetObjects[i].SendMessage("OnLavaReset", null, SendMessageOptions.DontRequireReceiver);
+            targetObjects[i].SetActive(true);
         }
 
         objectiveList[currentObjective].IsActive = false;
