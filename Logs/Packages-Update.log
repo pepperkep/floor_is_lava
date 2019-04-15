@@ -41,15 +41,7 @@ The following packages were added:
   com.unity.modules.vr@1.0.0
   com.unity.modules.wind@1.0.0
   com.unity.modules.xr@1.0.0
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-=== Mon Apr  8 23:04:01 2019
-=======
 === Sat Apr 13 14:01:36 2019
->>>>>>> LevelDesign
 
 Packages were changed.
 Update Mode: updateDependencies
@@ -57,5 +49,3 @@ Update Mode: updateDependencies
 The following packages were updated:
   com.unity.package-manager-ui from version 2.0.3 to 2.0.7
 =======
->>>>>>> parent of af8825f... Assets for level decoration that we can play around with
->>>>>>> Stashed changes
