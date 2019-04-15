@@ -150,3 +150,4 @@ MonoBehaviour:
   jumpVelocity: 10
   fallMultiplier: 1.8
   cutJumpSpeed: 2
+  canMove: 0
