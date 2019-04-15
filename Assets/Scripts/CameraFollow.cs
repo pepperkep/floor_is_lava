@@ -23,7 +23,7 @@ public class CameraFollow : MonoBehaviour
     {
         if(followTarget != null && (Math.Abs(transform.position.x - followTarget.position.x) > adjustDistance) && Math.Abs(velocityCheck.Velocity.x) != 0){
             Vector3 targetPosition = new Vector3(followTarget.position.x, transform.position.y, transform.position.z);
-            if((targetPosition.x > transform. position.x && velocityCheck.Velocity.x >= 0) || (targetPosition.x < transform. position.x && velocityCheck.Velocity.x <= 0))
+            if((targetPosition.x > transform.position.x && velocityCheck.Velocity.x >= 0) || (targetPosition.x < transform.position.x && velocityCheck.Velocity.x <= 0))
                 transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         }
         if(followTarget == null){
