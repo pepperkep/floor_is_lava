@@ -762,6 +762,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 388163185}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &388163193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388163187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f595b9900c839c45aa2d4dc92658e09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 591502943}
+  click: {fileID: 8300000, guid: ae0801339b90a41d58f3b568a9943510, type: 3}
 --- !u!1 &418312851
 GameObject:
   m_ObjectHideFlags: 0
@@ -1431,12 +1445,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &606575190 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1153890314090708666, guid: ef45bd7182eb44a2388772a89863a3bd,
-    type: 3}
-  m_PrefabInstance: {fileID: 388163185}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &681893712
 GameObject:
   m_ObjectHideFlags: 0
@@ -1464,9 +1472,7 @@ Transform:
   m_LocalPosition: {x: 15.454039, y: -5.1, z: -0.2809947}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-
   - {fileID: 388163186}
-
   - {fileID: 1021195073}
   - {fileID: 689960100}
   - {fileID: 461736958}
@@ -2218,26 +2224,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &980561346 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1153890314090708661, guid: ef45bd7182eb44a2388772a89863a3bd,
-    type: 3}
-  m_PrefabInstance: {fileID: 388163185}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &980561347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 980561346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f595b9900c839c45aa2d4dc92658e09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 591502943}
-  click: {fileID: 8300000, guid: ae0801339b90a41d58f3b568a9943510, type: 3}
 --- !u!4 &1018294814 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5285630602842591404, guid: 23fcc778d604060bea80e7b7f69050a8,
@@ -2356,9 +2342,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1086925362}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-
   m_LocalPosition: {x: 8.62, y: -0.8, z: 100}
-
   m_LocalScale: {x: 12.434528, y: 5.8873687, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2604,6 +2588,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 691354552736823801, guid: 79d233d8de37f42588cb0563a23e9e1b,
+        type: 3}
+      propertyPath: source
+      value: 
+      objectReference: {fileID: 551395982}
+    - target: {fileID: 691354552736823801, guid: 79d233d8de37f42588cb0563a23e9e1b,
+        type: 3}
+      propertyPath: gameOverCanvas
+      value: 
+      objectReference: {fileID: 2060518334}
+    - target: {fileID: 691354552736823801, guid: 79d233d8de37f42588cb0563a23e9e1b,
+        type: 3}
+      propertyPath: clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7e8fa89919521d84b8180dc811d7c545, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79d233d8de37f42588cb0563a23e9e1b, type: 3}
 --- !u!1 &1533052240 stripped
@@ -3817,8 +3816,26 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-
-
+    - target: {fileID: 7355431743629214245, guid: 37ec412821c199a368ad4dff26665658,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 515756306}
+    - target: {fileID: 7355431743629214245, guid: 37ec412821c199a368ad4dff26665658,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: playClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 7355431743629214245, guid: 37ec412821c199a368ad4dff26665658,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7355431743629214245, guid: 37ec412821c199a368ad4dff26665658,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2702661659989109392, guid: 37ec412821c199a368ad4dff26665658,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -3886,7 +3903,7 @@ PrefabInstance:
     - target: {fileID: 8392354394999334057, guid: ee1f384577fa13157b386b2e6abdc473,
         type: 3}
       propertyPath: targetObjects.Array.size
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8392354394999334057, guid: ee1f384577fa13157b386b2e6abdc473,
         type: 3}
@@ -3907,9 +3924,7 @@ PrefabInstance:
         type: 3}
       propertyPath: lava
       value: 
-
       objectReference: {fileID: 1799244793}
-
     - target: {fileID: 8392354394999334057, guid: ee1f384577fa13157b386b2e6abdc473,
         type: 3}
       propertyPath: floor
@@ -3994,9 +4009,7 @@ PrefabInstance:
         type: 3}
       propertyPath: targetObjects.Array.data[6]
       value: 
-
       objectReference: {fileID: 388163187}
-
     - target: {fileID: 8392354394999334057, guid: ee1f384577fa13157b386b2e6abdc473,
         type: 3}
       propertyPath: targetObjects.Array.data[7]
@@ -4006,7 +4019,7 @@ PrefabInstance:
         type: 3}
       propertyPath: targetObjects.Array.data[8]
       value: 
-      objectReference: {fileID: 980561346}
+      objectReference: {fileID: 1533052240}
     - target: {fileID: 8392354394999334058, guid: ee1f384577fa13157b386b2e6abdc473,
         type: 3}
       propertyPath: m_LocalPosition.x
