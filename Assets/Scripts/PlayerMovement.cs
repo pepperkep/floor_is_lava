@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpVelocity;
     [SerializeField] private float fallMultiplier;
     [SerializeField] private float cutJumpSpeed;
+    private Vector2 velocity = Vector2.zero;
 
     //Field for scene control
     public bool canMove = false;
@@ -27,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
         set => this.groundAcceleration = value;
     }
 
+    //Field for animator
+    public Animator animator;
     public float GroundDecceleration {
         get => this.groundDecceleration;
         set => this.groundDecceleration = value;
@@ -72,13 +75,12 @@ public class PlayerMovement : MonoBehaviour
         set => this.fallMultiplier = value;
     }
 
-    public Vector3 Velocity {
+    public Vector2 Velocity{
         get => this.velocity;
         set => this.velocity = value;
     }
 
     //Private movementData
-    private Vector2 velocity = Vector2.zero;
     private Vector2 targetVelocity = Vector2.zero;
     private Vector2 normal;
     private Rigidbody2D playerBody;
@@ -105,7 +107,8 @@ public class PlayerMovement : MonoBehaviour
     {
         playerBody = GetComponent<Rigidbody2D>();
         playerSprite = GetComponent<SpriteRenderer>();
-
+        animator = GetComponent<Animator>();
+        animator.SetBool("faceRight", true);
         contactLayer.useTriggers = false;
         contactLayer.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactLayer.useLayerMask = true;
@@ -115,6 +118,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (canMove)
         {
             //Get player input
@@ -122,15 +126,61 @@ public class PlayerMovement : MonoBehaviour
             Vector2 nextVelocity = this.velocity;
             if (isGrounded)
             {
+
+                if (playerIn < 0)
+                {
+                    animator.SetBool("faceRight", false);
+                    animator.SetBool("walkRight", false);
+                    animator.SetBool("walkLeft", true);
+                   
+                }
+
+                if (playerIn > 0)
+                {
+                    animator.SetBool("faceRight", true);
+                    animator.SetBool("walkRight", true);
+                    animator.SetBool("walkLeft", false);
+
+                }
+
+                if (playerIn == 0 && animator.GetBool("faceRight")) { 
+                animator.SetBool("walkRight", false);
+            }
+                if (playerIn == 0 && (animator.GetBool("faceRight")==false))
+                {
+                    animator.SetBool("walkLeft", false);
+                }
+
+               /* if (playerIn == 0 && animator.GetBool("walkLeft"))
+                {
+                    animator.SetBool("walkLeft", false);
+                    animator.SetBool("faceRight", false);
+                    animator.SetBool("walkRight", false);
+                }*/
+
+
                 if ((playerIn < 0 && nextVelocity.x > 0) || (playerIn > 0 && nextVelocity.x < 0))
                 {
-                    faceRight = !faceRight;
-                    nextVelocity.x = playerIn * GroundAcceleration * turnAroundMultiplier;
+                    if (playerIn == 0)
+                    {
+                       
+                        faceRight = !faceRight;
+                    }
+                    else
+                    {
+
+                        nextVelocity.x = playerIn * GroundAcceleration * turnAroundMultiplier;
+                    }
                 }
                 else
                 {
                     if (playerIn != 0)
-                        nextVelocity += playerIn * GroundAcceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
+                    {
+                    
+
+                       nextVelocity += playerIn * GroundAcceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
+
+                    }
                     else
                     {
                         if ((Vector2.Dot(nextVelocity, new Vector2(normal.y, -normal.x)) * new Vector2(normal.y, -normal.x)).magnitude < groundDecceleration)
