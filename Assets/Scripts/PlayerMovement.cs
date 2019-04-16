@@ -155,14 +155,6 @@ public class PlayerMovement : MonoBehaviour
                     animator.SetBool("walkLeft", false);
                 }
 
-                if (playerIn == 0 && animator.GetBool("walkLeft"))
-                {
-                    animator.SetBool("walkLeft", false);
-                    animator.SetBool("faceRight", false);
-                    animator.SetBool("walkRight", false);
-                }
-
-
                 if ((playerIn < 0 && nextVelocity.x > 0) || (playerIn > 0 && nextVelocity.x < 0))
                 {
                     if (playerIn == 0)
