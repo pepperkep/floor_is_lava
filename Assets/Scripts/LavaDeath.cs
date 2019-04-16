@@ -6,8 +6,6 @@ public class LavaDeath : MonoBehaviour
 {
     [SerializeField] private GameObject gameOverCanvas;
     BoxCollider2D m_ObjectCollider;
-    Collision myCol;
-    public Camera camera;
 
     // Start is called before the first frame update
     void Start()

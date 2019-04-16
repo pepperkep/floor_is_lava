@@ -16,6 +16,7 @@ public class LevelController : MonoBehaviour
     public GameObject floor;
     public GameObject player;
     public float lavaSizeMultiplier;
+    public int nextSceneBuildNumber;
     private WaterArea lavaArea;
     private Vector3 originalPlayerPosition;
     [SerializeField] private GameObject deathUI;
@@ -29,7 +30,8 @@ public class LevelController : MonoBehaviour
 
     public void EndLevel()
     {
-
+        if(nextSceneBuildNumber != -1)
+            SceneManager.LoadScene(nextSceneBuildNumber);
     }
 
     public void BeginLevel(bool restart){
@@ -107,7 +109,7 @@ public class LevelController : MonoBehaviour
 
     public void RestartLevel(bool toDragMode){
         if(toDragMode)
-            SceneManager.LoadScene("Level 1");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         else{
             player = (GameObject) Instantiate(playerPrefab);
             player.transform.position = originalPlayerPosition;
