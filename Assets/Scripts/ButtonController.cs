@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ButtonController : MonoBehaviour
 {
-    public GameObject obj;
+    public AudioClip click;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +19,6 @@ public class ButtonController : MonoBehaviour
 
     void OnMouseDown()
     {
-        obj.SendMessage("SetPlayMode");
+        SoundManager.manager.PlaySingle(click);
     }
 }

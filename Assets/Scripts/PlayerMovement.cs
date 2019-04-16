@@ -35,6 +35,10 @@ public class PlayerMovement : MonoBehaviour
         set => this.groundDecceleration = value;
     }
 
+    //Audio clips
+    public AudioClip clip1;
+    public AudioClip clip2;
+
     public float MaxSpeed {
         get => this.maxSpeed;
         set => this.maxSpeed = value;
@@ -100,6 +104,8 @@ public class PlayerMovement : MonoBehaviour
     private bool blockFromBelow = false;
     private GameObject standingPlat;
     private Vector3 oldPlatPlace;
+
+
 
 
     // Start is called before the first frame update
@@ -216,7 +222,6 @@ public class PlayerMovement : MonoBehaviour
                 {
                     nextVelocity.y = JumpVelocity;
                     bufferedJump = false;
-
                 }
             }
 
@@ -227,7 +232,6 @@ public class PlayerMovement : MonoBehaviour
                 if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0))
                 {
                     nextVelocity.y = JumpVelocity;
-
                     bufferedJump = false;
                 }
                 else
@@ -246,6 +250,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private string playSound(AudioClip clip)
+    {
+        SoundManager.manager.PlaySingle(clip);
+        return "";
+    }
 
     void FixedUpdate() {
 

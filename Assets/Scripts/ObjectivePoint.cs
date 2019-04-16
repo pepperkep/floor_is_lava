@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ObjectivePoint : MonoBehaviour
 {
+    public AudioClip clip;
 
     private bool isActive = false;
 
@@ -14,6 +15,7 @@ public class ObjectivePoint : MonoBehaviour
                 activeParticles.Play();
             else
             {
+                SoundManager.manager.PlaySingle(clip);
                 activeParticles.Stop();
             }
             isActive = value;
