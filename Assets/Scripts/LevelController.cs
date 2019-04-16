@@ -11,9 +11,10 @@ public class LevelController : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject deathUI;
 
-    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioSource sourceSFX;
+    [SerializeField] private AudioSource sourceMusic;
     [SerializeField] private AudioClip click;
-    [SerializeField] private AudioClip goal;
+    [SerializeField] private AudioClip music;
 
 
     private int currentObjective = 0;
@@ -40,8 +41,8 @@ public class LevelController : MonoBehaviour
     }
 
     public void BeginLevel(bool restart){
-        deathUI.SetActive(false);
 
+        deathUI.SetActive(false);
         lava.transform.position = floor.transform.position;
         this.lavaArea = lava.GetComponent<WaterArea>();
         lavaArea.size = new Vector2(floor.transform.localScale.x, floor.transform.localScale.y);
@@ -60,6 +61,8 @@ public class LevelController : MonoBehaviour
         objectiveList[currentObjective].IsActive = false;
         currentObjective = 0;
         objectiveList[currentObjective].IsActive = true;
+        sourceMusic.clip = music;
+        sourceMusic.Play();
     }
 
     // Start is called before the first frame update
@@ -162,8 +165,8 @@ public class LevelController : MonoBehaviour
     }
     public void playClick()
     {
-        source.clip = click;
-        source.Stop();
-        source.PlayOneShot(click);
+        sourceSFX.clip = click;
+        sourceSFX.Stop();
+        sourceSFX.PlayOneShot(click);
     }
 }

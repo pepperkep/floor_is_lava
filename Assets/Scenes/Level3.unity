@@ -596,6 +596,21 @@ PrefabInstance:
       propertyPath: click
       value: 
       objectReference: {fileID: 8300000, guid: ae0801339b90a41d58f3b568a9943510, type: 3}
+    - target: {fileID: 8392354394999334057, guid: ee1f384577fa13157b386b2e6abdc473,
+        type: 3}
+      propertyPath: sourceMusic
+      value: 
+      objectReference: {fileID: 449289052}
+    - target: {fileID: 8392354394999334057, guid: ee1f384577fa13157b386b2e6abdc473,
+        type: 3}
+      propertyPath: sourceSFX
+      value: 
+      objectReference: {fileID: 735185631}
+    - target: {fileID: 8392354394999334057, guid: ee1f384577fa13157b386b2e6abdc473,
+        type: 3}
+      propertyPath: music
+      value: 
+      objectReference: {fileID: 8300000, guid: 783acd052a2ce9147aa28c5dc76f53d3, type: 3}
     - target: {fileID: 8392354394999334058, guid: ee1f384577fa13157b386b2e6abdc473,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2035,8 +2050,8 @@ Transform:
   - {fileID: 1388379970}
   - {fileID: 1869428121}
   - {fileID: 1487823698}
-  - {fileID: 1393965313}
   - {fileID: 194486653}
+  - {fileID: 1393965313}
   - {fileID: 1616341149}
   - {fileID: 1299215503}
   - {fileID: 884461188}
