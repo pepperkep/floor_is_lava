@@ -16,6 +16,10 @@ public class LevelController : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject deathUI;
 
+    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioClip click;
+    [SerializeField] private AudioClip goal;
+
 
 
     private int currentObjective = 0;
@@ -165,6 +169,12 @@ public class LevelController : MonoBehaviour
             targetObjects[i].SendMessage("SetPlayMode");
         }
 
+    }
+    public void playClick()
+    {
+        source.clip = click;
+        source.Stop();
+        source.PlayOneShot(click);
     }
 
 }
