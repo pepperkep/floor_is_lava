@@ -2769,6 +2769,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 691354552736823801, guid: 79d233d8de37f42588cb0563a23e9e1b,
+        type: 3}
+      propertyPath: gameOverCanvas
+      value: 
+      objectReference: {fileID: 2060518334}
+    - target: {fileID: 691354552736823801, guid: 79d233d8de37f42588cb0563a23e9e1b,
+        type: 3}
+      propertyPath: source
+      value: 
+      objectReference: {fileID: 551395982}
+    - target: {fileID: 691354552736823801, guid: 79d233d8de37f42588cb0563a23e9e1b,
+        type: 3}
+      propertyPath: clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7e8fa89919521d84b8180dc811d7c545, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79d233d8de37f42588cb0563a23e9e1b, type: 3}
 --- !u!4 &1799244792 stripped
@@ -3056,6 +3071,26 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1153890314090708664, guid: 0a51635276c4d0a269d905039fb8ca50,
+        type: 3}
+      propertyPath: clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0516b318d71b9f84fb9c6b61af9136c8, type: 3}
+    - target: {fileID: 1153890314090708664, guid: 0a51635276c4d0a269d905039fb8ca50,
+        type: 3}
+      propertyPath: clip1
+      value: 
+      objectReference: {fileID: 8300000, guid: 0516b318d71b9f84fb9c6b61af9136c8, type: 3}
+    - target: {fileID: 1153890314090708664, guid: 0a51635276c4d0a269d905039fb8ca50,
+        type: 3}
+      propertyPath: jump
+      value: 
+      objectReference: {fileID: 8300000, guid: 0516b318d71b9f84fb9c6b61af9136c8, type: 3}
+    - target: {fileID: 1153890314090708664, guid: 0a51635276c4d0a269d905039fb8ca50,
+        type: 3}
+      propertyPath: source
+      value: 
+      objectReference: {fileID: 591502943}
     - target: {fileID: 1153890314090708667, guid: 0a51635276c4d0a269d905039fb8ca50,
         type: 3}
       propertyPath: m_Size.x
@@ -3077,26 +3112,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300008, guid: edbb9a4304247417e9ef8c94a5731148,
         type: 3}
-    - target: {fileID: 1153890314090708664, guid: 0a51635276c4d0a269d905039fb8ca50,
-        type: 3}
-      propertyPath: clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 0516b318d71b9f84fb9c6b61af9136c8, type: 3}
-    - target: {fileID: 1153890314090708664, guid: 0a51635276c4d0a269d905039fb8ca50,
-        type: 3}
-      propertyPath: clip1
-      value: 
-      objectReference: {fileID: 8300000, guid: 0516b318d71b9f84fb9c6b61af9136c8, type: 3}
-    - target: {fileID: 1153890314090708664, guid: 0a51635276c4d0a269d905039fb8ca50,
-        type: 3}
-      propertyPath: jump
-      value: 
-      objectReference: {fileID: 8300000, guid: 0516b318d71b9f84fb9c6b61af9136c8, type: 3}
-    - target: {fileID: 1153890314090708664, guid: 0a51635276c4d0a269d905039fb8ca50,
-        type: 3}
-      propertyPath: source
-      value: 
-      objectReference: {fileID: 591502943}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a51635276c4d0a269d905039fb8ca50, type: 3}
 --- !u!1 &1153890315029403668 stripped
@@ -3781,6 +3796,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0.6
       objectReference: {fileID: 0}
+    - target: {fileID: 2702661659989109392, guid: 37ec412821c199a368ad4dff26665658,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.7970009
+      objectReference: {fileID: 0}
+    - target: {fileID: 2702661659989109392, guid: 37ec412821c199a368ad4dff26665658,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.6750002
+      objectReference: {fileID: 0}
     - target: {fileID: 541701587881700358, guid: 37ec412821c199a368ad4dff26665658,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -3835,16 +3860,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 2702661659989109392, guid: 37ec412821c199a368ad4dff26665658,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.7970009
-      objectReference: {fileID: 0}
-    - target: {fileID: 2702661659989109392, guid: 37ec412821c199a368ad4dff26665658,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -1.6750002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37ec412821c199a368ad4dff26665658, type: 3}
