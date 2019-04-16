@@ -25,7 +25,6 @@ public class LevelController : MonoBehaviour
     public int nextSceneBuildNumber;
     private WaterArea lavaArea;
     private Vector3 originalPlayerPosition;
-    [SerializeField] private GameObject deathUI;
 
     public Camera PlayCamera;
     public Camera DragCamera;
