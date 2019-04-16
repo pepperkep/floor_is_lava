@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ObjectivePoint : MonoBehaviour
 {
-    [SerializeField] private AudioSource source;
-    [SerializeField] private AudioClip goal;
     private bool isActive = false;
 
     public bool IsActive{
@@ -44,8 +42,6 @@ public class ObjectivePoint : MonoBehaviour
         if (collision.gameObject.name == "Player")
         {
             IsActive = false;
-            source.clip = goal;
-            source.PlayOneShot(goal);
         }
     }
 }
