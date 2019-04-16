@@ -152,6 +152,7 @@ MonoBehaviour:
   fallMultiplier: 1.8
   cutJumpSpeed: 2
   canMove: 0
+<<<<<<< HEAD
   animator: {fileID: 0}
 --- !u!95 &1153890315029403674
 Animator:
@@ -172,3 +173,5 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+=======
+>>>>>>> bc28ab722dd83bb300009fa33f27b8bc579c5aa6

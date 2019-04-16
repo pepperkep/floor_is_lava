@@ -43,6 +43,7 @@ The following packages were added:
   com.unity.modules.xr@1.0.0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 === Mon Apr  8 23:04:01 2019
 =======
@@ -59,12 +60,17 @@ The following packages were added:
 =======
 === Sat Apr 13 14:01:36 2019
 >>>>>>> 49d5ea2f6ebecdf512088f007b91bb9452502d7f
+=======
+=== Sat Apr 13 14:01:36 2019
+
+>>>>>>> bc28ab722dd83bb300009fa33f27b8bc579c5aa6
 
 Packages were changed.
 Update Mode: updateDependencies
 
 The following packages were updated:
   com.unity.package-manager-ui from version 2.0.3 to 2.0.7
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 =======
@@ -74,3 +80,5 @@ The following packages were updated:
 >>>>>>> 1e345da57c4a6dd23619cfe54bada2be34134ac7
 =======
 >>>>>>> 49d5ea2f6ebecdf512088f007b91bb9452502d7f
+=======
+>>>>>>> bc28ab722dd83bb300009fa33f27b8bc579c5aa6
