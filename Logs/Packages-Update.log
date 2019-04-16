@@ -41,44 +41,18 @@ The following packages were added:
   com.unity.modules.vr@1.0.0
   com.unity.modules.wind@1.0.0
   com.unity.modules.xr@1.0.0
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+=== Sat Apr 13 14:01:36 2019
+=======
+
+=======
 
 === Mon Apr  8 23:04:01 2019
 =======
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-=== Mon Apr  8 23:04:01 2019
-=======
 === Sat Apr 13 14:01:36 2019
->>>>>>> LevelDesign
->>>>>>> 1e345da57c4a6dd23619cfe54bada2be34134ac7
 =======
-=== Sat Apr 13 14:01:36 2019
->>>>>>> 49d5ea2f6ebecdf512088f007b91bb9452502d7f
-=======
-=== Sat Apr 13 14:01:36 2019
-
->>>>>>> bc28ab722dd83bb300009fa33f27b8bc579c5aa6
 
 Packages were changed.
 Update Mode: updateDependencies
 
 The following packages were updated:
   com.unity.package-manager-ui from version 2.0.3 to 2.0.7
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
-<<<<<<< HEAD
->>>>>>> parent of af8825f... Assets for level decoration that we can play around with
->>>>>>> Stashed changes
->>>>>>> 1e345da57c4a6dd23619cfe54bada2be34134ac7
-=======
->>>>>>> 49d5ea2f6ebecdf512088f007b91bb9452502d7f
-=======
->>>>>>> bc28ab722dd83bb300009fa33f27b8bc579c5aa6

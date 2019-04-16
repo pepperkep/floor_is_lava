@@ -40,7 +40,6 @@ public class LevelController : MonoBehaviour
         lava.transform.position = floor.transform.position;
         this.lavaArea = lava.GetComponent<WaterArea>();
         lavaArea.size = new Vector2(floor.transform.localScale.x, floor.transform.localScale.y);
-        lavaLevel.transform.position = new Vector3(lava.transform.position.x - lavaArea.size.x / 2, lava.transform.position.y + lavaArea.size.y * lavaSizeMultiplier / 2, lava.transform.position.z);
         lava.SetActive(true);
         lavaLevel.SetActive(false);
         lavaArea.AdjustComponentSizes();
@@ -61,11 +60,20 @@ public class LevelController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        deathUI.SetActive(false);
-        floor.SetActive(true);
-        lava.SetActive(false);
         floor = GameObject.Find("Floor");
         player = GameObject.Find("Player");
+
+        lava.transform.position = floor.transform.position;
+        this.lavaArea = lava.GetComponent<WaterArea>();
+        lavaArea.size = new Vector2(floor.transform.localScale.x, floor.transform.localScale.y);
+        this.lavaArea = lava.GetComponent<WaterArea>();
+        lavaLevel = GameObject.Find("Lava line");
+        lavaLevel.SetActive(true);
+        lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier) / 2, lavaLevel.transform.position.z);
+
+        deathUI.SetActive(false);
+        floor.SetActive(true);  
+        lava.SetActive(false);
         
         originalPlayerPosition = player.transform.position;
         objectiveList[currentObjective].IsActive = true;
@@ -141,7 +149,7 @@ public class LevelController : MonoBehaviour
         playerScript.SetPlayMode();
         for (int i = 0; i < targetObjects.Length; i++)
         {
-            targetObjects[i].SendMessage("SetPlayMode");
+            targetObjects[i].SendMessage("SetPlayMode", null, SendMessageOptions.DontRequireReceiver);
         }
     }
 }
