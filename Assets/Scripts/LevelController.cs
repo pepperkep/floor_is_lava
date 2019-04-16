@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-
 public class LevelController : MonoBehaviour
 {
 
-
-
     [SerializeField] private ObjectivePoint[] objectiveList;
     [SerializeField] private GameObject lavaLevel;
-    [SerializeField] private GameObject Floor;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject deathUI;
 
@@ -21,31 +16,29 @@ public class LevelController : MonoBehaviour
     [SerializeField] private AudioClip goal;
 
 
-
     private int currentObjective = 0;
     private bool lavaSwitch = false;
     public GameObject lava;
     public GameObject floor;
     public GameObject player;
     public float lavaSizeMultiplier;
+    public int nextSceneBuildNumber;
     private WaterArea lavaArea;
+    private Vector3 originalPlayerPosition;
+    [SerializeField] private GameObject deathUI;
+
     public Camera PlayCamera;
     public Camera DragCamera;
     public GameObject[] targetObjects;
     public Rigidbody2D playerBody;
     public PlayerMovement playerScript;
     private bool dragMode;
-    private Vector3 originalPlayerPosition;
 
     public void EndLevel()
     {
-
-        Debug.Log("Level has begun!");
-
-
-
+        if(nextSceneBuildNumber != -1)
+            SceneManager.LoadScene(nextSceneBuildNumber);
     }
-
 
     public void BeginLevel(bool restart){
         deathUI.SetActive(false);
@@ -71,21 +64,13 @@ public class LevelController : MonoBehaviour
         objectiveList[currentObjective].IsActive = true;
     }
 
-
-
     // Start is called before the first frame update
-
     void Start()
-
     {
-
-        lavaArea = lava.GetComponent<WaterArea>();
-
+        deathUI.SetActive(false);
         floor.SetActive(true);
-
         lava.SetActive(false);
         floor = GameObject.Find("Floor");
-
         player = GameObject.Find("Player");
         
         originalPlayerPosition = player.transform.position;
@@ -98,12 +83,8 @@ public class LevelController : MonoBehaviour
         SetDragMode();
     }
 
-
-
     // Update is called once per frame
-
     void Update()
-
     {
         if (!dragMode && !lavaSwitch)
         {
@@ -134,7 +115,7 @@ public class LevelController : MonoBehaviour
 
     public void RestartLevel(bool toDragMode){
         if(toDragMode)
-            SceneManager.LoadScene("Level 1");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         else{
             player = (GameObject) Instantiate(playerPrefab);
             player.transform.position = originalPlayerPosition;
@@ -168,7 +149,6 @@ public class LevelController : MonoBehaviour
         {
             targetObjects[i].SendMessage("SetPlayMode");
         }
-
     }
     public void playClick()
     {
@@ -176,5 +156,4 @@ public class LevelController : MonoBehaviour
         source.Stop();
         source.PlayOneShot(click);
     }
-
 }
