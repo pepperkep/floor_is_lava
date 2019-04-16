@@ -42,7 +42,6 @@ public class Furniture : MonoBehaviour
     {
         NumberBalloons = this.transform.childCount;
     }
-
     void OnCollisionEnter2D(Collision2D myCol)
     {
         if (myCol.gameObject.name == "Balloon")

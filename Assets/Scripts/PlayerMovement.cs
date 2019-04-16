@@ -6,6 +6,8 @@ using System;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private AudioSource source;
+
 
     //Private movement fields
     [SerializeField] private float groundAcceleration;
@@ -18,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float fallMultiplier;
     [SerializeField] private float cutJumpSpeed;
     private Vector2 velocity = Vector2.zero;
+
+    [SerializeField] private AudioClip jump;
 
     //Field for scene control
     public bool canMove = false;
@@ -151,14 +155,6 @@ public class PlayerMovement : MonoBehaviour
                     animator.SetBool("walkLeft", false);
                 }
 
-               /* if (playerIn == 0 && animator.GetBool("walkLeft"))
-                {
-                    animator.SetBool("walkLeft", false);
-                    animator.SetBool("faceRight", false);
-                    animator.SetBool("walkRight", false);
-                }*/
-
-
                 if ((playerIn < 0 && nextVelocity.x > 0) || (playerIn > 0 && nextVelocity.x < 0))
                 {
                     if (playerIn == 0)
@@ -216,7 +212,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     nextVelocity.y = JumpVelocity;
                     bufferedJump = false;
-
+                    StartCoroutine(playSound(jump));
                 }
             }
 
@@ -338,6 +334,11 @@ public class PlayerMovement : MonoBehaviour
         canMove = true;
     }
         
-
+    IEnumerator playSound(AudioClip clip)
+    {
+        source.clip = clip;
+        source.PlayOneShot(clip);
+        yield return null;
+    }
 }
 

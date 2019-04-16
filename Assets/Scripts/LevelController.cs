@@ -9,6 +9,12 @@ public class LevelController : MonoBehaviour
     [SerializeField] private ObjectivePoint[] objectiveList;
     [SerializeField] private GameObject lavaLevel;
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject deathUI;
+
+    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioClip click;
+    [SerializeField] private AudioClip goal;
+
 
     private int currentObjective = 0;
     private bool lavaSwitch = false;
@@ -19,7 +25,6 @@ public class LevelController : MonoBehaviour
     public int nextSceneBuildNumber;
     private WaterArea lavaArea;
     private Vector3 originalPlayerPosition;
-    [SerializeField] private GameObject deathUI;
 
     public Camera PlayCamera;
     public Camera DragCamera;
@@ -151,5 +156,11 @@ public class LevelController : MonoBehaviour
         {
             targetObjects[i].SendMessage("SetPlayMode", null, SendMessageOptions.DontRequireReceiver);
         }
+    }
+    public void playClick()
+    {
+        source.clip = click;
+        source.Stop();
+        source.PlayOneShot(click);
     }
 }
