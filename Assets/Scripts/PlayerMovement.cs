@@ -6,6 +6,8 @@ using System;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private AudioSource source;
+
 
     //Private movement fields
     [SerializeField] private float groundAcceleration;
@@ -18,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float fallMultiplier;
     [SerializeField] private float cutJumpSpeed;
     private Vector2 velocity = Vector2.zero;
+
+    [SerializeField] private AudioClip jump;
 
     //Field for scene control
     public bool canMove = false;
@@ -34,10 +38,6 @@ public class PlayerMovement : MonoBehaviour
         get => this.groundDecceleration;
         set => this.groundDecceleration = value;
     }
-
-    //Audio clips
-    public AudioClip clip1;
-    public AudioClip clip2;
 
     public float MaxSpeed {
         get => this.maxSpeed;
@@ -104,8 +104,6 @@ public class PlayerMovement : MonoBehaviour
     private bool blockFromBelow = false;
     private GameObject standingPlat;
     private Vector3 oldPlatPlace;
-
-
 
 
     // Start is called before the first frame update
@@ -222,6 +220,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     nextVelocity.y = JumpVelocity;
                     bufferedJump = false;
+                    StartCoroutine(playSound(jump));
                 }
             }
 
@@ -232,6 +231,7 @@ public class PlayerMovement : MonoBehaviour
                 if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0))
                 {
                     nextVelocity.y = JumpVelocity;
+
                     bufferedJump = false;
                 }
                 else
@@ -250,11 +250,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private string playSound(AudioClip clip)
-    {
-        SoundManager.manager.PlaySingle(clip);
-        return "";
-    }
 
     void FixedUpdate() {
 
@@ -347,6 +342,11 @@ public class PlayerMovement : MonoBehaviour
         canMove = true;
     }
         
-
+    IEnumerator playSound(AudioClip clip)
+    {
+        source.clip = clip;
+        source.PlayOneShot(clip);
+        yield return null;
+    }
 }
 

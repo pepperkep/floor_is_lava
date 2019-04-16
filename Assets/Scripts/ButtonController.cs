@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ButtonController : MonoBehaviour
 {
-    public AudioClip click;
+    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioClip click;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,8 +18,18 @@ public class ButtonController : MonoBehaviour
         
     }
 
+
     void OnMouseDown()
     {
-        SoundManager.manager.PlaySingle(click);
+        source.clip = click;
+        source.Stop();
+        source.PlayOneShot(click);
+    }
+
+    void OnMouseUp()
+    {
+        source.clip = click;
+        source.Stop();
+        source.PlayOneShot(click);
     }
 }

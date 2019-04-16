@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class LavaDeath : MonoBehaviour
 {
+    public AudioSource source;
     [SerializeField] private GameObject gameOverCanvas;
     BoxCollider2D m_ObjectCollider;
     Collision myCol;
     public Camera camera;
-    public AudioClip clip;
+    [SerializeField] private AudioClip clip; 
+
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +33,10 @@ public class LavaDeath : MonoBehaviour
         {
             Destroy(myCol.gameObject);
             gameOverCanvas.SetActive(true);
-            SoundManager.manager.PlaySingle(clip);
+            source.Stop();
+            source.clip = clip;
+            source.loop = false;
+            source.PlayOneShot(clip);
         }
     }
 
