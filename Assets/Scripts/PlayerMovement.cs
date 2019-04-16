@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
     private float slopeNoGravityAngle = 40f;
     private float slopeIsWallAngle = 70f;
     private float distanceToGround = 0;
-    private float groundBufferDistance = 0.4f;
+    private float groundBufferDistance = 0.2f;
     private bool bufferedJump = false;
     private float groundTimer = 0f;
     private float leavePlatformJumpTolerance = 0.1f;
@@ -249,42 +249,44 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate() {
 
-        groundTimer += Time.fixedDeltaTime;
+        if(canMove){
+            groundTimer += Time.fixedDeltaTime;
 
-        //Determine distance to ground
-        int hitCount = playerBody.Cast(Gravity, contactLayer, collisionCheck, Gravity.magnitude);
-        float currentDistance = 0;
-        for (int i = 0; i < hitCount; i++) {
-            if (collisionCheck[i].distance > currentDistance)
-                currentDistance = collisionCheck[i].distance;
+            //Determine distance to ground
+            int hitCount = playerBody.Cast(Gravity, contactLayer, collisionCheck, Gravity.magnitude);
+            float currentDistance = 0;
+            for (int i = 0; i < hitCount; i++) {
+                if (collisionCheck[i].distance > currentDistance)
+                    currentDistance = collisionCheck[i].distance;
+            }
+            distanceToGround = currentDistance;
+
+            //Detect if player is grounded
+            if (Math.Abs(targetVelocity.x) < MaxSpeed)
+                this.velocity = this.targetVelocity;
+            else {
+                if (targetVelocity.x > 0)
+                    this.velocity = new Vector2(MaxSpeed, targetVelocity.y);
+                if (targetVelocity.x < 0)
+                    this.velocity = new Vector2(-MaxSpeed, targetVelocity.y);
+            }
+            Vector2 nextPosition;
+            if (isGrounded)
+                nextPosition = this.velocity * Time.fixedDeltaTime;
+            else
+                nextPosition = this.velocity * Time.fixedDeltaTime + 0.5f * this.Gravity * Time.fixedDeltaTime * Time.fixedDeltaTime;
+            Vector2 oldGravity = Gravity;
+            this.velocity += 0.5f * (Gravity + oldGravity) * Time.fixedDeltaTime;
+
+            if (velocity.y < Gravity.y / 10 || velocity.y > 0) {
+                blockFromBelow = false;
+                transform.parent = null;
+            }
+
+
+            //update player position
+            TryMove(nextPosition);
         }
-        distanceToGround = currentDistance;
-
-        //Detect if player is grounded
-        if (Math.Abs(targetVelocity.x) < MaxSpeed)
-            this.velocity = this.targetVelocity;
-        else {
-            if (targetVelocity.x > 0)
-                this.velocity = new Vector2(MaxSpeed, targetVelocity.y);
-            if (targetVelocity.x < 0)
-                this.velocity = new Vector2(-MaxSpeed, targetVelocity.y);
-        }
-        Vector2 nextPosition;
-        if (isGrounded)
-            nextPosition = this.velocity * Time.fixedDeltaTime;
-        else
-            nextPosition = this.velocity * Time.fixedDeltaTime + 0.5f * this.Gravity * Time.fixedDeltaTime * Time.fixedDeltaTime;
-        Vector2 oldGravity = Gravity;
-        this.velocity += 0.5f * (Gravity + oldGravity) * Time.fixedDeltaTime;
-
-        if (velocity.y < Gravity.y / 10 || velocity.y > 0) {
-            blockFromBelow = false;
-            transform.parent = null;
-        }
-
-
-        //update player position
-        TryMove(nextPosition);
     }
 
     void TryMove(Vector2 movement) {
