@@ -31,7 +31,7 @@ public class CameraFollow : MonoBehaviour
             if(player != null){
                 followTarget = player.transform;
                 velocityCheck = player.GetComponent<PlayerMovement>();
-                transform.position = new Vector3(followTarget.position.x, followTarget.position.y, transform.position.z);
+                transform.position = new Vector3(followTarget.position.x, transform.position.y, transform.position.z);
             }
         }
     }
