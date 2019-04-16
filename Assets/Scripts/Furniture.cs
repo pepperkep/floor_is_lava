@@ -86,7 +86,7 @@ public class Furniture : MonoBehaviour
     }
 
     public void OnLavaReset(){
-        if(doesFloat)
+        if(doesFloat && originalHeight != null)
             transform.position = new Vector3(transform.position.x, originalHeight, transform.position.z);
     }
 
