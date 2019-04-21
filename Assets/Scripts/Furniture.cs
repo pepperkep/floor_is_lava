@@ -42,7 +42,6 @@ public class Furniture : MonoBehaviour
     {
         NumberBalloons = this.transform.childCount;
     }
-
     void OnCollisionEnter2D(Collision2D myCol)
     {
         if (myCol.gameObject.name == "Balloon")
@@ -87,7 +86,7 @@ public class Furniture : MonoBehaviour
     }
 
     public void OnLavaReset(){
-        if(doesFloat)
+        if(doesFloat && originalHeight != null)
             transform.position = new Vector3(transform.position.x, originalHeight, transform.position.z);
     }
 

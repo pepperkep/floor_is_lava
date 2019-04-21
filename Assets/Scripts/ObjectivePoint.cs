@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ObjectivePoint : MonoBehaviour
 {
-
     private bool isActive = false;
 
     public bool IsActive{
@@ -40,7 +39,9 @@ public class ObjectivePoint : MonoBehaviour
     }
 
     void OnTriggerStay2D(Collider2D collision){
-        if(collision.gameObject.name == "Player")
+        if (collision.gameObject.name == "Player")
+        {
             IsActive = false;
+        }
     }
 }
