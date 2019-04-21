@@ -97,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
     private float slopeNoGravityAngle = 40f;
     private float slopeIsWallAngle = 70f;
     private float distanceToGround = 0;
-    private float groundBufferDistance = 0.2f;
+    private float groundBufferDistance = 0.05f;
     private bool bufferedJump = false;
     private float groundTimer = 0f;
     private float leavePlatformJumpTolerance = 0.1f;
@@ -117,6 +117,7 @@ public class PlayerMovement : MonoBehaviour
         contactLayer.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactLayer.useLayerMask = true;
         standingPlat = null;
+        source = GameObject.Find("SFXManager").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1153890314090708665}
   - component: {fileID: 6988621317852760192}
   - component: {fileID: 1653554305334153911}
+  - component: {fileID: 7469651911160814049}
   m_Layer: 0
   m_Name: Pillow
   m_TagString: Untagged
@@ -48,18 +49,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.016151726, y: -0.01211381}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.26, y: 0.15}
+    oldSize: {x: 1.04, y: 0.6}
     newSize: {x: 0.32, y: 0.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.18}
+  m_Size: {x: 0.89761424, y: 0.49495906}
   m_EdgeRadius: 0
 --- !u!50 &1153890314090708660
 Rigidbody2D:
@@ -159,3 +160,17 @@ MonoBehaviour:
   numberBalloons: 0
   doesFloat: 1
   destroyedOnLanding: 0
+--- !u!114 &7469651911160814049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153890314090708661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f595b9900c839c45aa2d4dc92658e09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 0}
+  click: {fileID: 8300000, guid: ae0801339b90a41d58f3b568a9943510, type: 3}
