@@ -2335,7 +2335,7 @@ PrefabInstance:
     - target: {fileID: 6058522019866033341, guid: 96b43174028cc1e7297f0d3c8072b185,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 110
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6058522019866033341, guid: 96b43174028cc1e7297f0d3c8072b185,
         type: 3}
@@ -2380,7 +2380,7 @@ PrefabInstance:
     - target: {fileID: 6058522019866033340, guid: 96b43174028cc1e7297f0d3c8072b185,
         type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 70
+      value: 65
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96b43174028cc1e7297f0d3c8072b185, type: 3}
@@ -5351,7 +5351,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727836539}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.81, y: 6.38, z: 5.21}
   m_LocalScale: {x: 38.157967, y: 20.228224, z: 1}
   m_Children: []
