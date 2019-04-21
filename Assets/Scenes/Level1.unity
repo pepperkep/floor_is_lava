@@ -1315,7 +1315,7 @@ GameObject:
   - component: {fileID: 591502944}
   - component: {fileID: 591502943}
   m_Layer: 0
-  m_Name: SFXManager
+  m_Name: SFX Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3126,6 +3126,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de38cf59220425e980de4369d18fae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!50 &1153890315029403671 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 1153890314090708660, guid: 0a51635276c4d0a269d905039fb8ca50,
+    type: 3}
+  m_PrefabInstance: {fileID: 1153890315029403667}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1153890315029403673 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1153890314090708666, guid: 0a51635276c4d0a269d905039fb8ca50,
@@ -4049,6 +4055,16 @@ PrefabInstance:
       propertyPath: targetObjects.Array.data[8]
       value: 
       objectReference: {fileID: 1533052240}
+    - target: {fileID: 8392354394999334057, guid: ee1f384577fa13157b386b2e6abdc473,
+        type: 3}
+      propertyPath: playerBody
+      value: 
+      objectReference: {fileID: 1153890315029403671}
+    - target: {fileID: 8392354394999334057, guid: ee1f384577fa13157b386b2e6abdc473,
+        type: 3}
+      propertyPath: playerScript
+      value: 
+      objectReference: {fileID: 1153890315029403669}
     - target: {fileID: 8392354394999334058, guid: ee1f384577fa13157b386b2e6abdc473,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -74,7 +74,7 @@ public class LevelController : MonoBehaviour
         this.lavaArea = lava.GetComponent<WaterArea>();
         lavaLevel = GameObject.Find("Lava line");
         lavaLevel.SetActive(true);
-        lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier) / 2, lavaLevel.transform.position.z);
+        lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier / 2) * lava.transform.localScale.y, lavaLevel.transform.position.z);
 
         deathUI.SetActive(false);
         floor.SetActive(true);  
@@ -109,7 +109,7 @@ public class LevelController : MonoBehaviour
                 currentObjective++;
                 objectiveList[currentObjective].IsActive = true;
                 for(int i = 0; i < targetObjects.Length; i++){
-                    targetObjects[i].SendMessage("OnLavaRise", lava.transform.position.y + lavaArea.size.y / 2, SendMessageOptions.DontRequireReceiver);
+                    targetObjects[i].SendMessage("OnLavaRise", lava.transform.position.y + (lavaArea.size.y / 2) * lava.transform.localScale.y, SendMessageOptions.DontRequireReceiver);
                 }
             }
 

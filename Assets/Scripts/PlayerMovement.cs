@@ -117,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
         contactLayer.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactLayer.useLayerMask = true;
         standingPlat = null;
-        source = GameObject.Find("SFXManager").GetComponent<AudioSource>();
+        source = GameObject.Find("SFX Manager").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
