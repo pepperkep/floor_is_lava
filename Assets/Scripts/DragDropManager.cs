@@ -51,19 +51,21 @@ public class DragDropManager : MonoBehaviour
             obj = "Floor";
         else
             obj = "Floor1";
-        if (canDrag && collisionCheck[0] != null)
+        if (canDrag)
         {
             int hitNum = platformBody.Cast(Vector2.down, collisionCheck, floorCheckDistance);
-            bool foundFloor = false;
-            if (collisionCheck[0].transform.name == obj && collisionCheck[0].distance != 0)
-            {
-                transform.position = new Vector3(transform.position.x, transform.position.y - collisionCheck[0].distance, transform.position.z);
-                foundFloor = true; 
+            if(collisionCheck[0] != null && collisionCheck[0].transform != null){
+                bool foundFloor = false;
+                if (collisionCheck[0].transform.name == obj && collisionCheck[0].distance != 0)
+                {
+                    transform.position = new Vector3(transform.position.x, transform.position.y - collisionCheck[0].distance, transform.position.z);
+                    foundFloor = true; 
+                }
+                if (!foundFloor){
+                    transform.position = originalPosition;
+                }
+                isGrounded = foundFloor;
             }
-            if (!foundFloor){
-                transform.position = originalPosition;
-            }
-            isGrounded = foundFloor;
         }
     }
 
