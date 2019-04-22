@@ -104,6 +104,7 @@ public class PlayerMovement : MonoBehaviour
     private bool blockFromBelow = false;
     private GameObject standingPlat;
     private Vector3 oldPlatPlace;
+    private bool justJumped = false;
 
 
     // Start is called before the first frame update
@@ -203,13 +204,17 @@ public class PlayerMovement : MonoBehaviour
             }
 
             //Detect for Jump input
-            if ((Input.GetButtonDown("Jump") || bufferedJump))
+            if (Input.GetButtonDown("Jump") || bufferedJump || justJumped)
             {
-                if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0))
+                if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0) || justJumped)
                 {
                     nextVelocity.y = JumpVelocity;
                     StartCoroutine(playSound(jump));
                     bufferedJump = false;
+                    if(!justJumped)
+                        justJumped = true;
+                    else
+                        justJumped = false;
                 }
                 else
                 {
@@ -290,7 +295,7 @@ public class PlayerMovement : MonoBehaviour
                     Vector2 moveInWall = Vector2.Dot(movement, currentNormal) * currentNormal;
                     movement -= moveInWall - collisionDist * moveInWall.normalized;
                 }
-                if (Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle && (isGrounded || collisionDist != 0)){
+                if (Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle && (isGrounded || collisionDist != 0) ){
                     findGround = true;
                     normal = currentNormal; 
                     groundTimer = 0f;
