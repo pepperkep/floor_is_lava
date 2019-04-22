@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1153890314090708660}
   - component: {fileID: 1153890314090708665}
   - component: {fileID: 1728725630176507440}
+  - component: {fileID: 3014293234018044222}
   m_Layer: 0
   m_Name: Balloon
   m_TagString: Untagged
@@ -141,8 +142,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4768b8df167b4965bef0e7fdd20549a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  furniture: {fileID: 0}
-  furnitureScript: {fileID: 0}
   canDrag: 1
   moveBalloon: 0
   floor: {fileID: 0}
+--- !u!114 &3014293234018044222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153890314090708661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f595b9900c839c45aa2d4dc92658e09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  source: {fileID: 0}
+  click: {fileID: 8300000, guid: ae0801339b90a41d58f3b568a9943510, type: 3}

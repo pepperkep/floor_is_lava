@@ -82,7 +82,7 @@ public class LevelController : MonoBehaviour
         this.lavaArea = lava.GetComponent<WaterArea>();
         lavaLevel = GameObject.Find("Lava line");
         lavaLevel.SetActive(true);
-        lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier) / 2, lavaLevel.transform.position.z);
+        lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier / 2) * lava.transform.localScale.y, lavaLevel.transform.position.z);
 
         deathUI.SetActive(false);
         settingsUI.SetActive(false);
@@ -123,7 +123,7 @@ public class LevelController : MonoBehaviour
                 currentObjective++;
                 objectiveList[currentObjective].IsActive = true;
                 for(int i = 0; i < targetObjects.Length; i++){
-                    targetObjects[i].SendMessage("OnLavaRise", lava.transform.position.y + lavaArea.size.y / 2, SendMessageOptions.DontRequireReceiver);
+                    targetObjects[i].SendMessage("OnLavaRise", lava.transform.position.y + (lavaArea.size.y / 2) * lava.transform.localScale.y, SendMessageOptions.DontRequireReceiver);
                 }
             }
 
@@ -154,7 +154,9 @@ public class LevelController : MonoBehaviour
     {
         dragMode = true;
         PlayCamera.enabled = false;
+        PlayCamera.gameObject.SetActive(false);
         DragCamera.enabled = true;
+        DragCamera.gameObject.SetActive(true);
         playerScript.SetDragMode();
         for (int i = 0; i < targetObjects.Length; i++)
         {
@@ -167,7 +169,9 @@ public class LevelController : MonoBehaviour
     {
         dragMode = false;
         PlayCamera.enabled = true;
+        PlayCamera.gameObject.SetActive(true);
         DragCamera.enabled = false;
+        DragCamera.gameObject.SetActive(false);
         playerScript.SetPlayMode();
         for (int i = 0; i < targetObjects.Length; i++)
         {

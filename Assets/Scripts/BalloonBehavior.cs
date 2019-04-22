@@ -101,9 +101,9 @@ public class BalloonBehavior : MonoBehaviour
                 this.transform.position = new Vector3(myCol.transform.position.x, myCol.transform.position.y + myCol.collider.bounds.size.y / 1.2f, 0);
             else{
                 if(balloonNumber % 2 == 0)
-                    this.transform.position = new Vector3(myCol.transform.position.x - myCol.collider.bounds.size.x * (balloonNumber / 2) / spacingAmount, myCol.transform.position.y + myCol.collider.bounds.size.y / 1.2f, 0);
+                    this.transform.position = new Vector3(myCol.transform.position.x - myCol.collider.bounds.size.x * (balloonNumber / 2) / spacingAmount, myCol.transform.position.y + myCol.collider.bounds.size.y / 1.2f, transform.position.z);
                 else
-                    this.transform.position = new Vector3(myCol.transform.position.x + myCol.collider.bounds.size.x * (balloonNumber / 2) / spacingAmount, myCol.transform.position.y + myCol.collider.bounds.size.y / 1.2f, 0);
+                    this.transform.position = new Vector3(myCol.transform.position.x + myCol.collider.bounds.size.x * (balloonNumber / 2) / spacingAmount, myCol.transform.position.y + myCol.collider.bounds.size.y / 1.2f, transform.position.z);
             }    
             setPosition = true;
         }
