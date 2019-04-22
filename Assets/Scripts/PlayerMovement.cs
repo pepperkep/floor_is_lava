@@ -226,8 +226,6 @@ public class PlayerMovement : MonoBehaviour
                 nextVelocity.y = cutJumpSpeed;
 
             targetVelocity = nextVelocity;
-
-            Debug.Log(isGrounded);
         }
     }
 
@@ -235,6 +233,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate() {
 
         if(canMove){
+            Debug.Log(groundCheckPass);
             groundTimer += Time.fixedDeltaTime;
 
             //Determine distance to ground
@@ -295,29 +294,28 @@ public class PlayerMovement : MonoBehaviour
                     Vector2 moveInWall = Vector2.Dot(movement, currentNormal) * currentNormal;
                     movement -= moveInWall - collisionDist * moveInWall.normalized;
                 }
-                if (Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle && (isGrounded || collisionDist != 0 || groundCheckPass) && !(justJumped && isGrounded)){
+                if (Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle && (isGrounded || collisionDist != 0 || groundCheckPass) && !justJumped){
                     findGround = true;
                     normal = currentNormal; 
                     groundTimer = 0f;
                     newPlat = collisionCheck[i].transform.gameObject;
-                    groundCheckPass = false;
                 }
-                if(justJumped && isGrounded)
-                    groundCheckPass = true;
+                if(groundCheckPass && !justJumped)
+                    groundCheckPass = false;
+                else{
+                    if(justJumped)
+                        groundCheckPass = true;
+                }
             }
         }
-
         if (standingPlat != newPlat || isGrounded) {
             standingPlat = newPlat;
             oldPlatPlace = standingPlat.transform.position;
             standingPlat.SendMessage("PlatformTrigger", null, SendMessageOptions.DontRequireReceiver);
         }
-        if(justJumped && !isGrounded){
+        if(justJumped){
             justJumped = false;
-            groundCheckPass = false;
         }
-        if(isGrounded)
-            groundCheckPass = false;
         Vector2 finalPosition = movement + playerBody.position;
         this.isGrounded = findGround;
         playerBody.MovePosition(finalPosition);
