@@ -140,7 +140,9 @@ public class LevelController : MonoBehaviour
     {
         dragMode = true;
         PlayCamera.enabled = false;
+        PlayCamera.gameObject.SetActive(false);
         DragCamera.enabled = true;
+        DragCamera.gameObject.SetActive(true);
         playerScript.SetDragMode();
         for (int i = 0; i < targetObjects.Length; i++)
         {
@@ -153,7 +155,9 @@ public class LevelController : MonoBehaviour
     {
         dragMode = false;
         PlayCamera.enabled = true;
+        PlayCamera.gameObject.SetActive(true);
         DragCamera.enabled = false;
+        DragCamera.gameObject.SetActive(false);
         playerScript.SetPlayMode();
         for (int i = 0; i < targetObjects.Length; i++)
         {
