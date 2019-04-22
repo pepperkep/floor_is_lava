@@ -97,13 +97,14 @@ public class PlayerMovement : MonoBehaviour
     private float slopeNoGravityAngle = 40f;
     private float slopeIsWallAngle = 70f;
     private float distanceToGround = 0;
-    private float groundBufferDistance = 0.05f;
+    private float groundBufferDistance = 0.2f;
     private bool bufferedJump = false;
     private float groundTimer = 0f;
     private float leavePlatformJumpTolerance = 0.1f;
     private bool blockFromBelow = false;
     private GameObject standingPlat;
     private Vector3 oldPlatPlace;
+    private bool canJump;
 
 
     // Start is called before the first frame update
@@ -117,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
         contactLayer.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactLayer.useLayerMask = true;
         standingPlat = null;
-        source = GameObject.Find("SFX Manager").GetComponent<AudioSource>();
+        canJump = true;
     }
 
     // Update is called once per frame
@@ -206,25 +207,15 @@ public class PlayerMovement : MonoBehaviour
                     nextVelocity.x += AirAcceleration * Time.deltaTime;
             }
 
-            //Detect for Jump input
-            if ((Input.GetButton("Jump") || bufferedJump))
-            {
-                if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0))
-                {
-                    nextVelocity.y = JumpVelocity;
-                    bufferedJump = false;
-                    StartCoroutine(playSound(jump));
-                }
-            }
-
+            Debug.Log(canJump);
 
             //Detect for Jump input
             if ((Input.GetButton("Jump") || bufferedJump))
             {
-                if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0))
+                if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0) && canJump   )
                 {
                     nextVelocity.y = JumpVelocity;
-
+                    canJump = false;
                     bufferedJump = false;
                 }
                 else
@@ -234,8 +225,11 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-            if (Input.GetButtonUp("Jump") && nextVelocity.y > cutJumpSpeed)
-                nextVelocity.y = cutJumpSpeed;
+            if (Input.GetButtonUp("Jump")){
+                canJump = true;
+                if(nextVelocity.y > cutJumpSpeed)
+                    nextVelocity.y = cutJumpSpeed;
+            }
 
             targetVelocity = nextVelocity;
 
