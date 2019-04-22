@@ -97,14 +97,15 @@ public class PlayerMovement : MonoBehaviour
     private float slopeNoGravityAngle = 40f;
     private float slopeIsWallAngle = 70f;
     private float distanceToGround = 0;
-    private float groundBufferDistance = 0.2f;
+    private float groundBufferDistance = 0.4f;
     private bool bufferedJump = false;
     private float groundTimer = 0f;
     private float leavePlatformJumpTolerance = 0.1f;
     private bool blockFromBelow = false;
     private GameObject standingPlat;
     private Vector3 oldPlatPlace;
-    private bool canJump;
+    private bool justJumped = false;
+    private bool groundCheckPass = false;
 
 
     // Start is called before the first frame update
@@ -118,7 +119,6 @@ public class PlayerMovement : MonoBehaviour
         contactLayer.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactLayer.useLayerMask = true;
         standingPlat = null;
-        canJump = true;
     }
 
     // Update is called once per frame
@@ -160,8 +160,7 @@ public class PlayerMovement : MonoBehaviour
                 if ((playerIn < 0 && nextVelocity.x > 0) || (playerIn > 0 && nextVelocity.x < 0))
                 {
                     if (playerIn == 0)
-                    {
-                       
+                    {  
                         faceRight = !faceRight;
                     }
                     else
@@ -174,8 +173,6 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if (playerIn != 0)
                     {
-                    
-
                        nextVelocity += playerIn * GroundAcceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
 
                     }
@@ -207,33 +204,30 @@ public class PlayerMovement : MonoBehaviour
                     nextVelocity.x += AirAcceleration * Time.deltaTime;
             }
 
-            Debug.Log(canJump);
-
             //Detect for Jump input
-            if ((Input.GetButton("Jump") || bufferedJump))
+            if ((Input.GetButtonDown("Jump") || bufferedJump))
             {
-                if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0) && canJump   )
+                if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0))
                 {
                     nextVelocity.y = JumpVelocity;
-                    canJump = false;
+                    StartCoroutine(playSound(jump));
                     bufferedJump = false;
+                    justJumped = true;
                 }
                 else
                 {
-                    if (distanceToGround < groundBufferDistance && velocity.y < 0)
+                    if (distanceToGround < groundBufferDistance && velocity.y < 0){
                         bufferedJump = true;
+                    }
                 }
             }
 
-            if (Input.GetButtonUp("Jump")){
-                canJump = true;
-                if(nextVelocity.y > cutJumpSpeed)
-                    nextVelocity.y = cutJumpSpeed;
-            }
+            if (Input.GetButtonUp("Jump") && nextVelocity.y > cutJumpSpeed)
+                nextVelocity.y = cutJumpSpeed;
 
             targetVelocity = nextVelocity;
 
-
+            Debug.Log(isGrounded);
         }
     }
 
@@ -301,12 +295,15 @@ public class PlayerMovement : MonoBehaviour
                     Vector2 moveInWall = Vector2.Dot(movement, currentNormal) * currentNormal;
                     movement -= moveInWall - collisionDist * moveInWall.normalized;
                 }
-                if (Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle && (isGrounded || collisionDist != 0)) {
+                if (Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle && (isGrounded || collisionDist != 0 || groundCheckPass) && !(justJumped && isGrounded)){
                     findGround = true;
-                    normal = currentNormal;
+                    normal = currentNormal; 
                     groundTimer = 0f;
                     newPlat = collisionCheck[i].transform.gameObject;
+                    groundCheckPass = false;
                 }
+                if(justJumped && isGrounded)
+                    groundCheckPass = true;
             }
         }
 
@@ -315,6 +312,12 @@ public class PlayerMovement : MonoBehaviour
             oldPlatPlace = standingPlat.transform.position;
             standingPlat.SendMessage("PlatformTrigger", null, SendMessageOptions.DontRequireReceiver);
         }
+        if(justJumped && !isGrounded){
+            justJumped = false;
+            groundCheckPass = false;
+        }
+        if(isGrounded)
+            groundCheckPass = false;
         Vector2 finalPosition = movement + playerBody.position;
         this.isGrounded = findGround;
         playerBody.MovePosition(finalPosition);
