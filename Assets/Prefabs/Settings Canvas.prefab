@@ -504,13 +504,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d0dc23768161e044a29bedc5116513a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sliderMusic: {fileID: 632037111}
-  sliderSFX: {fileID: 1674456979}
+  sliderMusic: {fileID: 0}
+  sliderSFX: {fileID: 0}
   sourceSFX: {fileID: 0}
   sourceMusic: {fileID: 0}
-  settingsCanvas: {fileID: 294151413}
-  hudCanvas: {fileID: 2430793839525909909, guid: b8ccd95473124c94cb42f14f5d04c428,
-    type: 3}
+  settingsCanvas: {fileID: 0}
+  hudCanvas: {fileID: 0}
 --- !u!1 &632037109
 GameObject:
   m_ObjectHideFlags: 0
