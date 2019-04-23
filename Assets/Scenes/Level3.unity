@@ -925,6 +925,16 @@ PrefabInstance:
       propertyPath: music
       value: 
       objectReference: {fileID: 8300000, guid: 783acd052a2ce9147aa28c5dc76f53d3, type: 3}
+    - target: {fileID: 8392354394999334057, guid: ee1f384577fa13157b386b2e6abdc473,
+        type: 3}
+      propertyPath: settingsUI
+      value: 
+      objectReference: {fileID: 514520903}
+    - target: {fileID: 8392354394999334057, guid: ee1f384577fa13157b386b2e6abdc473,
+        type: 3}
+      propertyPath: hudUI
+      value: 
+      objectReference: {fileID: 1724896442}
     - target: {fileID: 8392354394999334058, guid: ee1f384577fa13157b386b2e6abdc473,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1280,6 +1290,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   source: {fileID: 735185631}
   click: {fileID: 8300000, guid: ae0801339b90a41d58f3b568a9943510, type: 3}
+--- !u!1 &514520903 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 294151413, guid: 3ec7e2c6b471aa74ca1c864c83a6f145,
+    type: 3}
+  m_PrefabInstance: {fileID: 857972953}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &533723938 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5285630602842591405, guid: 23fcc778d604060bea80e7b7f69050a8,
@@ -1767,6 +1783,10 @@ PrefabInstance:
       propertyPath: sourceSFX
       value: 
       objectReference: {fileID: 735185631}
+    - target: {fileID: 294151414, guid: 3ec7e2c6b471aa74ca1c864c83a6f145, type: 3}
+      propertyPath: hudCanvas
+      value: 
+      objectReference: {fileID: 1724896442}
     - target: {fileID: 5362948090147920848, guid: 3ec7e2c6b471aa74ca1c864c83a6f145,
         type: 3}
       propertyPath: m_havePropertiesChanged
@@ -1838,6 +1858,22 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 810973236, guid: 3ec7e2c6b471aa74ca1c864c83a6f145, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 857972956}
+    - target: {fileID: 810973236, guid: 3ec7e2c6b471aa74ca1c864c83a6f145, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Close
+      objectReference: {fileID: 0}
+    - target: {fileID: 810973236, guid: 3ec7e2c6b471aa74ca1c864c83a6f145, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2052966064}
+    - target: {fileID: 810973236, guid: 3ec7e2c6b471aa74ca1c864c83a6f145, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: playClick
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ec7e2c6b471aa74ca1c864c83a6f145, type: 3}
 --- !u!224 &857972954 stripped
@@ -1856,6 +1892,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &857972956 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 294151414, guid: 3ec7e2c6b471aa74ca1c864c83a6f145,
+    type: 3}
+  m_PrefabInstance: {fileID: 857972953}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 514520903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d0dc23768161e044a29bedc5116513a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &884461187
@@ -3011,6 +3059,11 @@ PrefabInstance:
       propertyPath: clip
       value: 
       objectReference: {fileID: 8300000, guid: 7e8fa89919521d84b8180dc811d7c545, type: 3}
+    - target: {fileID: 962120553222144158, guid: f920b413cf71373dea6f04a157a77dd2,
+        type: 3}
+      propertyPath: hudCanvas
+      value: 
+      objectReference: {fileID: 1724896442}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f920b413cf71373dea6f04a157a77dd2, type: 3}
 --- !u!4 &1299215503 stripped
@@ -4100,6 +4153,11 @@ PrefabInstance:
       propertyPath: gameOverCanvas
       value: 
       objectReference: {fileID: 1764069320}
+    - target: {fileID: 962120553222144158, guid: f920b413cf71373dea6f04a157a77dd2,
+        type: 3}
+      propertyPath: hudCanvas
+      value: 
+      objectReference: {fileID: 1724896442}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f920b413cf71373dea6f04a157a77dd2, type: 3}
 --- !u!4 &1616341149 stripped
@@ -4323,6 +4381,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2430793840195117225, guid: b8ccd95473124c94cb42f14f5d04c428,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2052966064}
+    - target: {fileID: 2430793840195117225, guid: b8ccd95473124c94cb42f14f5d04c428,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: playClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 2430793840195117225, guid: b8ccd95473124c94cb42f14f5d04c428,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 857972956}
+    - target: {fileID: 2430793840195117225, guid: b8ccd95473124c94cb42f14f5d04c428,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Open
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8ccd95473124c94cb42f14f5d04c428, type: 3}
