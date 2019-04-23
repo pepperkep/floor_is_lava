@@ -10,12 +10,10 @@ public class LevelController : MonoBehaviour
     [SerializeField] private GameObject lavaLevel;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject deathUI;
-    [SerializeField] private GameObject settingsUI;
-    [SerializeField] private GameObject hudUI;
 
-    [SerializeField] private AudioSource sourceSFX;
-    [SerializeField] private AudioSource sourceMusic;
+    [SerializeField] private AudioSource source;
     [SerializeField] private AudioClip click;
+    [SerializeField] private AudioClip goal;
     [SerializeField] private AudioClip music;
 
 
@@ -35,6 +33,8 @@ public class LevelController : MonoBehaviour
     public Rigidbody2D playerBody;
     public PlayerMovement playerScript;
     private bool dragMode;
+    private AudioSource sourceMusic;
+
 
     public void EndLevel()
     {
@@ -42,11 +42,14 @@ public class LevelController : MonoBehaviour
             SceneManager.LoadScene(nextSceneBuildNumber);
     }
 
+<<<<<<< HEAD
     public void BeginLevel(bool restart)
     {
         settingsUI.SetActive(false);
+=======
+    public void BeginLevel(bool restart){
+>>>>>>> 1a8721f696b56f7c724f8528d26fbf066ce6f57f
         deathUI.SetActive(false);
-        hudUI.SetActive(true);
 
         lava.transform.position = floor.transform.position;
         this.lavaArea = lava.GetComponent<WaterArea>();
@@ -57,9 +60,15 @@ public class LevelController : MonoBehaviour
         lavaArea.RecomputeMesh();
         floor.SetActive(false);
 
+<<<<<<< HEAD
         for (int i = 0; i < targetObjects.Length; i++)
         {
             if (restart)
+=======
+
+        for(int i = 0; i < targetObjects.Length; i++){
+            if(restart)
+>>>>>>> 1a8721f696b56f7c724f8528d26fbf066ce6f57f
                 targetObjects[i].SendMessage("OnLavaReset", null, SendMessageOptions.DontRequireReceiver);
             targetObjects[i].SetActive(true);
         }
@@ -67,9 +76,6 @@ public class LevelController : MonoBehaviour
         objectiveList[currentObjective].IsActive = false;
         currentObjective = 0;
         objectiveList[currentObjective].IsActive = true;
-        sourceMusic.clip = music;
-        sourceMusic.loop = true;
-        sourceMusic.Play();
     }
 
     // Start is called before the first frame update
@@ -87,15 +93,15 @@ public class LevelController : MonoBehaviour
         lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier / 2) * lava.transform.localScale.y, lavaLevel.transform.position.z);
 
         deathUI.SetActive(false);
+<<<<<<< HEAD
         settingsUI.SetActive(false);
         hudUI.SetActive(true);
         floor.SetActive(true);
+=======
+        floor.SetActive(true);  
+>>>>>>> 1a8721f696b56f7c724f8528d26fbf066ce6f57f
         lava.SetActive(false);
-
-        sourceMusic.clip = music;
-        sourceMusic.loop = true;
-        sourceMusic.Play();
-
+        
         originalPlayerPosition = player.transform.position;
         objectiveList[currentObjective].IsActive = true;
 
@@ -137,6 +143,7 @@ public class LevelController : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
     public void RestartLevel(bool toDragMode)
     {
         if (toDragMode)
@@ -153,6 +160,20 @@ public class LevelController : MonoBehaviour
             else
                 BeginLevel(false);
         }
+=======
+    public void RestartLevel(bool toDragMode){
+        player = (GameObject) Instantiate(playerPrefab);
+        player.transform.position = originalPlayerPosition;
+        player.name = "Player";
+        PlayerMovement playerProperties = player.GetComponent<PlayerMovement>();
+        playerProperties.canMove = true;
+        if(currentObjective > 0)
+            BeginLevel(true);
+        else
+            BeginLevel(false);
+        if(toDragMode)
+            SetDragMode();
+>>>>>>> 1a8721f696b56f7c724f8528d26fbf066ce6f57f
     }
 
     public void SetDragMode()
@@ -183,10 +204,11 @@ public class LevelController : MonoBehaviour
             targetObjects[i].SendMessage("SetPlayMode", null, SendMessageOptions.DontRequireReceiver);
         }
     }
+<<<<<<< HEAD
 
     public void Exit()
     {
-        Application.Quit();
+        SceneManager.LoadScene(0);
     }
 
     public void playClick()
@@ -200,5 +222,12 @@ public class LevelController : MonoBehaviour
         sourceSFX.Stop();
         sourceSFX.PlayOneShot(click);
         sourceSFX.volume = vol;
+=======
+    public void playClick()
+    {
+        source.clip = click;
+        source.Stop();
+        source.PlayOneShot(click);
+>>>>>>> 1a8721f696b56f7c724f8528d26fbf066ce6f57f
     }
 }
