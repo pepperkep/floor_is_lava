@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de38cf59220425e980de4369d18fae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  source: {fileID: 0}
   groundAcceleration: 18
   groundDecceleration: 24
   maxSpeed: 3.6
@@ -151,6 +152,7 @@ MonoBehaviour:
   jumpVelocity: 10
   fallMultiplier: 1.8
   cutJumpSpeed: 2
+  jump: {fileID: 8300000, guid: 0516b318d71b9f84fb9c6b61af9136c8, type: 3}
   canMove: 0
   animator: {fileID: 0}
 --- !u!95 &1153890315029403674

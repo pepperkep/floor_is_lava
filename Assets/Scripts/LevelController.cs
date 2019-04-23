@@ -40,8 +40,12 @@ public class LevelController : MonoBehaviour
     }
 
     public void BeginLevel(bool restart){
+<<<<<<< HEAD
         deathUI.SetActive(false);
+=======
+>>>>>>> parent of 6cfe4db... Added settings GUI
 
+        deathUI.SetActive(false);
         lava.transform.position = floor.transform.position;
         this.lavaArea = lava.GetComponent<WaterArea>();
         lavaArea.size = new Vector2(floor.transform.localScale.x, floor.transform.localScale.y);
@@ -60,6 +64,11 @@ public class LevelController : MonoBehaviour
         objectiveList[currentObjective].IsActive = false;
         currentObjective = 0;
         objectiveList[currentObjective].IsActive = true;
+<<<<<<< HEAD
+=======
+        sourceMusic.clip = music;
+        sourceMusic.Play();
+>>>>>>> parent of 6cfe4db... Added settings GUI
     }
 
     // Start is called before the first frame update
@@ -74,7 +83,7 @@ public class LevelController : MonoBehaviour
         this.lavaArea = lava.GetComponent<WaterArea>();
         lavaLevel = GameObject.Find("Lava line");
         lavaLevel.SetActive(true);
-        lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier) / 2, lavaLevel.transform.position.z);
+        lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier / 2) * lava.transform.localScale.y, lavaLevel.transform.position.z);
 
         deathUI.SetActive(false);
         floor.SetActive(true);  
@@ -109,7 +118,7 @@ public class LevelController : MonoBehaviour
                 currentObjective++;
                 objectiveList[currentObjective].IsActive = true;
                 for(int i = 0; i < targetObjects.Length; i++){
-                    targetObjects[i].SendMessage("OnLavaRise", lava.transform.position.y + lavaArea.size.y / 2, SendMessageOptions.DontRequireReceiver);
+                    targetObjects[i].SendMessage("OnLavaRise", lava.transform.position.y + (lavaArea.size.y / 2) * lava.transform.localScale.y, SendMessageOptions.DontRequireReceiver);
                 }
             }
 
@@ -140,7 +149,9 @@ public class LevelController : MonoBehaviour
     {
         dragMode = true;
         PlayCamera.enabled = false;
+        PlayCamera.gameObject.SetActive(false);
         DragCamera.enabled = true;
+        DragCamera.gameObject.SetActive(true);
         playerScript.SetDragMode();
         for (int i = 0; i < targetObjects.Length; i++)
         {
@@ -153,7 +164,9 @@ public class LevelController : MonoBehaviour
     {
         dragMode = false;
         PlayCamera.enabled = true;
+        PlayCamera.gameObject.SetActive(true);
         DragCamera.enabled = false;
+        DragCamera.gameObject.SetActive(false);
         playerScript.SetPlayMode();
         for (int i = 0; i < targetObjects.Length; i++)
         {
@@ -162,8 +175,14 @@ public class LevelController : MonoBehaviour
     }
     public void playClick()
     {
+<<<<<<< HEAD
         source.clip = click;
         source.Stop();
         source.PlayOneShot(click);
+=======
+        sourceSFX.clip = click;
+        sourceSFX.Stop();
+        sourceSFX.PlayOneShot(click);
+>>>>>>> parent of 6cfe4db... Added settings GUI
     }
 }

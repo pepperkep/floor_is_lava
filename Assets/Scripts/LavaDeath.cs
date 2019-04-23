@@ -8,7 +8,6 @@ public class LavaDeath : MonoBehaviour
     [SerializeField] private GameObject gameOverCanvas;
     BoxCollider2D m_ObjectCollider;
     Collision myCol;
-    public Camera camera;
     [SerializeField] private AudioClip clip; 
 
 
