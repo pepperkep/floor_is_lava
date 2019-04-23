@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +6,7 @@ public class LavaDeath : MonoBehaviour
 {
     public AudioSource source;
     [SerializeField] private GameObject gameOverCanvas;
+    [SerializeField] private GameObject hudCanvas;
     BoxCollider2D m_ObjectCollider;
     Collision myCol;
     [SerializeField] private AudioClip clip;
@@ -32,6 +33,7 @@ public class LavaDeath : MonoBehaviour
         {
             Destroy(myCol.gameObject);
             gameOverCanvas.SetActive(true);
+            hudCanvas.SetActive(false);
             source.Stop();
             source.clip = clip;
             source.loop = false;
