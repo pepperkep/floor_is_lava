@@ -204,12 +204,11 @@ public class PlayerMovement : MonoBehaviour
             }
 
             //Detect for Jump input
-            if (Input.GetButtonDown("Jump") || bufferedJump || justJumped)
+            if ((Input.GetButton("Jump") || bufferedJump))
             {
-                if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0) || justJumped)
+                if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0)  )
                 {
                     nextVelocity.y = JumpVelocity;
-                    StartCoroutine(playSound(jump));
                     bufferedJump = false;
                     if(!justJumped)
                         justJumped = true;
@@ -224,8 +223,10 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-            if (Input.GetButtonUp("Jump") && nextVelocity.y > cutJumpSpeed)
-                nextVelocity.y = cutJumpSpeed;
+            if (Input.GetButtonUp("Jump")){
+                if(nextVelocity.y > cutJumpSpeed)
+                    nextVelocity.y = cutJumpSpeed;
+            }
 
             targetVelocity = nextVelocity;
         }
