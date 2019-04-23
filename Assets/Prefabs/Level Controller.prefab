@@ -54,7 +54,7 @@ MonoBehaviour:
   source: {fileID: 0}
   click: {fileID: 0}
   goal: {fileID: 0}
-  music: {fileID: 0}
+  music: {fileID: 8300000, guid: 783acd052a2ce9147aa28c5dc76f53d3, type: 3}
   lava: {fileID: 0}
   floor: {fileID: 0}
   player: {fileID: 0}
