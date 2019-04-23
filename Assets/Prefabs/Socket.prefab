@@ -121,8 +121,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efaadd7b5e75b44bc95420030b62c7e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  source: {fileID: 0}
   gameOverCanvas: {fileID: 3880027358789327847, guid: c9b3de8c4a52da359a9d7035160e63af,
     type: 3}
+  hudCanvas: {fileID: 2430793839525909909, guid: b8ccd95473124c94cb42f14f5d04c428,
+    type: 3}
+  clip: {fileID: 0}
 --- !u!198 &962120553222144149
 ParticleSystem:
   m_ObjectHideFlags: 0

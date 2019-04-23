@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,14 +6,17 @@ using UnityEngine.SceneManagement;
 public class LevelController : MonoBehaviour
 {
 
+
     [SerializeField] private ObjectivePoint[] objectiveList;
     [SerializeField] private GameObject lavaLevel;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject deathUI;
+    [SerializeField] private GameObject settingsUI;
+    [SerializeField] private GameObject hudUI;
 
-    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioSource sourceSFX;
+    [SerializeField] private AudioSource sourceMusic;
     [SerializeField] private AudioClip click;
-    [SerializeField] private AudioClip goal;
     [SerializeField] private AudioClip music;
 
 
@@ -33,16 +36,17 @@ public class LevelController : MonoBehaviour
     public Rigidbody2D playerBody;
     public PlayerMovement playerScript;
     private bool dragMode;
-    private AudioSource sourceMusic;
 
 
     public void EndLevel()
     {
-        if(nextSceneBuildNumber != -1)
+        if (nextSceneBuildNumber != -1)
             SceneManager.LoadScene(nextSceneBuildNumber);
     }
 
-    public void BeginLevel(bool restart){
+    public void BeginLevel(bool restart)
+    {
+        settingsUI.SetActive(false);
         deathUI.SetActive(false);
 
         lava.transform.position = floor.transform.position;
@@ -53,7 +57,6 @@ public class LevelController : MonoBehaviour
         lavaArea.AdjustComponentSizes();
         lavaArea.RecomputeMesh();
         floor.SetActive(false);
-
 
         for(int i = 0; i < targetObjects.Length; i++){
             if(restart)
@@ -81,7 +84,9 @@ public class LevelController : MonoBehaviour
         lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier / 2) * lava.transform.localScale.y, lavaLevel.transform.position.z);
 
         deathUI.SetActive(false);
-        floor.SetActive(true);  
+        settingsUI.SetActive(false);
+        hudUI.SetActive(true);
+        floor.SetActive(true);
         lava.SetActive(false);
 
         
@@ -113,7 +118,8 @@ public class LevelController : MonoBehaviour
                 lavaArea.RecomputeMesh();
                 currentObjective++;
                 objectiveList[currentObjective].IsActive = true;
-                for(int i = 0; i < targetObjects.Length; i++){
+                for (int i = 0; i < targetObjects.Length; i++)
+                {
                     targetObjects[i].SendMessage("OnLavaRise", lava.transform.position.y + (lavaArea.size.y / 2) * lava.transform.localScale.y, SendMessageOptions.DontRequireReceiver);
                 }
             }
@@ -167,10 +173,22 @@ public class LevelController : MonoBehaviour
             targetObjects[i].SendMessage("SetPlayMode", null, SendMessageOptions.DontRequireReceiver);
         }
     }
+
+    public void Exit()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void playClick()
     {
-        source.clip = click;
-        source.Stop();
-        source.PlayOneShot(click);
+        float vol = sourceSFX.volume;
+        if (vol > 0.3)
+            sourceSFX.volume = vol - 0.3f;
+        else
+            sourceSFX.volume = 0.1f;
+        sourceSFX.clip = click;
+        sourceSFX.Stop();
+        sourceSFX.PlayOneShot(click);
+        sourceSFX.volume = vol;
     }
 }

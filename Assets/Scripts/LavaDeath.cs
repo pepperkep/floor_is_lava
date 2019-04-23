@@ -8,7 +8,7 @@ public class LavaDeath : MonoBehaviour
     [SerializeField] private GameObject gameOverCanvas;
     BoxCollider2D m_ObjectCollider;
     Collision myCol;
-    [SerializeField] private AudioClip clip; 
+    [SerializeField] private AudioClip clip;
 
 
     // Start is called before the first frame update
@@ -21,8 +21,8 @@ public class LavaDeath : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-       
+
+
 
     }
 
