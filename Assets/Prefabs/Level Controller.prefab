@@ -50,7 +50,6 @@ MonoBehaviour:
   lavaLevel: {fileID: 0}
   playerPrefab: {fileID: 1153890314090708661, guid: 0a51635276c4d0a269d905039fb8ca50,
     type: 3}
-<<<<<<< HEAD
   deathUI: {fileID: 3880027358789327847, guid: c9b3de8c4a52da359a9d7035160e63af, type: 3}
   settingsUI: {fileID: 294151413, guid: 3ec7e2c6b471aa74ca1c864c83a6f145, type: 3}
   hudUI: {fileID: 2430793839525909909, guid: b8ccd95473124c94cb42f14f5d04c428, type: 3}
@@ -58,13 +57,6 @@ MonoBehaviour:
   sourceMusic: {fileID: 0}
   click: {fileID: 0}
   music: {fileID: 0}
-=======
-  deathUI: {fileID: 0}
-  source: {fileID: 0}
-  click: {fileID: 0}
-  goal: {fileID: 0}
-  music: {fileID: 8300000, guid: 783acd052a2ce9147aa28c5dc76f53d3, type: 3}
->>>>>>> 1a8721f696b56f7c724f8528d26fbf066ce6f57f
   lava: {fileID: 0}
   floor: {fileID: 0}
   player: {fileID: 0}
