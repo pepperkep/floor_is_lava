@@ -118,6 +118,7 @@ public class PlayerMovement : MonoBehaviour
         contactLayer.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactLayer.useLayerMask = true;
         standingPlat = null;
+        source = GameObject.Find("SFX Controller").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -204,11 +205,12 @@ public class PlayerMovement : MonoBehaviour
             }
 
             //Detect for Jump input
-            if ((Input.GetButton("Jump") || bufferedJump))
+            if (Input.GetButtonDown("Jump") || bufferedJump || justJumped)
             {
-                if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0)  )
+                if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0) || justJumped)
                 {
                     nextVelocity.y = JumpVelocity;
+                    StartCoroutine(playSound(jump));
                     bufferedJump = false;
                     if(!justJumped)
                         justJumped = true;
@@ -223,10 +225,8 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-            if (Input.GetButtonUp("Jump")){
-                if(nextVelocity.y > cutJumpSpeed)
-                    nextVelocity.y = cutJumpSpeed;
-            }
+            if (Input.GetButtonUp("Jump") && nextVelocity.y > cutJumpSpeed)
+                nextVelocity.y = cutJumpSpeed;
 
             targetVelocity = nextVelocity;
         }
