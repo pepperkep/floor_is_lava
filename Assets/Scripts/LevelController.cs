@@ -10,10 +10,13 @@ public class LevelController : MonoBehaviour
     [SerializeField] private GameObject lavaLevel;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject deathUI;
+    [SerializeField] private GameObject settingsUI;
+    [SerializeField] private GameObject hudUI;
 
-    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioSource sourceSFX;
+    [SerializeField] private AudioSource sourceMusic;
     [SerializeField] private AudioClip click;
-    [SerializeField] private AudioClip goal;
+    [SerializeField] private AudioClip music;
 
 
     private int currentObjective = 0;
@@ -35,17 +38,16 @@ public class LevelController : MonoBehaviour
 
     public void EndLevel()
     {
-        if(nextSceneBuildNumber != -1)
+        if (nextSceneBuildNumber != -1)
             SceneManager.LoadScene(nextSceneBuildNumber);
     }
 
-    public void BeginLevel(bool restart){
-<<<<<<< HEAD
+    public void BeginLevel(bool restart)
+    {
+        settingsUI.SetActive(false);
         deathUI.SetActive(false);
-=======
->>>>>>> parent of 6cfe4db... Added settings GUI
+        hudUI.SetActive(true);
 
-        deathUI.SetActive(false);
         lava.transform.position = floor.transform.position;
         this.lavaArea = lava.GetComponent<WaterArea>();
         lavaArea.size = new Vector2(floor.transform.localScale.x, floor.transform.localScale.y);
@@ -55,8 +57,9 @@ public class LevelController : MonoBehaviour
         lavaArea.RecomputeMesh();
         floor.SetActive(false);
 
-        for(int i = 0; i < targetObjects.Length; i++){
-            if(restart)
+        for (int i = 0; i < targetObjects.Length; i++)
+        {
+            if (restart)
                 targetObjects[i].SendMessage("OnLavaReset", null, SendMessageOptions.DontRequireReceiver);
             targetObjects[i].SetActive(true);
         }
@@ -64,11 +67,9 @@ public class LevelController : MonoBehaviour
         objectiveList[currentObjective].IsActive = false;
         currentObjective = 0;
         objectiveList[currentObjective].IsActive = true;
-<<<<<<< HEAD
-=======
         sourceMusic.clip = music;
+        sourceMusic.loop = true;
         sourceMusic.Play();
->>>>>>> parent of 6cfe4db... Added settings GUI
     }
 
     // Start is called before the first frame update
@@ -86,9 +87,15 @@ public class LevelController : MonoBehaviour
         lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier / 2) * lava.transform.localScale.y, lavaLevel.transform.position.z);
 
         deathUI.SetActive(false);
-        floor.SetActive(true);  
+        settingsUI.SetActive(false);
+        hudUI.SetActive(true);
+        floor.SetActive(true);
         lava.SetActive(false);
-        
+
+        sourceMusic.clip = music;
+        sourceMusic.loop = true;
+        sourceMusic.Play();
+
         originalPlayerPosition = player.transform.position;
         objectiveList[currentObjective].IsActive = true;
 
@@ -117,7 +124,8 @@ public class LevelController : MonoBehaviour
                 lavaArea.RecomputeMesh();
                 currentObjective++;
                 objectiveList[currentObjective].IsActive = true;
-                for(int i = 0; i < targetObjects.Length; i++){
+                for (int i = 0; i < targetObjects.Length; i++)
+                {
                     targetObjects[i].SendMessage("OnLavaRise", lava.transform.position.y + (lavaArea.size.y / 2) * lava.transform.localScale.y, SendMessageOptions.DontRequireReceiver);
                 }
             }
@@ -129,16 +137,18 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    public void RestartLevel(bool toDragMode){
-        if(toDragMode)
+    public void RestartLevel(bool toDragMode)
+    {
+        if (toDragMode)
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        else{
-            player = (GameObject) Instantiate(playerPrefab);
+        else
+        {
+            player = (GameObject)Instantiate(playerPrefab);
             player.transform.position = originalPlayerPosition;
             player.name = "Player";
             PlayerMovement playerProperties = player.GetComponent<PlayerMovement>();
             playerProperties.canMove = true;
-            if(currentObjective > 0)
+            if (currentObjective > 0)
                 BeginLevel(true);
             else
                 BeginLevel(false);
@@ -173,16 +183,22 @@ public class LevelController : MonoBehaviour
             targetObjects[i].SendMessage("SetPlayMode", null, SendMessageOptions.DontRequireReceiver);
         }
     }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
+
     public void playClick()
     {
-<<<<<<< HEAD
-        source.clip = click;
-        source.Stop();
-        source.PlayOneShot(click);
-=======
+        float vol = sourceSFX.volume;
+        if (vol > 0.3)
+            sourceSFX.volume = vol - 0.3f;
+        else
+            sourceSFX.volume = 0.1f;
         sourceSFX.clip = click;
         sourceSFX.Stop();
         sourceSFX.PlayOneShot(click);
->>>>>>> parent of 6cfe4db... Added settings GUI
+        sourceSFX.volume = vol;
     }
 }
