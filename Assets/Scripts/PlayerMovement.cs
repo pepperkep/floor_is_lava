@@ -97,13 +97,14 @@ public class PlayerMovement : MonoBehaviour
     private float slopeNoGravityAngle = 40f;
     private float slopeIsWallAngle = 70f;
     private float distanceToGround = 0;
-    private float groundBufferDistance = 0.2f;
+    private float groundBufferDistance = 0.4f;
     private bool bufferedJump = false;
     private float groundTimer = 0f;
     private float leavePlatformJumpTolerance = 0.1f;
     private bool blockFromBelow = false;
     private GameObject standingPlat;
     private Vector3 oldPlatPlace;
+    private bool justJumped = false;
 
 
     // Start is called before the first frame update
@@ -117,6 +118,7 @@ public class PlayerMovement : MonoBehaviour
         contactLayer.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer));
         contactLayer.useLayerMask = true;
         standingPlat = null;
+        source = GameObject.Find("SFX Controller").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -158,8 +160,7 @@ public class PlayerMovement : MonoBehaviour
                 if ((playerIn < 0 && nextVelocity.x > 0) || (playerIn > 0 && nextVelocity.x < 0))
                 {
                     if (playerIn == 0)
-                    {
-                       
+                    {  
                         faceRight = !faceRight;
                     }
                     else
@@ -172,14 +173,12 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if (playerIn != 0)
                     {
-                    
-
                        nextVelocity += playerIn * GroundAcceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
 
                     }
                     else
                     {
-                        if ((Vector2.Dot(nextVelocity, new Vector2(normal.y, -normal.x)) * new Vector2(normal.y, -normal.x)).magnitude < groundDecceleration)
+                        if ((Vector2.Dot(nextVelocity, new Vector2(normal.y, -normal.x)) * new Vector2(normal.y, -normal.x)).magnitude < groundDecceleration && nextVelocity.y < 0)
                         {
                             if (Vector2.Angle(normal, Vector2.up) < slopeNoGravityAngle)
                                 nextVelocity = Vector2.zero;
@@ -206,30 +205,23 @@ public class PlayerMovement : MonoBehaviour
             }
 
             //Detect for Jump input
-            if ((Input.GetButton("Jump") || bufferedJump))
+            if (Input.GetButtonDown("Jump") || bufferedJump || justJumped)
             {
-                if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0))
+                if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0) || justJumped)
                 {
                     nextVelocity.y = JumpVelocity;
-                    bufferedJump = false;
                     StartCoroutine(playSound(jump));
-                }
-            }
-
-
-            //Detect for Jump input
-            if ((Input.GetButton("Jump") || bufferedJump))
-            {
-                if (isGrounded || (groundTimer < leavePlatformJumpTolerance && velocity.y < 0))
-                {
-                    nextVelocity.y = JumpVelocity;
-
                     bufferedJump = false;
+                    if(!justJumped)
+                        justJumped = true;
+                    else
+                        justJumped = false;
                 }
                 else
                 {
-                    if (distanceToGround < groundBufferDistance && velocity.y < 0)
+                    if (distanceToGround < groundBufferDistance && velocity.y < 0){
                         bufferedJump = true;
+                    }
                 }
             }
 
@@ -237,8 +229,6 @@ public class PlayerMovement : MonoBehaviour
                 nextVelocity.y = cutJumpSpeed;
 
             targetVelocity = nextVelocity;
-
-
         }
     }
 
@@ -306,15 +296,14 @@ public class PlayerMovement : MonoBehaviour
                     Vector2 moveInWall = Vector2.Dot(movement, currentNormal) * currentNormal;
                     movement -= moveInWall - collisionDist * moveInWall.normalized;
                 }
-                if (Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle && (isGrounded || collisionDist != 0)) {
+                if (Vector2.Dot(currentNormal, this.Gravity) < minGroundDirection && Vector2.Angle(currentNormal, Vector2.up) < slopeIsWallAngle && (isGrounded || collisionDist != 0) ){
                     findGround = true;
-                    normal = currentNormal;
+                    normal = currentNormal; 
                     groundTimer = 0f;
                     newPlat = collisionCheck[i].transform.gameObject;
                 }
             }
         }
-
         if (standingPlat != newPlat || isGrounded) {
             standingPlat = newPlat;
             oldPlatPlace = standingPlat.transform.position;

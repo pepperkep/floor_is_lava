@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,10 +10,13 @@ public class LevelController : MonoBehaviour
     [SerializeField] private GameObject lavaLevel;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject deathUI;
+    [SerializeField] private GameObject settingsUI;
+    [SerializeField] private GameObject hudUI;
 
-    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioSource sourceSFX;
+    [SerializeField] private AudioSource sourceMusic;
     [SerializeField] private AudioClip click;
-    [SerializeField] private AudioClip goal;
+    [SerializeField] private AudioClip music;
 
 
     private int currentObjective = 0;
@@ -35,12 +38,15 @@ public class LevelController : MonoBehaviour
 
     public void EndLevel()
     {
-        if(nextSceneBuildNumber != -1)
+        if (nextSceneBuildNumber != -1)
             SceneManager.LoadScene(nextSceneBuildNumber);
     }
 
-    public void BeginLevel(bool restart){
+    public void BeginLevel(bool restart)
+    {
+        settingsUI.SetActive(false);
         deathUI.SetActive(false);
+        hudUI.SetActive(true);
 
         lava.transform.position = floor.transform.position;
         this.lavaArea = lava.GetComponent<WaterArea>();
@@ -51,8 +57,9 @@ public class LevelController : MonoBehaviour
         lavaArea.RecomputeMesh();
         floor.SetActive(false);
 
-        for(int i = 0; i < targetObjects.Length; i++){
-            if(restart)
+        for (int i = 0; i < targetObjects.Length; i++)
+        {
+            if (restart)
                 targetObjects[i].SendMessage("OnLavaReset", null, SendMessageOptions.DontRequireReceiver);
             targetObjects[i].SetActive(true);
         }
@@ -60,6 +67,9 @@ public class LevelController : MonoBehaviour
         objectiveList[currentObjective].IsActive = false;
         currentObjective = 0;
         objectiveList[currentObjective].IsActive = true;
+        sourceMusic.clip = music;
+        sourceMusic.loop = true;
+        sourceMusic.Play();
     }
 
     // Start is called before the first frame update
@@ -74,12 +84,18 @@ public class LevelController : MonoBehaviour
         this.lavaArea = lava.GetComponent<WaterArea>();
         lavaLevel = GameObject.Find("Lava line");
         lavaLevel.SetActive(true);
-        lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier) / 2, lavaLevel.transform.position.z);
+        lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier / 2) * lava.transform.localScale.y, lavaLevel.transform.position.z);
 
         deathUI.SetActive(false);
-        floor.SetActive(true);  
+        settingsUI.SetActive(false);
+        hudUI.SetActive(true);
+        floor.SetActive(true);
         lava.SetActive(false);
-        
+
+        sourceMusic.clip = music;
+        sourceMusic.loop = true;
+        sourceMusic.Play();
+
         originalPlayerPosition = player.transform.position;
         objectiveList[currentObjective].IsActive = true;
 
@@ -108,8 +124,9 @@ public class LevelController : MonoBehaviour
                 lavaArea.RecomputeMesh();
                 currentObjective++;
                 objectiveList[currentObjective].IsActive = true;
-                for(int i = 0; i < targetObjects.Length; i++){
-                    targetObjects[i].SendMessage("OnLavaRise", lava.transform.position.y + lavaArea.size.y / 2, SendMessageOptions.DontRequireReceiver);
+                for (int i = 0; i < targetObjects.Length; i++)
+                {
+                    targetObjects[i].SendMessage("OnLavaRise", lava.transform.position.y + (lavaArea.size.y / 2) * lava.transform.localScale.y, SendMessageOptions.DontRequireReceiver);
                 }
             }
 
@@ -120,16 +137,18 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    public void RestartLevel(bool toDragMode){
-        if(toDragMode)
+    public void RestartLevel(bool toDragMode)
+    {
+        if (toDragMode)
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        else{
-            player = (GameObject) Instantiate(playerPrefab);
+        else
+        {
+            player = (GameObject)Instantiate(playerPrefab);
             player.transform.position = originalPlayerPosition;
             player.name = "Player";
             PlayerMovement playerProperties = player.GetComponent<PlayerMovement>();
             playerProperties.canMove = true;
-            if(currentObjective > 0)
+            if (currentObjective > 0)
                 BeginLevel(true);
             else
                 BeginLevel(false);
@@ -140,7 +159,9 @@ public class LevelController : MonoBehaviour
     {
         dragMode = true;
         PlayCamera.enabled = false;
+        PlayCamera.gameObject.SetActive(false);
         DragCamera.enabled = true;
+        DragCamera.gameObject.SetActive(true);
         playerScript.SetDragMode();
         for (int i = 0; i < targetObjects.Length; i++)
         {
@@ -153,17 +174,31 @@ public class LevelController : MonoBehaviour
     {
         dragMode = false;
         PlayCamera.enabled = true;
+        PlayCamera.gameObject.SetActive(true);
         DragCamera.enabled = false;
+        DragCamera.gameObject.SetActive(false);
         playerScript.SetPlayMode();
         for (int i = 0; i < targetObjects.Length; i++)
         {
             targetObjects[i].SendMessage("SetPlayMode", null, SendMessageOptions.DontRequireReceiver);
         }
     }
+
+    public void Exit()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void playClick()
     {
-        source.clip = click;
-        source.Stop();
-        source.PlayOneShot(click);
+        float vol = sourceSFX.volume;
+        if (vol > 0.3)
+            sourceSFX.volume = vol - 0.3f;
+        else
+            sourceSFX.volume = 0.1f;
+        sourceSFX.clip = click;
+        sourceSFX.Stop();
+        sourceSFX.PlayOneShot(click);
+        sourceSFX.volume = vol;
     }
 }

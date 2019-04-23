@@ -9,15 +9,14 @@ public class ButtonController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        source = GameObject.Find("SFX Manager").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
 
+    }
 
     void OnMouseDown()
     {
