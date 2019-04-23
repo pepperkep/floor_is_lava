@@ -44,7 +44,7 @@ public class LevelController : MonoBehaviour
             SceneManager.LoadScene(nextSceneBuildNumber);
     }
 
-    public void BeginLevel(bool restart)
+    public void BeginLevel(bool restart, bool toDragMode)
     {
         settingsUI.SetActive(false);
         hudUI.SetActive(true);
@@ -63,6 +63,18 @@ public class LevelController : MonoBehaviour
             if(restart)
                 targetObjects[i].SendMessage("OnLavaReset", null, SendMessageOptions.DontRequireReceiver);
             targetObjects[i].SetActive(true);
+        }
+
+        if(toDragMode){
+            deathUI.SetActive(false);
+            settingsUI.SetActive(false);
+            hudUI.SetActive(true);
+            floor.SetActive(true);
+            lava.SetActive(false);
+            player = GameObject.Find("Player");
+            playerBody = player.GetComponent<Rigidbody2D>();
+            playerScript = player.GetComponent<PlayerMovement>();
+            playerScript.canMove = false;
         }
 
         objectiveList[currentObjective].IsActive = false;
@@ -114,7 +126,7 @@ public class LevelController : MonoBehaviour
     {
         if (!dragMode && !lavaSwitch)
         {
-            BeginLevel(false);
+            BeginLevel(false, false);
             lavaSwitch = true;
         }
 
@@ -146,12 +158,19 @@ public class LevelController : MonoBehaviour
         player.name = "Player";
         PlayerMovement playerProperties = player.GetComponent<PlayerMovement>();
         playerProperties.canMove = true;
-        if(currentObjective > 0)
-            BeginLevel(true);
-        else
-            BeginLevel(false);
-        if(toDragMode)
+        if(!toDragMode){
+            if(currentObjective > 0)
+                BeginLevel(true, false);
+            else
+                BeginLevel(false, false);
+        }
+        if(toDragMode){
             SetDragMode();
+            if(currentObjective > 0)
+                BeginLevel(true, true);
+            else
+                BeginLevel(false, true);
+        }
     }
 
     public void SetDragMode()

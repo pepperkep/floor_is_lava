@@ -31,14 +31,18 @@ public class LavaDeath : MonoBehaviour
     {
         if (myCol.gameObject.name == "Player")
         {
-            Destroy(myCol.gameObject);
-            gameOverCanvas.SetActive(true);
-			hudCanvas.SetActive(false);
-            source.Stop();
-            source.clip = clip;
-            source.loop = false;
-            source.PlayOneShot(clip);
+            KillPlayer();
         }
+    }
+
+    public void KillPlayer(){
+        Destroy(GameObject.Find("Player"));
+        gameOverCanvas.SetActive(true);
+        hudCanvas.SetActive(false);
+        source.Stop();
+        source.clip = clip;
+        source.loop = false;
+        source.PlayOneShot(clip);
     }
 
 }
