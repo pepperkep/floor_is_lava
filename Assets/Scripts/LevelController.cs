@@ -54,9 +54,6 @@ public class LevelController : MonoBehaviour
         lavaArea.RecomputeMesh();
         floor.SetActive(false);
 
-        sourceMusic.clip = music;
-        sourceMusic.loop = true;
-        sourceMusic.Play();
 
         for(int i = 0; i < targetObjects.Length; i++){
             if(restart)
@@ -86,10 +83,10 @@ public class LevelController : MonoBehaviour
         deathUI.SetActive(false);
         floor.SetActive(true);  
         lava.SetActive(false);
-
+        /*
         sourceMusic.clip = music;
         sourceMusic.loop = true;
-        sourceMusic.Play();
+        sourceMusic.Play();*/
         
         originalPlayerPosition = player.transform.position;
         objectiveList[currentObjective].IsActive = true;
