@@ -125,19 +125,17 @@ public class LevelController : MonoBehaviour
     }
 
     public void RestartLevel(bool toDragMode){
+        player = (GameObject) Instantiate(playerPrefab);
+        player.transform.position = originalPlayerPosition;
+        player.name = "Player";
+        PlayerMovement playerProperties = player.GetComponent<PlayerMovement>();
+        playerProperties.canMove = true;
+        if(currentObjective > 0)
+            BeginLevel(true);
+        else
+            BeginLevel(false);
         if(toDragMode)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        else{
-            player = (GameObject) Instantiate(playerPrefab);
-            player.transform.position = originalPlayerPosition;
-            player.name = "Player";
-            PlayerMovement playerProperties = player.GetComponent<PlayerMovement>();
-            playerProperties.canMove = true;
-            if(currentObjective > 0)
-                BeginLevel(true);
-            else
-                BeginLevel(false);
-        }
+            SetDragMode();
     }
 
     public void SetDragMode()
