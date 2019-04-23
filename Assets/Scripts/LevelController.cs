@@ -47,6 +47,7 @@ public class LevelController : MonoBehaviour
     public void BeginLevel(bool restart)
     {
         settingsUI.SetActive(false);
+        hudUI.SetActive(true);
         deathUI.SetActive(false);
 
         lava.transform.position = floor.transform.position;
@@ -67,6 +68,10 @@ public class LevelController : MonoBehaviour
         objectiveList[currentObjective].IsActive = false;
         currentObjective = 0;
         objectiveList[currentObjective].IsActive = true;
+
+        sourceMusic.clip = music;
+        sourceMusic.loop = true;
+        sourceMusic.Play();
     }
 
     // Start is called before the first frame update
@@ -98,6 +103,10 @@ public class LevelController : MonoBehaviour
         playerBody = player.GetComponent<Rigidbody2D>();
         playerScript = player.GetComponent<PlayerMovement>();
         SetDragMode();
+
+        sourceMusic.clip = music;
+        sourceMusic.loop = true;
+        sourceMusic.Play();
     }
 
     // Update is called once per frame
