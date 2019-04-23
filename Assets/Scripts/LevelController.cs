@@ -14,6 +14,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private AudioSource source;
     [SerializeField] private AudioClip click;
     [SerializeField] private AudioClip goal;
+    [SerializeField] private AudioClip music;
 
 
     private int currentObjective = 0;
@@ -32,6 +33,8 @@ public class LevelController : MonoBehaviour
     public Rigidbody2D playerBody;
     public PlayerMovement playerScript;
     private bool dragMode;
+    private AudioSource sourceMusic;
+
 
     public void EndLevel()
     {
@@ -50,6 +53,10 @@ public class LevelController : MonoBehaviour
         lavaArea.AdjustComponentSizes();
         lavaArea.RecomputeMesh();
         floor.SetActive(false);
+
+        sourceMusic.clip = music;
+        sourceMusic.loop = true;
+        sourceMusic.Play();
 
         for(int i = 0; i < targetObjects.Length; i++){
             if(restart)
@@ -79,6 +86,10 @@ public class LevelController : MonoBehaviour
         deathUI.SetActive(false);
         floor.SetActive(true);  
         lava.SetActive(false);
+
+        sourceMusic.clip = music;
+        sourceMusic.loop = true;
+        sourceMusic.Play();
         
         originalPlayerPosition = player.transform.position;
         objectiveList[currentObjective].IsActive = true;
