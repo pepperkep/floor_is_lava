@@ -77,6 +77,7 @@ public class LevelController : MonoBehaviour
             playerScript.canMove = false;
             lavaLevel.SetActive(true);
             lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier / 2) * lava.transform.localScale.y, lavaLevel.transform.position.z);
+	    lavaSwitch = false;
         }
 
         objectiveList[currentObjective].IsActive = false;
