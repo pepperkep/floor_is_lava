@@ -15,9 +15,6 @@ public class SoundManager : MonoBehaviour
     }
 
 
-    public void ChangeVolume(float val)
-    {
-        source.volume = val;
-    }
+
 
 }

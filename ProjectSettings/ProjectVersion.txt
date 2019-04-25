@@ -1,4 +1,9 @@
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+m_EditorVersion: 2018.3.12f1
+=======
+<<<<<<< HEAD
 <<<<<<< HEAD
 m_EditorVersion: 2018.3.5f1
 =======
@@ -7,3 +12,5 @@ m_EditorVersion: 2018.3.12f1
 =======
 m_EditorVersion: 2018.3.4f1
 >>>>>>> 5bdabd11189d2da4feef4bc4cf393cefc46dcf99
+>>>>>>> dragdrop
+>>>>>>> e028254d3041e4292494bf926ea0e55bf62c953e

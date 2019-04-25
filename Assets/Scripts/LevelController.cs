@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class LevelController : MonoBehaviour
 {
 
+
     [SerializeField] private ObjectivePoint[] objectiveList;
     [SerializeField] private GameObject lavaLevel;
     [SerializeField] private GameObject playerPrefab;
@@ -36,17 +37,18 @@ public class LevelController : MonoBehaviour
     public PlayerMovement playerScript;
     private bool dragMode;
 
+
     public void EndLevel()
     {
         if (nextSceneBuildNumber != -1)
             SceneManager.LoadScene(nextSceneBuildNumber);
     }
 
-    public void BeginLevel(bool restart)
+    public void BeginLevel(bool restart, bool toDragMode)
     {
         settingsUI.SetActive(false);
-        deathUI.SetActive(false);
         hudUI.SetActive(true);
+        deathUI.SetActive(false);
 
         lava.transform.position = floor.transform.position;
         this.lavaArea = lava.GetComponent<WaterArea>();
@@ -57,16 +59,31 @@ public class LevelController : MonoBehaviour
         lavaArea.RecomputeMesh();
         floor.SetActive(false);
 
-        for (int i = 0; i < targetObjects.Length; i++)
-        {
-            if (restart)
+        for(int i = 0; i < targetObjects.Length; i++){
+            if(restart)
                 targetObjects[i].SendMessage("OnLavaReset", null, SendMessageOptions.DontRequireReceiver);
             targetObjects[i].SetActive(true);
+        }
+
+        if(toDragMode){
+            deathUI.SetActive(false);
+            settingsUI.SetActive(false);
+            hudUI.SetActive(true);
+            floor.SetActive(true);
+            lava.SetActive(false);
+            player = GameObject.Find("Player");
+            playerBody = player.GetComponent<Rigidbody2D>();
+            playerScript = player.GetComponent<PlayerMovement>();
+            playerScript.canMove = false;
+            lavaLevel.SetActive(true);
+            lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier / 2) * lava.transform.localScale.y, lavaLevel.transform.position.z);
+	    lavaSwitch = false;
         }
 
         objectiveList[currentObjective].IsActive = false;
         currentObjective = 0;
         objectiveList[currentObjective].IsActive = true;
+
         sourceMusic.clip = music;
         sourceMusic.loop = true;
         sourceMusic.Play();
@@ -92,10 +109,7 @@ public class LevelController : MonoBehaviour
         floor.SetActive(true);
         lava.SetActive(false);
 
-        sourceMusic.clip = music;
-        sourceMusic.loop = true;
-        sourceMusic.Play();
-
+        
         originalPlayerPosition = player.transform.position;
         objectiveList[currentObjective].IsActive = true;
 
@@ -104,6 +118,10 @@ public class LevelController : MonoBehaviour
         playerBody = player.GetComponent<Rigidbody2D>();
         playerScript = player.GetComponent<PlayerMovement>();
         SetDragMode();
+
+        sourceMusic.clip = music;
+        sourceMusic.loop = true;
+        sourceMusic.Play();
     }
 
     // Update is called once per frame
@@ -111,7 +129,7 @@ public class LevelController : MonoBehaviour
     {
         if (!dragMode && !lavaSwitch)
         {
-            BeginLevel(false);
+            BeginLevel(false, false);
             lavaSwitch = true;
         }
 
@@ -137,21 +155,24 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    public void RestartLevel(bool toDragMode)
-    {
-        if (toDragMode)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        else
-        {
-            player = (GameObject)Instantiate(playerPrefab);
-            player.transform.position = originalPlayerPosition;
-            player.name = "Player";
-            PlayerMovement playerProperties = player.GetComponent<PlayerMovement>();
-            playerProperties.canMove = true;
-            if (currentObjective > 0)
-                BeginLevel(true);
+    public void RestartLevel(bool toDragMode){
+        player = (GameObject) Instantiate(playerPrefab);
+        player.transform.position = originalPlayerPosition;
+        player.name = "Player";
+        PlayerMovement playerProperties = player.GetComponent<PlayerMovement>();
+        playerProperties.canMove = true;
+        if(!toDragMode){
+            if(currentObjective > 0)
+                BeginLevel(true, false);
             else
-                BeginLevel(false);
+                BeginLevel(false, false);
+        }
+        if(toDragMode){
+            SetDragMode();
+            if(currentObjective > 0)
+                BeginLevel(true, true);
+            else
+                BeginLevel(false, true);
         }
     }
 
