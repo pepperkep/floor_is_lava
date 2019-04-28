@@ -84,9 +84,6 @@ public class LevelController : MonoBehaviour
             floor.SetActive(true);
             lava.SetActive(false);
             dragUI.SetActive(true);
-            player = GameObject.Find("Player");
-            playerBody = player.GetComponent<Rigidbody2D>();
-            playerScript = player.GetComponent<PlayerMovement>();
             settingsUI.transform.Find("Same Layout Button").gameObject.SetActive(false);
             playerScript.canMove = false;
             lavaLevel.SetActive(true);
@@ -173,7 +170,7 @@ public class LevelController : MonoBehaviour
     }
 
     public void RestartLevel(bool toDragMode){
-        player = (GameObject) Instantiate(playerPrefab);
+        player = (GameObject)Instantiate(playerPrefab);
         player.transform.position = originalPlayerPosition;
         player.name = "Player";
         playerScript = player.GetComponent<PlayerMovement>();
@@ -215,7 +212,6 @@ public class LevelController : MonoBehaviour
         PlayCamera.gameObject.SetActive(true);
         DragCamera.enabled = false;
         DragCamera.gameObject.SetActive(false);
-        playerScript = player.GetComponent<PlayerMovement>();
         playerScript.SetPlayMode();
         for (int i = 0; i < targetObjects.Length; i++)
         {
