@@ -173,8 +173,8 @@ public class LevelController : MonoBehaviour
         player = (GameObject) Instantiate(playerPrefab);
         player.transform.position = originalPlayerPosition;
         player.name = "Player";
-        PlayerMovement playerProperties = player.GetComponent<PlayerMovement>();
-        playerProperties.canMove = true;
+        playerScript = player.GetComponent<PlayerMovement>();
+        playerScript.canMove = true;
         if(!toDragMode){
             if(currentObjective > 0)
                 BeginLevel(true, false);
