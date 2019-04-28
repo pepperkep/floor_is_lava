@@ -13,6 +13,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private GameObject deathUI;
     [SerializeField] private GameObject settingsUI;
     [SerializeField] private GameObject hudUI;
+    [SerializeField] private GameObject winUI;
 
     [SerializeField] private AudioSource sourceSFX;
     [SerializeField] private AudioSource sourceMusic;
@@ -40,6 +41,11 @@ public class LevelController : MonoBehaviour
 
     public void EndLevel()
     {
+        winUI.SetActive(true);
+        playerScript.canMove = false;
+    }
+
+    public void StartNextLevel(){
         if (nextSceneBuildNumber != -1)
             SceneManager.LoadScene(nextSceneBuildNumber);
     }
@@ -77,7 +83,7 @@ public class LevelController : MonoBehaviour
             playerScript.canMove = false;
             lavaLevel.SetActive(true);
             lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier / 2) * lava.transform.localScale.y, lavaLevel.transform.position.z);
-	    lavaSwitch = false;
+	        lavaSwitch = false;
         }
 
         objectiveList[currentObjective].IsActive = false;
@@ -106,6 +112,7 @@ public class LevelController : MonoBehaviour
         deathUI.SetActive(false);
         settingsUI.SetActive(false);
         hudUI.SetActive(true);
+        winUI.SetActive(false);
         floor.SetActive(true);
         lava.SetActive(false);
 

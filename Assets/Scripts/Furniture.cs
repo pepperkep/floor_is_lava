@@ -89,7 +89,6 @@ public class Furniture : MonoBehaviour
     }
 
     public void OnLavaReset(){
-        Debug.Log(currentRoutine);
         if(currentRoutine != null)
             StopAllCoroutines();
         if(doesFloat && originalHeight != null)
