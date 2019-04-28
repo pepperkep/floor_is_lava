@@ -15,6 +15,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private GameObject settingsUI;
     [SerializeField] private GameObject hudUI;
     [SerializeField] private GameObject winUI;
+    [SerializeField] private GameObject dragUI;
 
     [SerializeField] private AudioSource sourceSFX;
     [SerializeField] private AudioSource sourceMusic;
@@ -82,9 +83,11 @@ public class LevelController : MonoBehaviour
             hudUI.SetActive(true);
             floor.SetActive(true);
             lava.SetActive(false);
+            dragUI.SetActive(true);
             player = GameObject.Find("Player");
             playerBody = player.GetComponent<Rigidbody2D>();
             playerScript = player.GetComponent<PlayerMovement>();
+            settingsUI.transform.Find("Same Layout Button").gameObject.SetActive(false);
             playerScript.canMove = false;
             lavaLevel.SetActive(true);
             lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier / 2) * lava.transform.localScale.y, lavaLevel.transform.position.z);
@@ -181,7 +184,7 @@ public class LevelController : MonoBehaviour
             else
                 BeginLevel(false, false);
         }
-        if(toDragMode){
+        else{
             SetDragMode();
             if(currentObjective > 0)
                 BeginLevel(true, true);
@@ -205,13 +208,14 @@ public class LevelController : MonoBehaviour
     }
 
     public void SetPlayMode()
-
     {
         dragMode = false;
+        dragUI.SetActive(false);
         PlayCamera.enabled = true;
         PlayCamera.gameObject.SetActive(true);
         DragCamera.enabled = false;
         DragCamera.gameObject.SetActive(false);
+        playerScript = player.GetComponent<PlayerMovement>();
         playerScript.SetPlayMode();
         for (int i = 0; i < targetObjects.Length; i++)
         {
