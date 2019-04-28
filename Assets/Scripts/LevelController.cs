@@ -201,7 +201,7 @@ public class LevelController : MonoBehaviour
         playerScript.SetDragMode();
         for (int i = 0; i < targetObjects.Length; i++)
         {
-            targetObjects[i].SendMessage("SetDragMode");
+            targetObjects[i].SendMessage("SetDragMode", null, SendMessageOptions.DontRequireReceiver);
         }
     }
 
