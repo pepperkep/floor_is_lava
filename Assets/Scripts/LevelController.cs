@@ -121,7 +121,8 @@ public class LevelController : MonoBehaviour
         floor.SetActive(true);
         lava.SetActive(false);
 
-        
+        settingsUI.transform.Find("Same Layout Button").gameObject.SetActive(false);
+
         originalPlayerPosition = player.transform.position;
         objectiveList[currentObjective].IsActive = true;
 
@@ -143,6 +144,7 @@ public class LevelController : MonoBehaviour
         {
             BeginLevel(false, false);
             lavaSwitch = true;
+            settingsUI.transform.Find("Same Layout Button").gameObject.SetActive(true);
         }
 
         if (!objectiveList[currentObjective].IsActive)
