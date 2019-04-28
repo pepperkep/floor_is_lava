@@ -165,7 +165,6 @@ public class PlayerMovement : MonoBehaviour
                     }
                     else
                     {
-
                         nextVelocity.x = playerIn * GroundAcceleration * turnAroundMultiplier;
                     }
                 }
@@ -174,7 +173,6 @@ public class PlayerMovement : MonoBehaviour
                     if (playerIn != 0)
                     {
                        nextVelocity += playerIn * GroundAcceleration * Time.deltaTime * new Vector2(normal.y, -normal.x);
-
                     }
                     else
                     {

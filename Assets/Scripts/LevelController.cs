@@ -60,7 +60,7 @@ public class LevelController : MonoBehaviour
         floor.SetActive(false);
 
         for(int i = 0; i < targetObjects.Length; i++){
-            if(restart)
+            if(restart || (targetObjects[i].GetComponent<Furniture>() != null && targetObjects[i].GetComponent<Furniture>().destroyedOnLanding))
                 targetObjects[i].SendMessage("OnLavaReset", null, SendMessageOptions.DontRequireReceiver);
             targetObjects[i].SetActive(true);
         }
