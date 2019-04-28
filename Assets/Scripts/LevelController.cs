@@ -89,6 +89,7 @@ public class LevelController : MonoBehaviour
             lavaLevel.SetActive(true);
             lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier / 2) * lava.transform.localScale.y, lavaLevel.transform.position.z);
 	        lavaSwitch = false;
+            SetDragMode(); 
         }
 
         objectiveList[currentObjective].IsActive = false;

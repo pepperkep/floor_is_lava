@@ -245,7 +245,7 @@ public class PlayerMovement : MonoBehaviour
             groundTimer += Time.fixedDeltaTime;
 
             //Determine distance to ground
-            int hitCount = playerBody.Cast(Gravity, contactLayer, collisionCheck, Gravity.magnitude);
+            int hitCount = playerBody.Cast(Gravity, contactLayer, collisionCheck, this.targetVelocity.magnitude);
             float currentDistance = 0;
             for (int i = 0; i < hitCount; i++) {
                 if (collisionCheck[i].distance > currentDistance)
