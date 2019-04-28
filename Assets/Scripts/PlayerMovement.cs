@@ -89,7 +89,6 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D playerBody;                     //Player's rigid body for collision detection
     private SpriteRenderer playerSprite;                //Sprite to change with orientation
     private bool isGrounded = false;                    //Whether the player is grounded. Determines if player can jump
-    private bool faceRight = true;                      //Current direction player is facing
     private RaycastHit2D[] collisionCheck = new RaycastHit2D[8];    //Raycast results for collision
     private ContactFilter2D contactLayer;               //Layer player should collide with
     private float minGroundDirection = -0.8f;           //Boundary for direction that is considered ground  (determined by dot product of normal with gravity)
@@ -160,9 +159,9 @@ public class PlayerMovement : MonoBehaviour
                 }
 
                 if (playerIn == 0 && animator.GetBool("faceRight")) { 
-                animator.SetBool("walkRight", false);
-            }
-                if (playerIn == 0 && (animator.GetBool("faceRight")==false))
+                    animator.SetBool("walkRight", false);
+                }
+                if (playerIn == 0 && !animator.GetBool("faceRight"))
                 {
                     animator.SetBool("walkLeft", false);
                 }
@@ -170,14 +169,7 @@ public class PlayerMovement : MonoBehaviour
                 //Movment if player is turning
                 if ((playerIn < 0 && nextVelocity.x > 0) || (playerIn > 0 && nextVelocity.x < 0))
                 {
-                    if (playerIn == 0)
-                    {  
-                        faceRight = !faceRight;
-                    }
-                    else
-                    {
-                        nextVelocity.x = playerIn * GroundAcceleration * turnAroundMultiplier;
-                    }
+                   nextVelocity.x = playerIn * GroundAcceleration * turnAroundMultiplier;
                 }
                 else
                 {
