@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class LevelController : MonoBehaviour
 {
@@ -41,8 +42,12 @@ public class LevelController : MonoBehaviour
 
     public void EndLevel()
     {
-        winUI.SetActive(true);
-        playerScript.canMove = false;
+        if(!winUI.activeSelf){
+            winUI.SetActive(true);
+            playerScript.canMove = false;
+            TextMeshProUGUI textMesh = winUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            textMesh.text = textMesh.text + (int)Time.timeSinceLevelLoad / 60 + " minutes " + (int)Time.timeSinceLevelLoad % 60 + " seconds";
+        }
     }
 
     public void StartNextLevel(){

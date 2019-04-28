@@ -4554,6 +4554,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9061658831798569922, guid: 96c67aef3482e3d5ba511f4fd1b6f481,
+        type: 3}
+      propertyPath: m_Name
+      value: "Win Text\x13"
+      objectReference: {fileID: 0}
     - target: {fileID: 2991514958396618694, guid: 96c67aef3482e3d5ba511f4fd1b6f481,
         type: 3}
       propertyPath: m_havePropertiesChanged
