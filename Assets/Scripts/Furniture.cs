@@ -25,7 +25,7 @@ public class Furniture : MonoBehaviour
     public bool destroyedOnLanding = false;
     private float destroyTime = 1f;
     private Rigidbody2D furnitureBody;
-    private Coroutine currentRoutine;
+    private IEnumerator currentRoutine;
 
     void Awake(){
         risingHeight = numberBalloons * heightBalloonMultiplier;
@@ -82,12 +82,15 @@ public class Furniture : MonoBehaviour
 
     public void OnLavaRise(float risePosition){
         originalHeight = transform.position.y;
-        if(doesFloat)
-            currentRoutine = StartCoroutine(NewLavaLevel(risePosition));
+        if(doesFloat){
+            currentRoutine = NewLavaLevel(risePosition);
+            StartCoroutine(currentRoutine);
+        }
     }
 
     public void OnLavaReset(){
-        StopCoroutine(currentRoutine);
+        if(currentRoutine != null)
+            StopAllCoroutines();
         if(doesFloat && originalHeight != null)
             transform.position = new Vector3(transform.position.x, originalHeight, transform.position.z);
     }
@@ -100,8 +103,10 @@ public class Furniture : MonoBehaviour
     } 
 
     public void PlatformTrigger(){
-        if(destroyedOnLanding)
-            StartCoroutine(DestroyFurniture());
+        if(destroyedOnLanding){
+            currentRoutine = DestroyFurniture();
+            StartCoroutine(currentRoutine);
+        }
     }
 
     private IEnumerator DestroyFurniture(){

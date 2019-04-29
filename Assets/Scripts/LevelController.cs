@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class LevelController : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class LevelController : MonoBehaviour
     [SerializeField] private GameObject deathUI;
     [SerializeField] private GameObject settingsUI;
     [SerializeField] private GameObject hudUI;
+    [SerializeField] private GameObject winUI;
+    [SerializeField] private GameObject dragUI;
 
     [SerializeField] private AudioSource sourceSFX;
     [SerializeField] private AudioSource sourceMusic;
@@ -40,6 +43,15 @@ public class LevelController : MonoBehaviour
 
     public void EndLevel()
     {
+        if(!winUI.activeSelf){
+            winUI.SetActive(true);
+            playerScript.canMove = false;
+            TextMeshProUGUI textMesh = winUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            textMesh.text = textMesh.text + (int)Time.timeSinceLevelLoad / 60 + " minutes " + (int)Time.timeSinceLevelLoad % 60 + " seconds";
+        }
+    }
+
+    public void StartNextLevel(){
         if (nextSceneBuildNumber != -1)
             SceneManager.LoadScene(nextSceneBuildNumber);
     }
@@ -60,7 +72,7 @@ public class LevelController : MonoBehaviour
         floor.SetActive(false);
 
         for(int i = 0; i < targetObjects.Length; i++){
-            if(restart)
+            if(restart || (targetObjects[i].GetComponent<Furniture>() != null && targetObjects[i].GetComponent<Furniture>().destroyedOnLanding))
                 targetObjects[i].SendMessage("OnLavaReset", null, SendMessageOptions.DontRequireReceiver);
             targetObjects[i].SetActive(true);
         }
@@ -71,13 +83,13 @@ public class LevelController : MonoBehaviour
             hudUI.SetActive(true);
             floor.SetActive(true);
             lava.SetActive(false);
-            player = GameObject.Find("Player");
-            playerBody = player.GetComponent<Rigidbody2D>();
-            playerScript = player.GetComponent<PlayerMovement>();
+            dragUI.SetActive(true);
+            settingsUI.transform.Find("Same Layout Button").gameObject.SetActive(false);
             playerScript.canMove = false;
             lavaLevel.SetActive(true);
             lavaLevel.transform.position = new Vector3(lavaLevel.transform.position.x, lava.transform.position.y + (lavaArea.size.y * lavaSizeMultiplier / 2) * lava.transform.localScale.y, lavaLevel.transform.position.z);
-	    lavaSwitch = false;
+	        lavaSwitch = false;
+            SetDragMode(); 
         }
 
         objectiveList[currentObjective].IsActive = false;
@@ -106,10 +118,12 @@ public class LevelController : MonoBehaviour
         deathUI.SetActive(false);
         settingsUI.SetActive(false);
         hudUI.SetActive(true);
+        winUI.SetActive(false);
         floor.SetActive(true);
         lava.SetActive(false);
 
-        
+        settingsUI.transform.Find("Same Layout Button").gameObject.SetActive(false);
+
         originalPlayerPosition = player.transform.position;
         objectiveList[currentObjective].IsActive = true;
 
@@ -131,6 +145,7 @@ public class LevelController : MonoBehaviour
         {
             BeginLevel(false, false);
             lavaSwitch = true;
+            settingsUI.transform.Find("Same Layout Button").gameObject.SetActive(true);
         }
 
         if (!objectiveList[currentObjective].IsActive)
@@ -156,18 +171,18 @@ public class LevelController : MonoBehaviour
     }
 
     public void RestartLevel(bool toDragMode){
-        player = (GameObject) Instantiate(playerPrefab);
+        player = (GameObject)Instantiate(playerPrefab);
         player.transform.position = originalPlayerPosition;
         player.name = "Player";
-        PlayerMovement playerProperties = player.GetComponent<PlayerMovement>();
-        playerProperties.canMove = true;
+        playerScript = player.GetComponent<PlayerMovement>();
+        playerScript.canMove = true;
         if(!toDragMode){
             if(currentObjective > 0)
                 BeginLevel(true, false);
             else
                 BeginLevel(false, false);
         }
-        if(toDragMode){
+        else{
             SetDragMode();
             if(currentObjective > 0)
                 BeginLevel(true, true);
@@ -186,14 +201,14 @@ public class LevelController : MonoBehaviour
         playerScript.SetDragMode();
         for (int i = 0; i < targetObjects.Length; i++)
         {
-            targetObjects[i].SendMessage("SetDragMode");
+            targetObjects[i].SendMessage("SetDragMode", null, SendMessageOptions.DontRequireReceiver);
         }
     }
 
     public void SetPlayMode()
-
     {
         dragMode = false;
+        dragUI.SetActive(false);
         PlayCamera.enabled = true;
         PlayCamera.gameObject.SetActive(true);
         DragCamera.enabled = false;

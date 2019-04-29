@@ -18,6 +18,9 @@ public class TitleScript : MonoBehaviour
         title.SetActive(true);
         isCredits = false;
         source.volume = 0.4f;
+#if UNITY_WEBGL
+        transform.Find("Quit Button").gameObject.SetActive(false);
+#endif
     }
 
     public void Play(int level)
@@ -28,7 +31,11 @@ public class TitleScript : MonoBehaviour
 
     public void Exit()
     {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         Application.Quit();
+#endif
     }
 
     public void LevelSelect()
