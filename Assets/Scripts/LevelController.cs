@@ -40,7 +40,6 @@ public class LevelController : MonoBehaviour
     public PlayerMovement playerScript;
     private bool dragMode;
 
-
     public void EndLevel()
     {
         if(!winUI.activeSelf){
