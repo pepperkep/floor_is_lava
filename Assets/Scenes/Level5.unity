@@ -3121,7 +3121,10 @@ PrefabInstance:
     - target: {fileID: 2991514958396618694, guid: 96c67aef3482e3d5ba511f4fd1b6f481,
         type: 3}
       propertyPath: m_text
-      value: "YOU BEAT THE GAME\x13\n\nTime:"
+      value: 'YOU BEAT THE GAME
+
+
+        Time:'
       objectReference: {fileID: 0}
     - target: {fileID: 2991514958396618694, guid: 96c67aef3482e3d5ba511f4fd1b6f481,
         type: 3}
