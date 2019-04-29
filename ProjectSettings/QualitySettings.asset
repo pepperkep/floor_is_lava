@@ -42,6 +42,7 @@ QualitySettings:
     resolutionScalingFixedDPIFactor: 1
     excludedTargetPlatforms:
     - Standalone
+    - WebGL
   - serializedVersion: 2
     name: Low
     pixelLightCount: 0
@@ -78,6 +79,7 @@ QualitySettings:
     resolutionScalingFixedDPIFactor: 1
     excludedTargetPlatforms:
     - Standalone
+    - WebGL
   - serializedVersion: 2
     name: Medium
     pixelLightCount: 1
@@ -219,4 +221,5 @@ QualitySettings:
     resolutionScalingFixedDPIFactor: 1
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
-    Standalone: 0
+    Standalone: 2
+    WebGL: 2

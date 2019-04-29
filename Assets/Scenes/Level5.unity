@@ -3081,7 +3081,7 @@ PrefabInstance:
     - target: {fileID: 2991514958396618694, guid: 96c67aef3482e3d5ba511f4fd1b6f481,
         type: 3}
       propertyPath: m_text
-      value: "YOU BEAT THE GAME\x13\n\nTime:\n\x13\x13\x13\x13\x13"
+      value: "YOU BEAT THE GAME\x13\n\nTime:"
       objectReference: {fileID: 0}
     - target: {fileID: 2991514958396618694, guid: 96c67aef3482e3d5ba511f4fd1b6f481,
         type: 3}
@@ -3606,7 +3606,7 @@ PrefabInstance:
     - target: {fileID: 1153890314090708666, guid: 0a51635276c4d0a269d905039fb8ca50,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 1153890314090708666, guid: 0a51635276c4d0a269d905039fb8ca50,
         type: 3}
@@ -5503,7 +5503,7 @@ PrefabInstance:
     - target: {fileID: 1153890314090708666, guid: f88e5d525cb5748fabd1f9fd795f7fd4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3
+      value: -3.05
       objectReference: {fileID: 0}
     - target: {fileID: 1153890314090708666, guid: f88e5d525cb5748fabd1f9fd795f7fd4,
         type: 3}
@@ -5568,7 +5568,7 @@ PrefabInstance:
     - target: {fileID: 1153890314090708667, guid: f88e5d525cb5748fabd1f9fd795f7fd4,
         type: 3}
       propertyPath: m_Offset.y
-      value: -0.19962251
+      value: -0.20834205
       objectReference: {fileID: 0}
     - target: {fileID: 1153890314090708667, guid: f88e5d525cb5748fabd1f9fd795f7fd4,
         type: 3}
@@ -5578,7 +5578,7 @@ PrefabInstance:
     - target: {fileID: 1153890314090708667, guid: f88e5d525cb5748fabd1f9fd795f7fd4,
         type: 3}
       propertyPath: m_Size.y
-      value: 0.43924505
+      value: 0.45668405
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f88e5d525cb5748fabd1f9fd795f7fd4, type: 3}
