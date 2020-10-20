@@ -96,6 +96,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -107,6 +109,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -147,7 +150,7 @@ MonoBehaviour:
   groundDecceleration: 24
   maxSpeed: 3.6
   turnAroundMultiplier: 0.6
-  airAcceleration: 10
+  airAcceleration: 14
   gravity: {x: 0, y: -24}
   jumpVelocity: 10
   fallMultiplier: 1.8
