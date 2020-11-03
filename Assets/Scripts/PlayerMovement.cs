@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float maxSpeed;                //Maximum horizontal speed. This is the speed the player the player will usually travel at.
     [SerializeField] private float turnAroundMultiplier;    //Value normal ground acceleration is multiplied by when player inputs opposite direction of movement.
     [SerializeField] private float airAcceleration;         //Acceleration when player has jumped or is falling. Should be slower than ground acceleration.
+    [SerializeField] private float airDirectionSwitchVelocity;    //Value normal ground acceleration is multiplied by when player inputs opposite direction of movement.
     [SerializeField] private Vector2 gravity;               //Gravity force player constantly feels. Determines which direction is considered the ground.
     [SerializeField] private float jumpVelocity;            //When the player puts in a jump their y velocity will be set to this for two frames.
     [SerializeField] private float fallMultiplier;          //Value gravity is multiplied by when they are falling to improve game feel.
@@ -169,7 +170,7 @@ public class PlayerMovement : MonoBehaviour
                 //Movment if player is turning
                 if ((playerIn < 0 && nextVelocity.x > 0) || (playerIn > 0 && nextVelocity.x < 0))
                 {
-                   nextVelocity.x = playerIn * GroundAcceleration * turnAroundMultiplier;
+                    nextVelocity.x = playerIn * GroundAcceleration * turnAroundMultiplier;
                 }
                 else
                 {
@@ -202,10 +203,17 @@ public class PlayerMovement : MonoBehaviour
             //air movment
             else
             {
-                if (playerIn < 0)
-                    nextVelocity.x -= AirAcceleration * Time.deltaTime;
-                if (playerIn > 0)
-                    nextVelocity.x += AirAcceleration * Time.deltaTime;
+                if ((playerIn < 0 && nextVelocity.x > 0) || (playerIn > 0 && nextVelocity.x < 0))
+                {
+                    nextVelocity.x = playerIn * airDirectionSwitchVelocity;
+                }
+                else
+                {
+                    if (playerIn < 0)
+                        nextVelocity.x -= AirAcceleration * Time.deltaTime;
+                    if (playerIn > 0)
+                        nextVelocity.x += AirAcceleration * Time.deltaTime;
+                }
             }
 
             //Detect for Jump input or buffered jump

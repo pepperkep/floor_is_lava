@@ -4394,6 +4394,11 @@ PrefabInstance:
       propertyPath: source
       value: 
       objectReference: {fileID: 591502943}
+    - target: {fileID: 1153890314090708664, guid: 0a51635276c4d0a269d905039fb8ca50,
+        type: 3}
+      propertyPath: turnAroundAirMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1153890314090708665, guid: 0a51635276c4d0a269d905039fb8ca50,
         type: 3}
       propertyPath: m_Sprite
