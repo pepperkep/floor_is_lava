@@ -138,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
         {
             //Get player input
             int playerIn = (int)Input.GetAxisRaw("Horizontal");
-            Vector2 nextVelocity = this.velocity;
+            Vector2 nextVelocity = targetVelocity;
             if (isGrounded)
             {
 
@@ -279,6 +279,7 @@ public class PlayerMovement : MonoBehaviour
                 nextPosition = this.velocity * Time.fixedDeltaTime + 0.5f * this.Gravity * Time.fixedDeltaTime * Time.fixedDeltaTime;
             Vector2 oldGravity = Gravity;
             this.velocity += 0.5f * (Gravity + oldGravity) * Time.fixedDeltaTime;
+            this.targetVelocity = this.velocity;
 
             //Determine whether to block pass through platforms
             if (velocity.y < Gravity.y / 10 || velocity.y > 0) {
